@@ -1,1507 +1,244 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>크래커하우스 X 스너글 팝업스토어 (App)</title>
-  <meta name="description" content="크래커하우스 X 스너글 콜라보 팝업스토어. 스타필드 빌리지 1F, 2026.9.11-9.23" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>KRACKER &#215; SNUGGLE APP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
-    @font-face {
-      font-family: 'SheLeeOkSun';
-      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_ten@1.0/Her-Leeoksun.woff') format('woff');
-      font-weight: normal;
-      font-style: normal;
-    }
-
+    /* NATIVE APP RESET & VARS */
     :root {
-      --red:#BC453C; --clay:#BF6E50; --orange:#F25C05; --espresso:#594335;
-      --blue:#517EA6; --beige:#EBE4D8; --dark:#1A1208; --dark2:#231609;
-      --card:#2E1D0F; --white:#FFFFFF; --muted:#C4B9AE;
-      --ff-serif: 'LeeOkSun', 'SheLeeOkSun', 'Playfair Display', serif;
-      --ff-mono:  'Noto Sans KR', sans-serif;
-      --ff-sans:  'Noto Sans KR', sans-serif;
-      --tr:all 0.28s ease;
+      --bg: #121212;
+      --surface: #1E1E1E;
+      --primary: #F25C05;
+      --text: #FFFFFF;
+      --muted: #A0A0A0;
+      --border: #2A2A2A;
     }
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;font-family:'Noto Sans KR',sans-serif !important;}
-    html{scroll-behavior:smooth;}
-    body{font-family:'Noto Sans KR',sans-serif !important;background:#0d0906;color:var(--white);overflow:hidden; user-select:none; -webkit-tap-highlight-color:transparent; touch-action:pan-y; display: flex; justify-content: center;}
-    #app-container { width: 100%; max-width: 480px; background: var(--dark); height: 100dvh; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.8); overflow-x: hidden; padding-top: 56px; padding-bottom: 60px; }
-    a{text-decoration:none;color:inherit;}
-    .nav-logo{font-family:var(--ff-mono);font-size:13px;font-weight:500;letter-spacing:0.14em;background:var(--orange);padding:5px 14px;border-radius:3px;color:var(--white);}
-    .nav-links{display:none;}
-    .bottom-tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; height: 64px; background: var(--dark2); border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; z-index: 9999; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 8px; box-sizing: border-box; }
-    .bottom-tab-bar::-webkit-scrollbar { display: none; }
-    .bottom-tab-bar a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: var(--muted); font-size: 10px; font-family: var(--ff-mono); transition: color 0.3s; flex: 0 0 64px; scroll-snap-align: start; }
-    .bottom-tab-bar a.active, .bottom-tab-bar a:hover { color: var(--orange); }
-    .bottom-tab-bar .tab-icon { font-size: 20px; }
-    .qr-fab { position: fixed; bottom: 140px; right: 24px; width: 56px; height: 56px; background: var(--orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(255,107,53,0.4); z-index: 9998; cursor: pointer; transition: var(--tr); color: var(--white); font-size: 24px; }
-    .qr-fab:active { transform: scale(0.9); }
-    
-    .countdown-box { display: flex; gap: 8px; justify-content: center; margin-bottom: 20px; }
-    .cd-item { background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); padding: 12px; border-radius: 12px; min-width: 64px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
-    .cd-num { font-size: 24px; font-weight: 900; color: var(--white); font-family: var(--ff-mono); }
-    .cd-label { font-size: 10px; color: var(--orange); margin-top: 4px; font-weight: 700; }
-    
-    .sticky-bottom-btn { position: fixed; bottom: 76px; left: 50%; transform: translateX(-50%); width: calc(100% - 32px); max-width: 448px; background: var(--orange); color: var(--white); padding: 18px; border-radius: 16px; text-align: center; font-weight: 900; font-size: 16px; z-index: 9990; box-shadow: 0 8px 24px rgba(242,92,5,0.3); transition: transform 0.2s; text-decoration: none; display:block; }
-    .sticky-bottom-btn:active { transform: translateX(-50%) scale(0.96); opacity: 0.9; }
-    
-    .qr-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100000; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
-    .qr-modal-content { background: var(--dark2); border: 2px solid var(--orange); border-radius: 16px; width: 300px; padding: 32px 24px; text-align: center; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
-    .qr-modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; color: var(--white); font-size: 24px; cursor: pointer; }
-    .qr-code-img { width: 180px; height: 180px; background: white; margin: 0 auto 20px; padding: 10px; border-radius: 8px; }
-    .qr-title { font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important; font-size: 28px; color: var(--white); margin-bottom: 8px; }
-    .qr-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
-    #main-page{position:relative;width:100%;height:100vh;min-height:600px;overflow:hidden;background:#0d0906;}
-    .hero-grain{position:absolute;inset:0;opacity:0.035;}
-    .hero-text-layer{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:60px 20px 20px;pointer-events:none;z-index:10;}
-    .hw-row{display:flex;align-items:baseline;line-height:0.93;}
-    .hw-row+.hw-row{margin-top:-0.04em;}
-    .hw{font-family:var(--ff-sans);font-size:42px;font-weight:900;letter-spacing:-0.04em;color:var(--white);opacity:0.92;animation:fadeUp 0.7s ease both;}
-    .hw--serif{font-family:'LeeOkSun','SheLeeOkSun',serif !important;color:var(--orange) !important;font-weight:700 !important;}
-    .hw--gap{flex:1;}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
-    
-    /* MOBILE APP OVERRIDES */
-    section { padding: 40px 16px !important; }
-    .prereg-inner { display: flex !important; flex-direction: column !important; gap: 24px !important; }
-    .prereg-headline { font-size: 32px !important; }
-    .prereg-btns > div { display: flex !important; flex-direction: column !important; gap: 12px !important; }
-    .brand-editorial-row { display: flex !important; flex-direction: column !important; height: auto !important; }
-    .brand-photo-side { width: 100% !important; height: auto !important; aspect-ratio: 1; }
-    .brand-copy-side { width: 100% !important; padding: 24px 0 !important; }
-    .laundry-container { display: flex !important; flex-direction: column !important; padding: 0 !important; gap: 24px !important; }
-    .laundry-info { width: 100% !important; padding: 0 !important; }
-    #productsGrid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 12px !important; padding: 0 !important; }
-    .product-card { width: 100% !important; margin: 0 !important; }
-    .zones-grid { display: flex !important; flex-direction: column !important; gap: 16px !important; }
-    .hero-bottom { display: none !important; }
-    footer { padding-bottom: 120px !important; }
-    .hero-bottom{position:absolute;bottom:0;left:0;right:0;padding:0 20px 24px;display:flex;justify-content:space-between;align-items:flex-end;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,transparent 100%);z-index:10;}
-    .hero-credit{font-family:var(--ff-mono);font-size:10px;color:rgba(255,255,255,0.35);writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:0.12em;}
-    .hero-scroll{font-family:var(--ff-mono);font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.12em;display:flex;align-items:center;gap:8px;}
-    .hero-scroll::after{content:'';display:block;width:44px;height:1px;background:rgba(255,255,255,0.25);}
-    .hero-pill{background:var(--orange);color:var(--white);padding:10px 22px;font-size:13px;font-weight:700;border-radius:3px;transition:var(--tr);visibility:hidden;}
-    .hero-pill:hover{background:var(--red);transform:translateY(-2px);}
-    #popup-section{background:var(--dark);padding:0;}
-    .film-topbar{background:#111;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;}
-    .film-seg{display:flex;align-items:center;gap:8px;font-family:var(--ff-mono);font-size:10px;color:#555;}
-    .film-perfs{display:flex;gap:4px;}
-    .fperf{width:9px;height:13px;border-radius:2px;border:1px solid #333;background:#080808;}
-    .popup-content{padding:24px 16px 0;max-width:1100px;margin:0 auto;}
-    .popup-eyebrow{font-family:var(--ff-mono);font-size:11px;letter-spacing:0.2em;color:var(--clay);margin-bottom:8px;}
-    .popup-title{font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;font-style:italic;font-size:28px;line-height:1.15;margin-bottom:24px;}
-    .popup-title strong{font-style:normal;color:var(--orange);}
-    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:none;border:none;border-radius:8px;overflow:hidden;margin-bottom:24px;}
-    @media(max-width:900px){.info-grid{grid-template-columns:1fr 1fr;}}
-    .info-cell{background:#1c1208;padding:16px;display:flex;flex-direction:column;gap:8px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.2);}
-    .info-cell__ico{font-size:26px;}
-    .info-cell__key{font-family:var(--ff-mono);font-size:9px;letter-spacing:0.18em;color:var(--clay);text-transform:uppercase;}
-    .info-cell__val{font-size:14px;font-weight:700;line-height:1.45;}
-    .film-strip-outer{position:relative;padding-bottom:22px;}
-    .film-holes{position:absolute;left:0;right:0;height:22px;display:flex;align-items:center;gap:10px;padding:0 10px;}
-    .film-holes--top{top:-22px;}.film-holes--bot{bottom:-22px;}
-    .fhole{width:13px;height:11px;border-radius:2px;border:1px solid #2e2e2e;background:#000;flex-shrink:0;}
-    .film-strip-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;padding:2px;}
-    @media(max-width:1100px){.film-strip-grid{grid-template-columns:repeat(2,1fr);}}
-    @media(max-width:640px){.film-strip-grid{grid-template-columns:repeat(2,1fr);}}
-    .film-frame{position:relative;aspect-ratio:3/4;overflow:hidden;}
-    .film-frame__img{width:100%;height:100%;object-fit:cover;display:block;}
-    .film-frame__overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.2) 55%,transparent 100%);}
-    .film-frame__meta{position:absolute;bottom:0;left:0;right:0;padding:14px 14px 16px;}
-    .film-frame__num{font-family:var(--ff-mono);font-size:9px;color:rgba(255,255,255,0.35);margin-bottom:5px;}
-    .film-frame__zone-badge{display:inline-block;background:var(--orange);color:var(--white);font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:0.1em;padding:2px 8px;border-radius:2px;margin-bottom:7px;}
-    .film-frame__title{font-size:13px;font-weight:700;line-height:1.35;margin-bottom:5px;}
-    .film-frame__desc{font-size:11px;color:rgba(255,255,255,0.6);line-height:1.5;}
-    .film-kodak-bar{background:#111;display:flex;align-items:center;justify-content:space-between;padding:5px 16px;font-family:var(--ff-mono);font-size:10px;color:#4a4a4a;}
-    .popup-zone-quote{padding:44px 48px;text-align:center;font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;font-style:italic;font-size:clamp(15px,1.6vw,20px);color:var(--muted);line-height:2.2;}
-    #prereg-section{background:var(--orange);padding:32px 16px;}
-    .prereg-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr;align-items:center;gap:20px;}
-    @media(max-width:768px){.prereg-inner{grid-template-columns:1fr;}}
-    .prereg-label{font-family:var(--ff-mono);font-size:11px;letter-spacing:0.22em;color:rgba(255,255,255,0.65);margin-bottom:12px;}
-    .prereg-headline{font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;font-size:32px;font-weight:900;line-height:1.1;color:var(--white);}
-    .prereg-headline em{font-style:italic;color:var(--dark);display:block;}
-    .prereg-desc{font-size:14px;color:rgba(255,255,255,0.88);line-height:1.6;max-width:420px;margin-bottom:20px;}
-    .prereg-btns{display:flex;flex-direction:column;gap:8px;}
-    .reg-btn{display:flex;align-items:center;justify-content:center;padding:16px;font-size:15px;font-weight:700;border-radius:8px;cursor:pointer;transition:var(--tr);border:none;width:100%;}
-    .reg-btn--web{background:var(--dark);color:var(--white);box-shadow:0 4px 12px rgba(0,0,0,0.2);}
-    .reg-btn--web:hover{background:var(--espresso);transform:translateY(-2px);}
-    .reg-btn--kiosk{background:rgba(255,255,255,0.18);color:var(--white);border:1.5px solid rgba(255,255,255,0.45);box-shadow:0 4px 12px rgba(0,0,0,0.1);}
-    .reg-btn--kiosk:hover{background:rgba(255,255,255,0.28);transform:translateY(-2px);}
-    #brand-section{background:var(--beige);overflow:hidden;padding:0;}
-    .brand-editorial-row{display:grid;grid-template-columns:1fr;min-height:auto;}
-    @media(max-width:768px){.brand-editorial-row{grid-template-columns:1fr;}}
-    .brand-photo-side{position:relative;overflow:hidden;min-height:300px;}
-    .brand-part-badge{position:absolute;top:24px;left:22px;font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;font-style:italic;font-size:15px;color:var(--orange);letter-spacing:0.04em;z-index:2;}
-    .brand-copy-side{background:var(--dark);padding:24px 16px;display:flex;flex-direction:column;justify-content:center;}
-    .brand-eyebrow{font-family:var(--ff-mono);font-size:11px;letter-spacing:0.2em;color:var(--orange);margin-bottom:12px;}
-    .brand-headline{font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;font-size:26px;line-height:1.2;margin-bottom:16px;}
-    .brand-headline span{color:var(--orange);}
-    .brand-headline em{font-style:italic;color:var(--clay);}
-    .brand-body{font-size:14px;color:var(--muted);line-height:1.6;max-width:430px;}
-    .brand-body strong{color:var(--white);}
-    .brand-divider{background:var(--beige);padding:32px 16px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;}
-    .brand-badge-circle{width:64px;height:64px;border-radius:50%;background:var(--espresso);border:2px solid var(--clay);display:flex;align-items:center;justify-content:center;font-family:var(--ff-mono);font-size:9px;color:var(--clay);line-height:1.5;}
-    .brand-quote{font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;font-style:italic;font-size:18px;color:var(--espresso);max-width:660px;line-height:1.5;}
-    #product-section{background:var(--dark);padding:0;}
-    .products-headline-block{padding:24px 16px 0;}
-    .products-eyebrow{font-family:var(--ff-mono);font-size:11px;letter-spacing:0.2em;color:var(--clay);margin-bottom:12px;}
-    .products-big-title{font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;font-size:32px;font-weight:900;line-height:1.1;}
-    .products-big-title em{font-style:italic;color:var(--orange);display:block;}
-    .products-asym{display:grid;grid-template-columns:1fr;gap:16px;max-width:1200px;margin:24px auto;padding:0 16px;}
-    @media(max-width:768px){.products-asym{grid-template-columns:1fr;grid-template-rows:auto;}}
-    .pa-big{grid-row:span 2;position:relative;min-height:500px;overflow:hidden;}
-    .pa-info{background:var(--orange);padding:32px 30px;display:flex;flex-direction:column;justify-content:space-between;min-height:240px;}
-    .pa-info h3{font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;font-size:22px;color:var(--white);line-height:1.35;}
-    .pa-info p{font-size:13px;color:rgba(255,255,255,0.85);line-height:1.75;margin-top:10px;}
-    .pa-info-link{font-family:var(--ff-mono);font-size:12px;color:var(--white);letter-spacing:0.1em;margin-top:16px;transition:var(--tr);}
-    .pa-small{position:relative;min-height:240px;overflow:hidden;}
-    .pa-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,0.25),transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:22px;}
-    .pa-tag{font-family:var(--ff-mono);font-size:9px;letter-spacing:0.2em;color:var(--orange);margin-bottom:6px;}
-    .pa-name{font-size:18px;font-weight:900;}
-    .pa-price{font-size:13px;color:rgba(255,255,255,0.65);margin-top:4px;}
-    .products-mini-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:2px;padding:2px;}
-    .prod-mini{overflow:hidden;transition:var(--tr);cursor:pointer;}
-    .prod-mini:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,0.3);}
-    .prod-mini__ph{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-family:var(--ff-mono);font-size:10px;color:rgba(255,255,255,0.15);}
-    .prod-mini__ph--ch{background:linear-gradient(160deg,#2e1a0a,#190d03);}
-    .prod-mini__ph--sn{background:linear-gradient(160deg,#0e1e35,#060f1c);}
-    .prod-mini__ph--co{background:linear-gradient(160deg,#1a0e2a,#0d0617);}
-    .prod-mini__emoji{font-size:40px;opacity:0.35;}
-    .prod-mini__body{padding:14px 16px;background:#1c1208;}
-    .prod-mini__brand{font-family:var(--ff-mono);font-size:9px;letter-spacing:0.18em;color:var(--clay);margin-bottom:6px;}
-    .prod-mini__name{font-size:14px;font-weight:700;margin-bottom:6px;}
-    .prod-mini__price{font-size:13px;font-weight:700;color:var(--orange);}
-    #laundry-section{background:var(--dark2);padding:24px 0 0;}
-    #guest-section{background:var(--dark);padding:0;}
-    .guest-wrap{display:grid;grid-template-columns:1fr;min-height:auto;}
-    @media(max-width:768px){.guest-wrap{grid-template-columns:1fr;}}
-    .guest-form-col{background:#1c1208;padding:24px 16px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(255,255,255,0.05);}
-    .guest-eyebrow{font-family:var(--ff-mono);font-size:11px;letter-spacing:0.2em;color:var(--clay);margin-bottom:12px;}
-    .guest-headline{font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;font-size:24px;line-height:1.2;margin-bottom:20px;}
-    .guest-headline em{font-style:italic;color:var(--orange);}
-    .g-input,.g-textarea{width:100%;padding:13px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--white);font-size:14px;font-family:var(--ff-sans);outline:none;transition:border-color 0.2s;box-sizing:border-box;}
-    .g-input:focus,.g-textarea:focus{border-color:var(--orange);}
-    .g-textarea{resize:vertical;min-height:80px;}
-    .g-submit{margin-top:12px;padding:16px;background:var(--orange);color:var(--white);border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;transition:var(--tr);width:100%;box-shadow:0 4px 12px rgba(0,0,0,0.2);}
-    .g-submit:hover{background:var(--red);transform:translateY(-2px);}
-    .guest-list-col{display:flex;flex-direction:column;gap:14px;overflow-y:auto;max-height:580px;background:var(--dark2);padding:32px;}
-    .guest-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-left:3px solid var(--clay);border-radius:6px;padding:18px 20px;animation:fadeIn 0.35s ease;}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-    .guest-card__nick{font-family:var(--ff-mono);font-size:12px;color:var(--orange);margin-bottom:8px;}
-    .guest-card__msg{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.7;}
-    .guest-card__date{font-size:11px;color:rgba(255,255,255,0.28);margin-top:10px;}
-    footer{background:var(--red);padding:36px 48px;text-align:center;}
-    .footer-logo{font-family:var(--ff-mono);font-size:13px;letter-spacing:0.14em;color:var(--white);margin-bottom:14px;}
-    .footer-info{font-size:13px;color:rgba(255,255,255,0.82);line-height:2.1;}
-    .footer-copy{font-size:11px;color:rgba(255,255,255,0.4);margin-top:18px;font-family:var(--ff-mono);}
-  /* Brand Filters */
-    .brand-tabs {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 40px;
-      flex-wrap: wrap;
-    }
-
-    .tab-btn {
-      padding: 12px 24px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: var(--tr);
-    }
-
-    .tab-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--white);
-    }
-
-    .tab-btn.active {
-      background: var(--orange);
-      border-color: var(--orange);
-      color: var(--white);
-    }
-
-    /* Dynamic Grid Injection Styling */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 24px;
-    }
-
-    .product-card {
-      background: var(--dark2);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: var(--tr);
-    }
-
-    .product-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-      border-color: rgba(255, 255, 255, 0.12);
-    }
-
-    .product-card__img {
-      aspect-ratio: 4/3;
-      background: linear-gradient(135deg, var(--card) 0%, #1a0d05 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 56px;
-      position: relative;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .product-card__img::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 16px,
-        rgba(255,255,255,0.015) 16px,
-        rgba(255,255,255,0.015) 17px
-      );
-    }
-
-    .product-card__brand {
-      position: absolute;
-      top: 14px; left: 14px;
-      font-family: var(--ff-mono);
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      background: rgba(0, 0, 0, 0.4);
-      padding: 4px 8px;
-      border-radius: 2px;
-      color: var(--orange);
-    }
-
-    .product-card__info {
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      flex-grow: 1;
-    }
-
-    .product-card__category {
-      font-family: var(--ff-mono);
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      color: var(--clay);
-      text-transform: uppercase;
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .product-card__info h3 {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 8px;
-    }
-
-    .product-card__price {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--orange);
-    }
-
-    
-  
-    /* --- TOP BUTTON --- */
-    .top-btn {
-      position: fixed;
-      bottom: 40px;
-      right: 40px;
-      width: 52px;
-      height: 52px;
-    .brand-part-badge{position:absolute;top:24px;left:22px;font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;font-style:italic;font-size:15px;color:var(--orange);letter-spacing:0.04em;z-index:2;}
-    .brand-copy-side{background:var(--dark);padding:72px 52px;display:flex;flex-direction:column;justify-content:center;}
-    .brand-eyebrow{font-family:var(--ff-mono);font-size:11px;letter-spacing:0.2em;color:var(--orange);margin-bottom:24px;}
-    .brand-headline{font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;font-size:clamp(30px,3.5vw,50px);line-height:1.15;margin-bottom:32px;}
-    .brand-headline span{color:var(--orange);}
-    .brand-headline em{font-style:italic;color:var(--clay);}
-    .brand-body{font-size:15px;color:var(--muted);line-height:1.95;max-width:430px;}
-    .brand-body strong{color:var(--white);}
-    .brand-divider{background:var(--beige);padding:52px 40px;display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center;}
-    .brand-badge-circle{width:76px;height:76px;border-radius:50%;background:var(--espresso);border:2px solid var(--clay);display:flex;align-items:center;justify-content:center;font-family:var(--ff-mono);font-size:9px;color:var(--clay);line-height:1.5;}
-    .brand-quote{font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;font-style:italic;font-size:clamp(15px,1.8vw,22px);color:var(--espresso);max-width:660px;line-height:1.75;}
-    #product-section{background:var(--dark);padding:0;}
-    .products-headline-block{padding:72px 48px 0;}
-    .products-eyebrow{font-family:var(--ff-mono);font-size:11px;letter-spacing:0.2em;color:var(--clay);margin-bottom:18px;}
-    .products-big-title{font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;font-size:clamp(46px,7.5vw,92px);font-weight:900;line-height:0.93;}
-    .products-big-title em{font-style:italic;color:var(--orange);display:block;}
-    .products-asym{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:1200px;margin:40px auto;padding:0 48px;}
-    @media(max-width:768px){.products-asym{grid-template-columns:1fr;grid-template-rows:auto;}}
-    .pa-big{grid-row:span 2;position:relative;min-height:500px;overflow:hidden;}
-    .pa-info{background:var(--orange);padding:32px 30px;display:flex;flex-direction:column;justify-content:space-between;min-height:240px;}
-    .pa-info h3{font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;font-size:22px;color:var(--white);line-height:1.35;}
-    .pa-info p{font-size:13px;color:rgba(255,255,255,0.85);line-height:1.75;margin-top:10px;}
-    .pa-info-link{font-family:var(--ff-mono);font-size:12px;color:var(--white);letter-spacing:0.1em;margin-top:16px;transition:var(--tr);}
-    .pa-small{position:relative;min-height:240px;overflow:hidden;}
-    .pa-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,0.25),transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:22px;}
-    .pa-tag{font-family:var(--ff-mono);font-size:9px;letter-spacing:0.2em;color:var(--orange);margin-bottom:6px;}
-    .pa-name{font-size:18px;font-weight:900;}
-    .pa-price{font-size:13px;color:rgba(255,255,255,0.65);margin-top:4px;}
-    .products-mini-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:2px;padding:2px;}
-    .prod-mini{overflow:hidden;transition:var(--tr);cursor:pointer;}
-    .prod-mini:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,0.3);}
-    .prod-mini__ph{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-family:var(--ff-mono);font-size:10px;color:rgba(255,255,255,0.15);}
-    .prod-mini__ph--ch{background:linear-gradient(160deg,#2e1a0a,#190d03);}
-    .prod-mini__ph--sn{background:linear-gradient(160deg,#0e1e35,#060f1c);}
-    .prod-mini__ph--co{background:linear-gradient(160deg,#1a0e2a,#0d0617);}
-    .prod-mini__emoji{font-size:40px;opacity:0.35;}
-    .prod-mini__body{padding:14px 16px;background:#1c1208;}
-    .prod-mini__brand{font-family:var(--ff-mono);font-size:9px;letter-spacing:0.18em;color:var(--clay);margin-bottom:6px;}
-    .prod-mini__name{font-size:14px;font-weight:700;margin-bottom:6px;}
-    .prod-mini__price{font-size:13px;font-weight:700;color:var(--orange);}
-    #laundry-section{background:var(--dark2);padding:72px 0 0;}
-    #guest-section{background:var(--dark);padding:0;}
-    .guest-wrap{display:grid;grid-template-columns:1fr 1.15fr;min-height:580px;}
-    @media(max-width:768px){.guest-wrap{grid-template-columns:1fr;}}
-    .guest-form-col{background:#1c1208;padding:64px 52px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(255,255,255,0.05);}
-    .guest-eyebrow{font-family:var(--ff-mono);font-size:11px;letter-spacing:0.2em;color:var(--clay);margin-bottom:20px;}
-    .guest-headline{font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;font-size:clamp(26px,3vw,40px);line-height:1.25;margin-bottom:32px;}
-    .guest-headline em{font-style:italic;color:var(--orange);}
-    .g-input,.g-textarea{width:100%;padding:13px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:4px;color:var(--white);font-size:14px;font-family:var(--ff-sans);outline:none;transition:border-color 0.2s;}
-    .g-input:focus,.g-textarea:focus{border-color:var(--orange);}
-    .g-textarea{resize:vertical;min-height:100px;}
-    .g-submit{margin-top:4px;padding:15px 30px;background:var(--orange);color:var(--white);border:none;border-radius:4px;font-size:15px;font-weight:700;cursor:pointer;transition:var(--tr);}
-    .g-submit:hover{background:var(--red);transform:translateY(-2px);}
-    .guest-list-col{display:flex;flex-direction:column;gap:14px;overflow-y:auto;max-height:580px;background:var(--dark2);padding:32px;}
-    .guest-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-left:3px solid var(--clay);border-radius:6px;padding:18px 20px;animation:fadeIn 0.35s ease;}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-    .guest-card__nick{font-family:var(--ff-mono);font-size:12px;color:var(--orange);margin-bottom:8px;}
-    .guest-card__msg{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.7;}
-    .guest-card__date{font-size:11px;color:rgba(255,255,255,0.28);margin-top:10px;}
-    footer{background:var(--red);padding:36px 48px;text-align:center;}
-    .footer-logo{font-family:var(--ff-mono);font-size:13px;letter-spacing:0.14em;color:var(--white);margin-bottom:14px;}
-    .footer-info{font-size:13px;color:rgba(255,255,255,0.82);line-height:2.1;}
-    .footer-copy{font-size:11px;color:rgba(255,255,255,0.4);margin-top:18px;font-family:var(--ff-mono);}
-  /* Brand Filters */
-    .brand-tabs {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 40px;
-      flex-wrap: wrap;
-    }
-
-    .tab-btn {
-      padding: 12px 24px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: var(--tr);
-    }
-
-    .tab-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--white);
-    }
-
-    .tab-btn.active {
-      background: var(--orange);
-      border-color: var(--orange);
-      color: var(--white);
-    }
-
-    /* Dynamic Grid Injection Styling */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 24px;
-    }
-
-    .product-card {
-      background: var(--dark2);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: var(--tr);
-    }
-
-    .product-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-      border-color: rgba(255, 255, 255, 0.12);
-    }
-
-    .product-card__img {
-      aspect-ratio: 4/3;
-      background: linear-gradient(135deg, var(--card) 0%, #1a0d05 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 56px;
-      position: relative;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .product-card__img::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 16px,
-        rgba(255,255,255,0.015) 16px,
-        rgba(255,255,255,0.015) 17px
-      );
-    }
-
-    .product-card__brand {
-      position: absolute;
-      top: 14px; left: 14px;
-      font-family: var(--ff-mono);
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      background: rgba(0, 0, 0, 0.4);
-      padding: 4px 8px;
-      border-radius: 2px;
-      color: var(--orange);
-    }
-
-    .product-card__info {
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      flex-grow: 1;
-    }
-
-    .product-card__category {
-      font-family: var(--ff-mono);
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      color: var(--clay);
-      text-transform: uppercase;
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .product-card__info h3 {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 8px;
-    }
-
-    .product-card__price {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--orange);
-    }
-
-    
-  
-    /* --- TOP BUTTON --- */
-    .top-btn {
-      position: fixed;
-      bottom: 40px;
-      right: 40px;
-      width: 52px;
-      height: 52px;
-      background: var(--orange);
-      color: var(--white);
-      border: 2px solid var(--clay);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--ff-mono);
-      font-size: 22px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(20px);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 9999;
-    }
-    .top-btn.visible {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-    .top-btn:hover {
-      background: var(--red);
-      transform: translateY(-4px) scale(1.05);
-      box-shadow: 0 8px 24px rgba(235, 69, 60, 0.4);
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { 
+      background: var(--bg); color: var(--text); 
+      overflow: hidden; /* App Shell prevents body scroll */
+      width: 100vw; height: 100dvh; display: flex; justify-content: center;
     }
     
-    /* Audio Player Customization */
-    audio {
-      border-radius: 30px;
-      background-color: var(--orange);
+    /* APP SHELL CONTAINER */
+    #app-container {
+      width: 100%; max-width: 480px; height: 100%;
+      position: relative; display: flex; flex-direction: column;
+      background: var(--bg); box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
-    audio::-webkit-media-controls-panel {
-      background-color: var(--orange);
+
+    /* APP HEADER (TOP BAR) */
+    .app-header {
+      height: 56px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; background: rgba(18,18,18,0.85); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border); z-index: 100; position: absolute; top: 0; width: 100%;
     }
-    audio::-webkit-media-controls-enclosure {
-      border-radius: 30px;
-      background-color: var(--orange);
+    .app-header .title { font-size: 16px; font-weight: 900; letter-spacing: 0.05em; }
+    .app-header .icon { font-size: 24px; cursor: pointer; color: var(--text); }
+
+    /* SCROLLABLE BODY */
+    .app-body {
+      flex: 1; overflow-y: auto; overflow-x: hidden;
+      padding-top: 56px; padding-bottom: 140px; /* Space for bottom nav & sticky btn */
+      -webkit-overflow-scrolling: touch;
     }
-    /* --- 8 ZONES --- */
-    .zones-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; overflow: hidden; }
-    .zone-card { padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.15); background: var(--dark); transition: var(--tr); }
-    .zone-card:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.15); }
-    .zone-card:nth-last-child(-n+2) { border-bottom: none; }
-    .zone-card:hover { background: var(--dark2); }
-    .zone-img { height: 100px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-weight: 600; font-size: 24px; margin-bottom: 16px; color: rgba(255,255,255,0.2); }
-    .zone-name { font-family: var(--ff-sans); font-weight: 700; font-size: 16px; color: var(--white); margin-bottom: 4px; }
-    .zone-card.highlight .zone-name { color: var(--orange); }
-    .zone-en { font-family: var(--ff-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.1em; }
-    @media(max-width:768px) {
-        .zones-grid { grid-template-columns: 1fr; }
-        .zone-card:nth-child(odd) { border-right: none; }
-        .zone-card:nth-last-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,0.15); }
-        .zone-card:last-child { border-bottom: none; }
+
+    /* HERO BANNER */
+    .hero-banner {
+      width: 100%; aspect-ratio: 4/5; position: relative;
     }
+    .hero-banner img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-overlay {
+      position: absolute; inset: 0; background: linear-gradient(to top, rgba(18,18,18,1) 0%, transparent 60%);
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 24px 16px;
+    }
+    .hero-title { font-size: 28px; font-weight: 900; margin-bottom: 12px; line-height: 1.2; }
+    
+    /* APP SECTIONS */
+    .app-section { padding: 24px 16px; border-bottom: 8px solid #000; }
+    .section-title { font-size: 18px; font-weight: 900; margin-bottom: 16px; }
+
+    /* TICKETING CARD (PRE-REG) */
+    .ticket-card {
+      background: var(--surface); border-radius: 16px; padding: 20px;
+      border: 1px solid var(--border);
+    }
+    .ticket-badge { background: var(--primary); font-size: 10px; font-weight: 900; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; }
+    .ticket-btn {
+      display: flex; justify-content: space-between; align-items: center;
+      background: #2C2C2C; padding: 16px; border-radius: 12px; margin-top: 12px;
+      font-size: 15px; font-weight: 700; text-decoration: none; color: var(--text);
+    }
+    .ticket-btn.primary { background: var(--primary); }
+
+    /* HORIZONTAL SCROLL LIST (ZONES) */
+    .h-scroll {
+      display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory;
+      padding-bottom: 12px; margin: 0 -16px; padding-left: 16px; padding-right: 16px;
+    }
+    .h-scroll::-webkit-scrollbar { display: none; }
+    .zone-card {
+      flex: 0 0 240px; scroll-snap-align: start;
+      background: var(--surface); border-radius: 12px; overflow: hidden;
+    }
+    .zone-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+    .zone-info { padding: 16px; }
+    .zone-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .zone-desc { font-size: 12px; color: var(--muted); }
+
+    /* GRID LIST (GOODS) */
+    .goods-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .goods-card { background: var(--surface); border-radius: 12px; overflow: hidden; }
+    .goods-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+    .goods-info { padding: 12px; }
+    .goods-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .goods-price { font-size: 13px; color: var(--primary); font-weight: 700; }
+
+    /* STICKY BOTTOM BTN */
+    .sticky-btn-wrap {
+      position: absolute; bottom: 64px; left: 0; width: 100%; padding: 12px 16px;
+      background: linear-gradient(to top, var(--bg) 60%, transparent); z-index: 90;
+    }
+    .sticky-btn {
+      display: block; width: 100%; background: var(--primary); color: #fff;
+      text-align: center; padding: 16px; border-radius: 14px; font-weight: 900;
+      font-size: 16px; text-decoration: none;
+    }
+
+    /* BOTTOM NAV */
+    .bottom-nav {
+      position: absolute; bottom: 0; width: 100%; height: 60px;
+      background: rgba(30,30,30,0.95); backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border); display: flex; justify-content: space-around;
+      align-items: center; z-index: 100;
+    }
+    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--muted); text-decoration: none; font-size: 10px; font-weight: 700; }
+    .nav-item.active { color: var(--primary); }
+    .nav-icon { font-size: 20px; }
   </style>
-
-<style>
-  /* ── REALISTIC CLOTHESLINE STYLING ── */
-  .clothesline-wrap { position: relative; padding: 40px 48px 30px; overflow: hidden; }
-  .rope-svg-line { width: 100%; height: 35px; display: block; overflow: visible; }
-  .clothesline-posts { position: absolute; top: 38px; left: 24px; right: 24px; height: 6px; display: flex; justify-content: space-between; pointer-events: none; z-index: 2; }
-  .rope-post-pin { width: 14px; height: 28px; background: linear-gradient(135deg, #8C5A38, #54331C); border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.2); }
-
-  .laundry-hanging-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 36px 20px;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    position: relative;
-    z-index: 3;
-  }
-
-  .hanging-card {
-    position: relative;
-    background: #2A1D13;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 6px;
-    padding: 12px 12px 16px;
-    box-shadow: 0 16px 32px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3);
-    transition: transform 0.35s ease, box-shadow 0.35s ease;
-    cursor: pointer;
-  }
-  
-  .hanging-card:nth-child(odd) { transform: rotate(-2.2deg); animation: swayLeft 6s ease-in-out infinite alternate; }
-  .hanging-card:nth-child(even) { transform: rotate(2.5deg); animation: swayRight 7s ease-in-out infinite alternate; }
-  .hanging-card:nth-child(3n) { transform: rotate(-1.4deg); animation: swayLeft 5.5s ease-in-out infinite alternate; }
-  .hanging-card:hover { transform: translateY(-8px) rotate(0deg) scale(1.03) !important; z-index: 20; box-shadow: 0 24px 48px rgba(0,0,0,0.7), 0 0 20px rgba(242,92,5,0.3); }
-
-  @keyframes swayLeft { from { transform: rotate(-2.5deg); } to { transform: rotate(1.2deg); } }
-  @keyframes swayRight { from { transform: rotate(2.8deg); } to { transform: rotate(-1.5deg); } }
-
-  /* Wooden Clothespin (빨래집게 일러스트) */
-  .clothespin-item {
-    position: absolute;
-    top: -22px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 22px;
-    height: 32px;
-    z-index: 15;
-    pointer-events: none;
-  }
-</style>
-<style>
-@font-face {
-  font-family: 'LeeOkSun';
-  src: url('images/그녀_이옥선.ttf') format('truetype'),
-       url('그녀_이옥선.ttf') format('truetype'),
-       url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_ten@1.0/Her-Leeoksun.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'SheLeeOkSun';
-  src: url('images/그녀_이옥선.ttf') format('truetype'),
-       url('그녀_이옥선.ttf') format('truetype'),
-       url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_ten@1.0/Her-Leeoksun.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-
-h1, h2, h3, .hero-title, .products-big-title, .prereg-headline, .brand-headline, .page-title, .kiosk-title, .waiting-title, .zone-header {
-  font-family: 'LeeOkSun', 'SheLeeOkSun', 'Playfair Display', serif !important;
-}
-</style>
-
-<style>
-  /* 그녀-이옥순 (LeeOkSun) 폰트 - 히어로 영문 포인트 (lan, wei, ness) 및 주황색 글씨 전면 적용 */
-  .hw--serif, 
-  em, 
-  .orange-text,
-  [style*="color: var(--orange)"],
-  [style*="color:var(--orange)"],
-  [style*="color: #F25C05"],
-  [style*="color:#F25C05"],
-  .pa-price,
-  .product-card__price,
-  .pa-info-link,
-  .brand-headline span,
-  .products-big-title em,
-  .kiosk-title em,
-  .page-title em {
-    font-family: 'LeeOkSun', 'SheLeeOkSun', 'Playfair Display', serif !important;
-  }
-
-  .hw--serif{font-family:'LeeOkSun','SheLeeOkSun',serif !important;color:var(--orange) !important;font-weight:700 !important;}
-</style>
-
-
-<style>
-  /* 그녀-이옥순 (LeeOkSun) 폰트 - 요청된 핵심 타이틀 4종 전면 적용 */
-  .prereg-headline,
-  .products-big-title,
-  .brand-headline,
-  #laundry-section .ls-title,
-  .page-title,
-  .laundry-title,
-  h1, h2, h3 {
-    font-family: 'LeeOkSun', 'SheLeeOkSun', 'Playfair Display', serif !important;
-  }
-</style>
-
-
-<style>
-  /* 그녀-이옥순 (LeeOkSun) 폰트 - CHECK IN 버튼 적용 */
-  #btn-check-in, 
-  #check-in-container a, 
-  .btn-checkin, 
-  .check-in-btn {
-    font-family: 'LeeOkSun', 'SheLeeOkSun', 'Playfair Display', serif !important;
-  }
-  
-  /* App Touch Feedback */
-  a:active, button:active, .prod-mini:active, .product-card:active {
-    transform: scale(0.96) !important;
-    opacity: 0.8 !important;
-    transition: transform 0.1s ease, opacity 0.1s ease !important;
-  }
-</style>
-
 </head>
 <body>
-<div id="app-container">
-
-<nav id="top-nav" style="position:fixed; top:0; left:50%; transform:translateX(-50%); width:100%; max-width:480px; height:56px; background:var(--dark); display:flex; align-items:center; justify-content:center; z-index:9999; border-bottom:1px solid rgba(255,255,255,0.05);">
-  <div style="position:absolute; left:16px; font-size:24px; color:#fff; cursor:pointer;">&#8592;</div>
-  <a href="index.html" class="nav-logo" style="font-size:16px; font-weight:900; color:var(--white); background:none; padding:0; letter-spacing:0; font-family:'LeeOkSun', serif;">KRACKER &#215; SNUGGLE</a>
-  <div style="position:absolute; right:16px; font-size:24px; color:#fff; cursor:pointer;">&#9776;</div>
-</nav>
-
-      <span class="hero-scroll" style="color:rgba(255,255,255,0.9); font-weight:700;">scroll</span>
-    </div>
-  </div>
-</section>
-
-<section id="prereg-section" style="padding: 24px 16px; background: var(--dark);">
-  <div style="background: var(--dark2); border-radius: 16px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 16px;">
+  <div id="app-container">
     
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-      <h2 style="font-family:'LeeOkSun', serif; font-size:24px; color:var(--white); margin:0;">have a good time.</h2>
-      <span style="background:var(--orange); color:var(--white); font-size:10px; font-weight:900; padding:4px 8px; border-radius:4px;">EVENT</span>
-    </div>
-    
-    <p style="font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0;">
-      팝업스토어 특별한 순간을 경험하세요. 체크인 시 한정 굿즈 증정!
-    </p>
+    <!-- TOP APP BAR -->
+    <header class="app-header">
+      <div class="icon">&#8592;</div>
+      <div class="title">KRACKER &#215; SNUGGLE</div>
+      <div class="icon">&#9776;</div>
+    </header>
 
-    <!-- CHECK IN & PRE-REGISTRATION BUTTONS -->
-    <div style="display: flex; flex-direction: column; gap: 12px; margin-top:8px;">
-      <a href="info.html" style="display: flex; align-items: center; justify-content: space-between; padding: 16px; font-size: 16px; font-weight: 900; background: var(--orange); color: var(--white); text-decoration: none; border-radius: 12px;">
-        <span>🎟️ 체크인 팝업 안내</span>
-        <span>&#8594;</span>
-      </a>
-
-      <a href="reservation.html" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; font-size: 14px; font-weight: 700; background: var(--dark); border: 1px solid rgba(255,255,255,0.15); color: var(--white); text-decoration: none; border-radius: 12px;">
-        <span>🌐 웹 사전예약 신청</span>
-        <span>&#8594;</span>
-      </a>
+    <!-- MAIN SCROLLABLE AREA -->
+    <main class="app-body">
       
-      <a href="kiosk.html" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; font-size: 14px; font-weight: 700; background: var(--dark); border: 1px solid rgba(255,255,255,0.15); color: var(--white); text-decoration: none; border-radius: 12px;">
-        <span>📱 현장 대기 등록 (키오스크)</span>
-        <span>&#8599;</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section id="brand-section" style="padding: 24px 16px;">
-  <div style="background: var(--dark2); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
-    <img src="../images/brand_new.jpg" alt="Brand" style="width: 100%; height: auto; display: block;" onerror="this.src='../images/brand_new.jpg'; this.onerror=null;">
-    <div style="padding: 24px;">
-      <div style="font-size: 11px; color: var(--orange); font-weight: 700; margin-bottom: 8px;">// KRACKER HOUSE &#215; SNUGGLE</div>
-      <h2 style="font-family: 'LeeOkSun', serif; font-size: 24px; color: var(--white); margin: 0 0 12px 0;">The season full of<br>KRACKERHOUSE</h2>
-      <p style="font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0;">
-        크래커하우스와 스너글이 만나 "옷과 세탁의 경험을 라이프스타일로" 라는 메시지를 전달합니다.
-      </p>
-    </div>
-  </div>
-</section>
-
-<section id="product-section" style="padding: 24px 16px;">
-  <div style="margin-bottom: 20px;">
-    <div style="font-size: 11px; color: var(--orange); font-weight: 700;">// COLLABORATION COLLECTION</div>
-    <h2 style="font-family: 'LeeOkSun', serif; font-size: 24px; color: var(--white); margin: 8px 0 0 0;">Exclusive Goods</h2>
-  </div>
-
-  <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;">
-    <div style="position: relative; border-radius: 16px; overflow: hidden; height: 200px;">
-      <img src="../images/mock_product_2.png" alt="티셔츠" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='../images/mock_product_2.png'; this.onerror=null;">
-      <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 16px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);">
-        <div style="color: var(--white); font-weight: 700; font-size: 18px;">빈티지 피그먼트 티셔츠</div>
-        <div style="color: var(--orange); font-weight: 700; font-size: 14px;">&#8361;45,000</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="brand-tabs" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
-    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-      <button class="tab-btn active" data-filter="all">전체 상품</button>
-      <button class="tab-btn" data-filter="KRACKER_HOUSE">크래커하우스 (패션)</button>
-      <button class="tab-btn" data-filter="SNUGGLE">스너글 (케어 & 라이프)</button>
-    </div>
-    <a href="products.html" class="more-btn" style="font-family: var(--ff-mono); font-size: 12px; font-weight: 700; color: var(--orange); border: 1px solid var(--orange); padding: 5px 14px; border-radius: 20px; text-decoration: none; transition: var(--tr);" onmouseover="this.style.background='var(--orange)'; this.style.color='#fff';" onmouseout="this.style.background='transparent'; this.style.color='var(--orange)';">more +</a>
-  </div>
-
-    <div class="products-row" id="productsGrid" style="display: flex; gap: 16px; overflow-x: auto; padding: 0 16px 40px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;">
-    <!-- 1. 옐로우 티셔츠 (크래커하우스) -->
-    <div class="product-card" data-brand="KRACKER_HOUSE" style="flex: 0 0 260px; width: 260px; background: var(--dark2); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: var(--tr);">
-      <div class="product-card__img" style="aspect-ratio: 3/4; overflow: hidden; position: relative;">
-        <img src="images/kracker_basic_t_shirts_yellow.jpg?v=1788167545" alt="크래커하우스 시그니처 옐로우 티셔츠" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.src='kracker_basic_t_shirts_yellow.jpg'; this.onerror=null;" />
-        <span class="product-card__brand" style="position: absolute; top: 12px; left: 12px; font-family: var(--ff-mono); font-size: 9px; font-weight: 700; background: rgba(0,0,0,0.6); padding: 3px 7px; border-radius: 2px; color: var(--orange);">크래커하우스</span>
-      </div>
-      <div class="product-card__info" style="padding: 20px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1;">
-        <div>
-          <span class="product-card__category" style="font-family: var(--ff-mono); font-size: 10px; color: var(--clay); text-transform: uppercase;">Apparel</span>
-          <h3 style="font-size: 16px; font-weight: 700; color: var(--white); margin: 6px 0;">크래커하우스 시그니처 옐로우 티셔츠</h3>
-          <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">선명한 옐로우 넥 링거 디테일의 프리미엄 반팔 티셔츠</p>
-        </div>
-        <div>
-          <p class="product-card__price" style="font-size: 16px; font-weight: 700; color: var(--orange);">42,000원</p>
+      <!-- HERO BANNER -->
+      <div class="hero-banner">
+        <img src="../images/main_hero.jpg" onerror="this.src='../images/kracker_basic_t_shirts_yellow.jpg';" alt="Hero Banner">
+        <div class="hero-overlay">
+          <h1 class="hero-title">have a good time.<br>Pop-up Store</h1>
+          <div style="font-size: 13px; color: var(--muted);">크래커하우스와 스너글의 한정 콜라보레이션</div>
         </div>
       </div>
-    </div>
 
-    <!-- 2. 코랄 레드 티셔츠 (크래커하우스) -->
-    <div class="product-card" data-brand="KRACKER_HOUSE" style="flex: 0 0 260px; width: 260px; background: var(--dark2); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: var(--tr);">
-      <div class="product-card__img" style="aspect-ratio: 3/4; overflow: hidden; position: relative;">
-        <img src="images/kracker_basic_t_shirts_red.jpg?v=1788167545" alt="크래커하우스 빈티지 코랄 레드 티셔츠" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.src='kracker_basic_t_shirts_red.jpg'; this.onerror=null;" />
-        <span class="product-card__brand" style="position: absolute; top: 12px; left: 12px; font-family: var(--ff-mono); font-size: 9px; font-weight: 700; background: rgba(0,0,0,0.6); padding: 3px 7px; border-radius: 2px; color: var(--orange);">크래커하우스</span>
-      </div>
-      <div class="product-card__info" style="padding: 20px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1;">
-        <div>
-          <span class="product-card__category" style="font-family: var(--ff-mono); font-size: 10px; color: var(--clay); text-transform: uppercase;">Apparel</span>
-          <h3 style="font-size: 16px; font-weight: 700; color: var(--white); margin: 6px 0;">크래커하우스 빈티지 코랄 레드 티셔츠</h3>
-          <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">감각적인 피그먼트 워싱 코랄 레드 컬러 티셔츠</p>
-        </div>
-        <div>
-          <p class="product-card__price" style="font-size: 16px; font-weight: 700; color: var(--orange);">45,000원</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3. 캔버스 토트백 (크래커하우스 패션 카테고리) -->
-    <div class="product-card" data-brand="KRACKER_HOUSE" style="flex: 0 0 260px; width: 260px; background: var(--dark2); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: var(--tr);">
-      <div class="product-card__img" style="aspect-ratio: 3/4; overflow: hidden; position: relative;">
-        <img src="images/kracker_tote_bag.jpg?v=1788167545" alt="크래커하우스 X 스너글 캔버스 토트백" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.src='kracker_tote_bag.jpg'; this.onerror=null;" />
-        <span class="product-card__brand" style="position: absolute; top: 12px; left: 12px; font-family: var(--ff-mono); font-size: 9px; font-weight: 700; background: rgba(0,0,0,0.6); padding: 3px 7px; border-radius: 2px; color: var(--orange);">크래커하우스</span>
-      </div>
-      <div class="product-card__info" style="padding: 20px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1;">
-        <div>
-          <span class="product-card__category" style="font-family: var(--ff-mono); font-size: 10px; color: var(--clay); text-transform: uppercase;">Fashion & Goods</span>
-          <h3 style="font-size: 16px; font-weight: 700; color: var(--white); margin: 6px 0;">크래커하우스 X 스너글 캔버스 토트백</h3>
-          <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">귀여운 새 캐릭터 자수가 포함된 튼튼한 캔버스백</p>
-        </div>
-        <div>
-          <p class="product-card__price" style="font-size: 16px; font-weight: 700; color: var(--orange);">38,000원</p>
+      <!-- TICKETING SECTION -->
+      <div class="app-section">
+        <h2 class="section-title">Ticket & Event</h2>
+        <div class="ticket-card">
+          <span class="ticket-badge">CHECK-IN</span>
+          <div style="font-size: 14px; font-weight: 700; margin-bottom: 8px;">현장 체크인 및 사전예약 안내</div>
+          <div style="font-size: 12px; color: var(--muted);">방문 예약 시 우선 입장 및 특별 굿즈를 증정합니다.</div>
+          
+          <a href="#" class="ticket-btn primary">
+            <span>🎟️ 팝업 체크인 안내</span>
+            <span>&#8594;</span>
+          </a>
+          <a href="#" class="ticket-btn">
+            <span>📱 모바일 사전예약</span>
+            <span>&#8594;</span>
+          </a>
         </div>
       </div>
-    </div>
 
-    <!-- 4. 스너글 빈티지 바닐라 섬유유연제 (스너글 케어 & 라이프 카테고리) -->
-    <div class="product-card" data-brand="SNUGGLE" style="flex: 0 0 260px; width: 260px; background: var(--dark2); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: var(--tr);">
-      <div class="product-card__img" style="aspect-ratio: 3/4; overflow: hidden; position: relative;">
-        <img src="images/snuggle_vintage_vanilla.jpg?v=1788167545" alt="스너글 빈티지 바닐라 섬유유연제 2L" style="width: 100%; height: 100%; object-fit: contain; background: #fff; padding: 10px; display: block;" onerror="this.src='snuggle_vintage_vanilla.jpg'; this.onerror=null;" />
-        <span class="product-card__brand" style="position: absolute; top: 12px; left: 12px; font-family: var(--ff-mono); font-size: 9px; font-weight: 700; background: rgba(0,0,0,0.6); padding: 3px 7px; border-radius: 2px; color: var(--orange);">스너글</span>
-      </div>
-      <div class="product-card__info" style="padding: 20px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1;">
-        <div>
-          <span class="product-card__category" style="font-family: var(--ff-mono); font-size: 10px; color: var(--clay); text-transform: uppercase;">Care & Life</span>
-          <h3 style="font-size: 16px; font-weight: 700; color: var(--white); margin: 6px 0;">스너글 빈티지 바닐라 섬유유연제 2L</h3>
-          <p style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">실내건조 포근한 바닐라 잔향의 스너글 섬유유연제</p>
+      <!-- ZONES (HORIZONTAL SCROLL) -->
+      <div class="app-section">
+        <h2 class="section-title">Experience Zones</h2>
+        <div class="h-scroll">
+          <div class="zone-card">
+            <img src="../images/zone_card_01.jpg" onerror="this.style.background='#333';" alt="Zone">
+            <div class="zone-info">
+              <div class="zone-title">01. 취향 테스트존</div>
+              <div class="zone-desc">나만의 스너글 향기 취향 찾기</div>
+            </div>
+          </div>
+          <div class="zone-card">
+            <img src="../images/zone_001.png" onerror="this.style.background='#333';" alt="Zone">
+            <div class="zone-info">
+              <div class="zone-title">02. 세탁기 포토부스</div>
+              <div class="zone-desc">특별한 순간을 기록하세요</div>
+            </div>
+          </div>
+          <div class="zone-card">
+            <img src="../images/zone_card_03.jpg" onerror="this.style.background='#333';" alt="Zone">
+            <div class="zone-info">
+              <div class="zone-title">03. 굿즈존</div>
+              <div class="zone-desc">한정판 스페셜 굿즈 쇼룸</div>
+            </div>
+          </div>
         </div>
-        <div>
-          <p class="product-card__price" style="font-size: 16px; font-weight: 700; color: var(--orange);">16,500원</p>
+      </div>
+
+      <!-- GOODS (GRID) -->
+      <div class="app-section" style="border-bottom: none;">
+        <h2 class="section-title">Exclusive Goods</h2>
+        <div class="goods-grid">
+          <div class="goods-card">
+            <img src="../images/mock_product_1.png" onerror="this.style.background='#333';" alt="Goods">
+            <div class="goods-info">
+              <div class="goods-title">옐로우 티셔츠</div>
+              <div class="goods-price">&#8361;42,000</div>
+            </div>
+          </div>
+          <div class="goods-card">
+            <img src="../images/mock_product_2.png" onerror="this.style.background='#333';" alt="Goods">
+            <div class="goods-info">
+              <div class="goods-title">피그먼트 티셔츠</div>
+              <div class="goods-price">&#8361;45,000</div>
+            </div>
+          </div>
+          <div class="goods-card">
+            <img src="../images/snuggle_vintage_vanilla.jpg" onerror="this.style.background='#fff';" alt="Goods">
+            <div class="goods-info">
+              <div class="goods-title">스너글 섬유유연제</div>
+              <div class="goods-price">&#8361;16,500</div>
+            </div>
+          </div>
+          <div class="goods-card">
+            <img src="../images/kracker_tote_bag.jpg" onerror="this.style.background='#333';" alt="Goods">
+            <div class="goods-info">
+              <div class="goods-title">캔버스 토트백</div>
+              <div class="goods-price">&#8361;38,000</div>
+            </div>
+          </div>
         </div>
       </div>
+
+    </main>
+
+    <!-- STICKY BOTTOM BUTTON -->
+    <div class="sticky-btn-wrap">
+      <a href="#" class="sticky-btn">지금 바로 사전예약하기</a>
     </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+      <a href="#" class="nav-item active"><span class="nav-icon">🏠</span><span>홈</span></a>
+      <a href="#" class="nav-item"><span class="nav-icon">🎟️</span><span>사전등록</span></a>
+      <a href="#" class="nav-item"><span class="nav-icon">🛍️</span><span>굿즈</span></a>
+      <a href="#" class="nav-item"><span class="nav-icon">📷</span><span>사진방</span></a>
+      <a href="#" class="nav-item"><span class="nav-icon">📍</span><span>존 안내</span></a>
+    </nav>
+    
   </div>
-</section>
-
-<section id="laundry-section" style="background:var(--dark2);">
-<section id="laundry-section" style="padding: 24px 16px; background: var(--dark2);">
-  <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:16px;">
-    <div>
-      <div style="font-family:var(--ff-mono);font-size:11px;color:var(--clay);margin-bottom:4px;">// LAUNDRY LINE GALLERY</div>
-      <h2 style="font-family: 'LeeOkSun', serif; font-size: 24px; color: var(--white); margin: 0;">사진 <strong style="color:var(--orange);">빨랫줄</strong></h2>
-    </div>
-    <a href="sns_event.html?mode=customer" style="background:var(--orange); color:var(--white); padding:8px 12px; border-radius:8px; font-size:12px; font-weight:700;">+ 사진 달기</a>
-  </div>
-
-  <div style="background:var(--dark); border-radius:12px; padding:24px; text-align:center;">
-    <div style="font-size:13px; color:var(--muted);">🧺 빨랫줄 사진을 불러오는 중...</div>
-  </div>
-  
-  <div style="text-align:center; margin-top:16px;">
-    <a href="laundry.html" style="font-size:12px; color:var(--clay); text-decoration:underline;">전체 갤러리 보기 →</a>
-  </div>
-</section>
-
-<section id="zones-section" style="padding: 24px 16px; background: var(--dark);">
-  <div style="margin-bottom: 24px;">
-    <div style="font-size:11px; color:var(--clay); margin-bottom:8px;">// 3D SPATIAL MAP &amp; 6 ZONES</div>
-    <h2 style="font-family: 'LeeOkSun', serif; font-size:24px; color:var(--white); margin:0;">SIX ZONES,<br><em style="color:var(--orange);">ONE DRUM</em></h2>
-  </div>
-
-  <!-- 3D Map Mobile Banner -->
-  <div style="border-radius:16px; overflow:hidden; background:var(--dark2); margin-bottom:24px; box-shadow:0 4px 12px rgba(0,0,0,0.5);">
-    <img src="../images/laundry_3d_floorplan_main_final_v999.jpg" alt="3D Map" style="width:100%; height:auto; display:block;" onerror="this.src='images/laundry_3d_floorplan_main_final_v999.jpg?v=20260831_supernew_1788169165'; this.onerror=null;">
-    <div style="padding:16px; background:var(--dark2);">
-      <h3 style="font-family: 'LeeOkSun', serif; font-size:18px; color:var(--white); margin:0;">팝업스토어 3D 조감도</h3>
-      <p style="font-size:13px; color:var(--muted); margin:4px 0 0 0;">전체 팝업스토어의 구조를 한눈에 확인하세요.</p>
-    </div>
-  </div>
-
-  <!-- Mobile Stacked Zones Grid -->
-  <div style="display: flex; flex-direction: column; gap: 16px;">
-
-    <!-- Zone 01 (첫번째 사진 - WHAT'S YOUR TASTE) -->
-    <div class="six-zone-card" id="zoneCard0" onclick="openSixZoneModal(0)">
-      <div class="six-zone-img-wrap">
-        <img src="images/zone_card_01.jpg?v=1788167545" alt="01. 취향 테스트존" onerror="this.src='zone_card_01.jpg?v=1788167545'; this.onerror=null;" />
-        <span class="six-zone-badge">ZONE 01</span>
-      </div>
-      <div class="six-zone-body">
-        <div>
-          <h3 class="six-zone-title">01. 취향 테스트존</h3>
-          <p class="six-zone-desc">나만의 스너글 향기 취향을 테스트하고 맞춤 섬유유연제 시침지를 받아보는 취향 발견 전용 공간입니다.</p>
-        </div>
-        <div class="six-zone-sqm">WHAT'S YOUR TASTE? &nbsp;|&nbsp; 8.0 sqm</div>
-      </div>
-    </div>
-
-    <!-- Zone 02 (세탁기 포토부스존) -->
-    <div class="six-zone-card" id="zoneCard1" onclick="openSixZoneModal(1)">
-      <div class="six-zone-img-wrap">
-        <img src="images/zone_001.png?v=1788167545" alt="02. 세탁기 포토부스존" onerror="this.src='zone_001.png?v=1788167545'; this.onerror=null;" />
-        <span class="six-zone-badge">ZONE 02</span>
-      </div>
-      <div class="six-zone-body">
-        <div>
-          <h3 class="six-zone-title">02. 세탁기 포토부스존</h3>
-          <p class="six-zone-desc">드럼 세탁기 인테리어 배경에서 특별한 순간을 폴라로이드 사진으로 남기는 레트로 포토부스 존입니다.</p>
-        </div>
-        <div class="six-zone-sqm">LAUNDRY PHOTO &nbsp;|&nbsp; 11.0 sqm</div>
-      </div>
-    </div>
-
-    <!-- Zone 03 (두번째 사진 - 굿즈존) -->
-    <div class="six-zone-card" id="zoneCard2" onclick="openSixZoneModal(2)">
-      <div class="six-zone-img-wrap">
-        <img src="images/zone_card_03.jpg?v=1788167545" alt="03. 굿즈존" onerror="this.src='zone_card_03.jpg?v=1788167545'; this.onerror=null;" />
-        <span class="six-zone-badge">ZONE 03</span>
-      </div>
-      <div class="six-zone-body">
-        <div>
-          <h3 class="six-zone-title">03. 굿즈존</h3>
-          <p class="six-zone-desc">크래커하우스 x 스너글 빈티지 코랄 레드 티셔츠, 옐로우 넥티, 캔버스 토트백 한정판 굿즈 쇼룸입니다.</p>
-        </div>
-        <div class="six-zone-sqm">GOODS SHOWROOM &nbsp;|&nbsp; 25.5 sqm</div>
-      </div>
-    </div>
-
-    <!-- Zone 04 (세번째 사진 - DIY 존) -->
-    <div class="six-zone-card" id="zoneCard3" onclick="openSixZoneModal(3)">
-      <div class="six-zone-img-wrap">
-        <img src="images/zone_card_04.jpg?v=1788167545" alt="04. DIY 존" onerror="this.src='zone_card_04.jpg?v=1788167545'; this.onerror=null;" />
-        <span class="six-zone-badge">ZONE 04</span>
-      </div>
-      <div class="six-zone-body">
-        <div>
-          <h3 class="six-zone-title">04. DIY 존</h3>
-          <p class="six-zone-desc">원하는 자수 와펜과 스트랩으로 나만의 커스텀 크래커 T &amp; 세탁 굿즈를 직접 인쇄하고 제작해보는 커스텀 존입니다.</p>
-        </div>
-        <div class="six-zone-sqm">MAKE YOUR CRACKER T &nbsp;|&nbsp; 8.5 sqm</div>
-      </div>
-    </div>
-
-    <!-- Zone 05 (커피 & 미니어존) -->
-    <div class="six-zone-card" id="zoneCard4" onclick="openSixZoneModal(4)">
-      <div class="six-zone-img-wrap">
-        <img src="images/hero_laundry_store.jpg?v=1788167545" alt="05. 커피 &amp; 미니어존" onerror="this.src='hero_laundry_store.jpg'; this.onerror=null;" />
-        <span class="six-zone-badge">ZONE 05</span>
-      </div>
-      <div class="six-zone-body">
-        <div>
-          <h3 class="six-zone-title">05. 커피 &amp; 미니어존</h3>
-          <p class="six-zone-desc">포근한 잔디밭 라운지에서 고소한 커피와 베이커리를 즐기며 편안하게 쉬어가는 힐링 휴식 공간입니다.</p>
-        </div>
-        <div class="six-zone-sqm">CAFE &amp; MINIER &nbsp;|&nbsp; 26.5 sqm</div>
-      </div>
-    </div>
-
-    <!-- Zone 06 (네번째 사진 - 방명록 존) -->
-    <div class="six-zone-card" id="zoneCard5" onclick="openSixZoneModal(5)">
-      <div class="six-zone-img-wrap">
-        <img src="images/zone_card_06.jpg?v=1788167545" alt="06. 방명록 존" onerror="this.src='zone_card_06.jpg?v=1788167545'; this.onerror=null;" />
-        <span class="six-zone-badge">ZONE 06</span>
-      </div>
-      <div class="six-zone-body">
-        <div>
-          <h3 class="six-zone-title">06. 방명록 존 (방팩록)</h3>
-          <p class="six-zone-desc">팝업스토어에서의 소중한 소감과 축하 메시지를 남기고 따뜻한 방명록을 함께 완성하는 참여 공간입니다.</p>
-        </div>
-        <div class="six-zone-sqm">CRACKER GUESTBOOK &nbsp;|&nbsp; 6.0 sqm</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FULL HD 3D MAP EXPANDED MODAL -->
-<div id="main3DMapModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:99999; justify-content:center; align-items:center; backdrop-filter:blur(14px); padding:20px;" onclick="if(event.target===this) closeMain3DMapModal()">
-  <div style="background:var(--dark2); border:2.5px solid var(--orange); border-radius:16px; max-width:1250px; width:96%; max-height:92vh; padding:28px; text-align:center; position:relative; box-shadow:0 40px 100px rgba(0,0,0,0.95); display:flex; flex-direction:column; overflow:hidden;">
-    <button onclick="closeMain3DMapModal()" style="position:absolute; top:18px; right:24px; background:rgba(242,92,5,0.2); border:1px solid var(--orange); color:var(--white); font-size:28px; width:44px; height:44px; border-radius:50%; cursor:pointer; z-index:10; display:flex; align-items:center; justify-content:center;">×</button>
-    <div style="font-family:var(--ff-mono); font-size:12px; color:var(--orange); letter-spacing:0.2em; margin-bottom:6px; font-weight:700;">HIGH-RESOLUTION 3D FLOORPLAN</div>
-    <h3 style="font-family:'LeeOkSun', 'SheLeeOkSun', serif !important; font-size:32px; color:var(--white); margin-bottom:16px;">크래커하우스 X 스너글 팝업스토어 3D 공간 조감도 원본</h3>
-    <div style="flex:1; overflow:auto; border-radius:10px; background:#100903; border:1px solid rgba(255,255,255,0.1); padding:10px; display:flex; align-items:center; justify-content:center;">
-      <img src="laundry_3d_floorplan_main_final_v999.jpg?v=20260831_supernew_1788169165" alt="3D 조감도 원본 크게보기" style="max-width:100%; max-height:78vh; object-fit:contain; display:block; border-radius:6px;" onerror="this.src='images/laundry_3d_floorplan_main_final_v999.jpg?v=20260831_supernew_1788169165'; this.onerror=null;" />
-    </div>
-  </div>
-</div>
-
-<!-- 6-ZONE DETAIL MODAL -->
-<div id="sixZoneModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); z-index:99999; justify-content:center; align-items:center; backdrop-filter:blur(12px);" onclick="if(event.target===this) closeSixZoneModal()">
-  <div style="background:var(--dark2); border:2.5px solid var(--orange); border-radius:14px; max-width:850px; width:92%; padding:28px; text-align:center; position:relative; box-shadow:0 35px 90px rgba(0,0,0,0.85);">
-    <button onclick="closeSixZoneModal()" style="position:absolute; top:16px; right:20px; background:none; border:none; color:var(--white); font-size:32px; cursor:pointer;">×</button>
-    <div style="font-family:var(--ff-mono); font-size:12px; color:var(--orange); letter-spacing:0.2em; margin-bottom:8px;" id="szNum">ZONE 01</div>
-    <h3 style="font-family:'LeeOkSun', 'SheLeeOkSun', serif !important; font-size:32px; color:var(--white); margin-bottom:18px;" id="szTitle">01. 취향 테스트존</h3>
-    <div style="aspect-ratio:16/9; overflow:hidden; border-radius:10px; margin-bottom:20px; border:1px solid rgba(255,255,255,0.1);">
-      <img id="szImg" src="" alt="Zone Full Preview" style="width:100%; height:100%; object-fit:cover; display:block;" />
-    </div>
-    <p style="font-size:15px; color:var(--muted); line-height:1.75;" id="szDesc"></p>
-  </div>
-</div>
-
-<script>
-  const sixZoneData = [
-    {
-      num: "ZONE 01 // WHAT'S YOUR TASTE? (8.0 sqm)",
-      title: "01. 취향 테스트존",
-      desc: "나만의 스너글 향기 취향을 테스트하고 맞춤 섬유유연제 시침지를 받아보는 취향 발견 전용 공간입니다.",
-      img: "images/zone_003.png?v=1788167545",
-      fallback: "zone_003.png?v=1788167545"
-    },
-    {
-      num: "ZONE 02 // LAUNDRY PHOTO (11.0 sqm)",
-      title: "02. 세탁기 포토부스존",
-      desc: "드럼 세탁기 인테리어 배경에서 특별한 순간을 폴라로이드 사진으로 남기는 레트로 포토부스 존입니다.",
-      img: "images/zone_001.png?v=1788167545",
-      fallback: "zone_001.png"
-    },
-    {
-      num: "ZONE 03 // GOODS SHOWROOM (25.5 sqm)",
-      title: "03. 굿즈존",
-      desc: "크래커하우스 x 스너글 빈티지 코랄 레드 티셔츠, 옐로우 넥티, 캔버스 토트백 한정판 굿즈 쇼룸입니다.",
-      img: "images/zone_004.png?v=1788167545",
-      fallback: "zone_004.png"
-    },
-    {
-      num: "ZONE 04 // MAKE YOUR CRACKER T (8.5 sqm)",
-      title: "04. DIY 존",
-      desc: "원하는 자수 와펜과 스트랩으로 나만의 커스텀 크래커 T &amp; 세탁 굿즈를 직접 인쇄하고 제작해보는 커스텀 존입니다.",
-      img: "images/zone_002.png?v=1788167545",
-      fallback: "zone_002.png"
-    },
-    {
-      num: "ZONE 05 // CAFE &amp; MINIER (26.5 sqm)",
-      title: "05. 커피 &amp; 미니어존",
-      desc: "포근한 잔디밭 라운지에서 고소한 커피와 베이커리를 즐기며 편안하게 쉬어가는 힐링 휴식 공간입니다.",
-      img: "images/hero_laundry_store.jpg?v=1788167545",
-      fallback: "images/hero_laundry_store.jpg?v=1788167545"
-    },
-    {
-      num: "ZONE 06 // CRACKER GUESTBOOK (6.0 sqm)",
-      title: "06. 방명록 존 (방팩록)",
-      desc: "팝업스토어에서의 소중한 소감과 축하 메시지를 남기고 따뜻한 방명록을 함께 완성하는 참여 공간입니다.",
-      img: "images/zone_005.png?v=1788167545",
-      fallback: "zone_005.png"
-    }
-  ];
-
-  function openSixZoneModal(idx) {
-    const item = sixZoneData[idx];
-    if (!item) return;
-    document.getElementById("szNum").textContent = item.num;
-    document.getElementById("szTitle").textContent = item.title;
-    document.getElementById("szDesc").textContent = item.desc;
-    const szImg = document.getElementById("szImg");
-    szImg.src = item.img;
-    szImg.onerror = function() { this.src = item.fallback; };
-
-    const modal = document.getElementById("sixZoneModal");
-    if (modal) modal.style.display = "flex";
-  }
-
-  function closeSixZoneModal() {
-    const modal = document.getElementById("sixZoneModal");
-    if (modal) modal.style.display = "none";
-  }
-
-  function scrollToZoneCard(idx) {
-    const card = document.getElementById("zoneCard" + idx);
-    if (card) {
-      card.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  }
-
-  function tilt3dCard(e) {
-    const card = document.getElementById("main3dCard");
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left - (rect.width / 2);
-    const y = e.clientY - rect.top - (rect.height / 2);
-    const rotX = (-y / rect.height) * 12;
-    const rotY = (x / rect.width) * 12;
-    card.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg) scale(1.02)`;
-    card.style.boxShadow = `0 35px 90px rgba(0,0,0,0.9), 0 0 60px rgba(242,92,5,0.5)`;
-  }
-  function reset3dCard() {
-    const card = document.getElementById("main3dCard");
-    if (!card) return;
-    card.style.transform = "rotateY(-6deg) rotateX(3deg) scale(1)";
-    card.style.boxShadow = "0 30px 80px rgba(0,0,0,0.85), 0 0 50px rgba(242,92,5,0.35)";
-  }
-  function openMain3DMapModal() {
-    const modal = document.getElementById("main3DMapModal");
-    if (modal) modal.style.display = "flex";
-  }
-  function closeMain3DMapModal() {
-    const modal = document.getElementById("main3DMapModal");
-    if (modal) modal.style.display = "none";
-  }
-</script>
-
-<!-- FULL HD 3D MAP EXPANDED MODAL -->
-<div id="main3DMapModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:99999; justify-content:center; align-items:center; backdrop-filter:blur(14px); padding:20px;" onclick="if(event.target===this) closeMain3DMapModal()">
-  <div style="background:var(--dark2); border:2.5px solid var(--orange); border-radius:16px; max-width:1250px; width:96%; max-height:92vh; padding:28px; text-align:center; position:relative; box-shadow:0 40px 100px rgba(0,0,0,0.95); display:flex; flex-direction:column; overflow:hidden;">
-    <button onclick="closeMain3DMapModal()" style="position:absolute; top:18px; right:24px; background:rgba(242,92,5,0.2); border:1px solid var(--orange); color:var(--white); font-size:28px; width:44px; height:44px; border-radius:50%; cursor:pointer; z-index:10; display:flex; align-items:center; justify-content:center;">×</button>
-    <div style="font-family:var(--ff-mono); font-size:12px; color:var(--orange); letter-spacing:0.2em; margin-bottom:6px; font-weight:700;">HIGH-RESOLUTION 3D FLOORPLAN</div>
-    <h3 style="font-family:'LeeOkSun', 'SheLeeOkSun', serif !important; font-size:32px; color:var(--white); margin-bottom:16px;">크래커하우스 X 스너글 팝업스토어 3D 공간 조감도 원본</h3>
-    <div style="flex:1; overflow:auto; border-radius:10px; background:#100903; border:1px solid rgba(255,255,255,0.1); padding:10px; display:flex; align-items:center; justify-content:center;">
-      <img src="laundry_3d_floorplan_main_final_v999.jpg?v=20260831_supernew_1788169165" alt="3D 조감도 원본 크게보기" style="max-width:100%; max-height:78vh; object-fit:contain; display:block; border-radius:6px;" onerror="this.src='images/laundry_3d_floorplan_main_final_v999.jpg?v=20260831_supernew_1788169165'; this.onerror=null;" />
-    </div>
-  </div>
-</div>
-
-<!-- 3D ZONE EXPANDED MODAL -->
-<div id="zone3DModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); z-index:99999; justify-content:center; align-items:center; backdrop-filter:blur(12px);" onclick="if(event.target===this) closeZoneModal()">
-  <div style="background:var(--dark2); border:2px solid var(--orange); border-radius:14px; max-width:850px; width:92%; padding:28px; text-align:center; position:relative; box-shadow:0 35px 90px rgba(0,0,0,0.85);">
-    <button onclick="closeZoneModal()" style="position:absolute; top:16px; right:20px; background:none; border:none; color:var(--white); font-size:32px; cursor:pointer;">×</button>
-    <div style="font-family:var(--ff-mono); font-size:12px; color:var(--orange); letter-spacing:0.2em; margin-bottom:8px;" id="mZoneNum">ZONE 01 // ENTRANCE DRUM</div>
-    <h3 style="font-family:'LeeOkSun', 'SheLeeOkSun', serif !important; font-size:32px; color:var(--white); margin-bottom:18px;" id="mZoneTitle">01. 대형 드럼 세탁기 입구 존</h3>
-    <div style="aspect-ratio:16/9; overflow:hidden; border-radius:10px; margin-bottom:20px; border:1px solid rgba(255,255,255,0.1);">
-      <img id="mZoneImg" src="" alt="Full Zone 3D Preview" style="width:100%; height:100%; object-fit:cover; display:block;" />
-    </div>
-    <p style="font-size:15px; color:var(--muted); line-height:1.75;" id="mZoneDesc"></p>
-  </div>
-</div>
-
-<script>
-  const realZoneData = [
-    {
-      num: "ZONE 01 // ENTRANCE DRUM",
-      title: "01. 대형 드럼 세탁기 입구 존",
-      desc: "거대한 드럼 세탁기 입구를 지나며 마치 포근한 세탁 공간 속으로 들어가는 몰입감을 선사하는 팝업스토어 대표 메인 3D 존입니다.",
-      img: "images/zone_001.png?v=1788167545",
-      fallback: "zone_001.png"
-    },
-    {
-      num: "ZONE 02 // COIN LAUNDRY",
-      title: "02. 레트로 세탁기 & 세제 존",
-      desc: "미국 빈티지 세탁소를 재현한 레트로 코인 런드리 공간. 세탁기 오브제와 스너글 섬유유연제의 실내건조 향기를 감각적으로 체험할 수 있습니다.",
-      img: "images/zone_002.png?v=1788167545",
-      fallback: "zone_002.png"
-    },
-    {
-      num: "ZONE 03 // SCENT CARE",
-      title: "03. 스너글 바닐라 향기 케어 존",
-      desc: "스너글 빈티지 바닐라 2L 섬유유연제의 실내건조 잔향과 포근함이 가득한 공간. 향기 시침지 체험 및 나만의 향기 취향 테스트가 진행됩니다.",
-      img: "images/zone_003.png?v=1788167545",
-      fallback: "zone_003.png?v=1788167545"
-    },
-    {
-      num: "ZONE 04 // GOODS SHOWROOM",
-      title: "04. 크래커 x 스너글 굿즈 쇼룸",
-      desc: "시그니처 옐로우 티셔츠, 빈티지 코랄 레드 피그먼트 티셔츠, 캔버스 토트백 등 크래커하우스의 한정판 워크웨어 컬렉션을 직접 착용하고 구매하는 공간입니다.",
-      img: "images/zone_004.png?v=1788167545",
-      fallback: "zone_004.png"
-    },
-    {
-      num: "ZONE 05 // LAUNDRY LINE",
-      title: "05. 포근한 빨랫줄 & 라운지 존",
-      desc: "방문자들의 순간을 담은 폴라로이드 사진과 영수증 메시지를 집게로 걸어두고, 포근한 스너글 곰인형과 함께 쉬어가는 힐링 휴식 라운지입니다.",
-      img: "images/zone_005.png?v=1788167545",
-      fallback: "zone_005.png"
-    }
-  ];
-
-  let currentRealZoneIdx = 0;
-
-  function switchZone(idx) {
-    if (idx < 0 || idx >= realZoneData.length) return;
-    currentRealZoneIdx = idx;
-
-    // Update active state in selector cards
-    const cards = document.querySelectorAll(".zone-select-card");
-    cards.forEach((c, i) => {
-      if (i === idx) c.classList.add("active");
-      else c.classList.remove("active");
-    });
-
-    const item = realZoneData[idx];
-    const box = document.getElementById("zone3dBox");
-    const imgEl = document.getElementById("z3dImg");
-
-    // Play 3D flip animation
-    if (box) {
-      box.style.transform = "rotateY(85deg) scale(0.9)";
-      box.style.opacity = "0.3";
-      setTimeout(() => {
-        if (imgEl) {
-          imgEl.src = item.img;
-          imgEl.onerror = function() { this.src = item.fallback; };
-        }
-        document.getElementById("z3dNum").textContent = item.num;
-        document.getElementById("z3dTitle").textContent = item.title;
-        document.getElementById("z3dDesc").textContent = item.desc + " (클릭시 3D 크게보기)";
-
-        box.style.transform = "rotateY(-7deg) rotateX(3deg) scale(1)";
-        box.style.opacity = "1";
-      }, 250);
-    }
-  }
-
-  function openZoneModal() {
-    const item = realZoneData[currentRealZoneIdx];
-    document.getElementById("mZoneNum").textContent = item.num;
-    document.getElementById("mZoneTitle").textContent = item.title;
-    document.getElementById("mZoneDesc").textContent = item.desc;
-    const mImg = document.getElementById("mZoneImg");
-    mImg.src = item.img;
-    mImg.onerror = function() { this.src = item.fallback; };
-
-    const modal = document.getElementById("zone3DModal");
-    if (modal) modal.style.display = "flex";
-  }
-
-  function closeZoneModal() {
-    const modal = document.getElementById("zone3DModal");
-    if (modal) modal.style.display = "none";
-  }
-</script>
-
-<!-- 3D ZONE EXPANDED MODAL -->
-<div id="zone3DModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:99999; justify-content:center; align-items:center; backdrop-filter:blur(10px);" onclick="if(event.target===this) closeZoneModal()">
-  <div style="background:var(--dark2); border:2px solid var(--orange); border-radius:12px; max-width:800px; width:90%; padding:24px; text-align:center; position:relative; box-shadow:0 30px 80px rgba(0,0,0,0.8);">
-    <button onclick="closeZoneModal()" style="position:absolute; top:16px; right:20px; background:none; border:none; color:var(--white); font-size:28px; cursor:pointer;">×</button>
-    <div style="font-family:var(--ff-mono); font-size:11px; color:var(--orange); letter-spacing:0.2em; margin-bottom:8px;" id="mZoneNum">ZONE 01</div>
-    <h3 style="font-family:'LeeOkSun', 'SheLeeOkSun', serif !important; font-size:32px; color:var(--white); margin-bottom:16px;" id="mZoneTitle">드럼 세탁기 존</h3>
-    <div style="aspect-ratio:16/9; overflow:hidden; border-radius:8px; margin-bottom:20px;">
-      <img id="mZoneImg" src="" alt="Full Zone 3D Preview" style="width:100%; height:100%; object-fit:cover; display:block;" />
-    </div>
-    <p style="font-size:14px; color:var(--muted); line-height:1.7;" id="mZoneDesc"></p>
-  </div>
-</div>
-
-<script>
-  const zoneData = [
-    {
-      num: "ZONE 01 // WASHING DRUM",
-      title: "드럼 세탁기 존",
-      desc: "크래커하우스의 빈티지 감성과 세탁기 드럼 내부를 시각화한 대형 시그니처 팝업 공간입니다.",
-      img: "images/hero_laundry_store.jpg?v=1788167545",
-      fallback: "images/hero_laundry_store.jpg?v=1788167545"
-    },
-    {
-      num: "ZONE 02 // SNUGGLE TERRACE",
-      title: "포근한 테라스",
-      desc: "스너글 곰인형과 포근한 햇살 아래 섬유유연제의 따스한 감촉을 직접 느끼고 휴식하는 테라스 공간입니다.",
-      img: "images/brand_new.jpg?v=1788167545",
-      fallback: "images/brand_new.jpg?v=1788167545"
-    },
-    {
-      num: "ZONE 03 // RECEIPT PHOTO",
-      title: "세탁 영수증 포토존",
-      desc: "방문자들의 특별한 순간을 폴라로이드 사진으로 남기고 맞춤 세탁 영수증을 직접 걸어볼 수 있습니다.",
-      img: "images/snuggle_photo_sample.jpg?v=1788167545",
-      fallback: "snuggle_photo_sample.jpg"
-    },
-    {
-      num: "ZONE 04 // GOODS SHOWROOM",
-      title: "한정 굿즈 쇼룸",
-      desc: "크래커하우스 x 스너글 빈티지 코랄 레드 티셔츠, 옐로우 넥티, 캔버스 토트백을 한자리에서 만나는 쇼룸입니다.",
-      img: "images/collab_collection.jpg?v=1788167545",
-      fallback: "collab_collection.jpg"
-    },
-    {
-      num: "ZONE 05 // SCENT CARE ZONE",
-      title: "스너글 향기 케어 존",
-      desc: "스너글 빈티지 바닐라 2L 섬유유연제의 포근한 잔향과 나만의 향기 취향 퀴즈를 직접 체험하는 공간입니다.",
-      img: "images/snuggle_vintage_vanilla.jpg?v=1788167545",
-      fallback: "snuggle_vintage_vanilla.jpg"
-    }
-  ];
-
-  let currentZoneIdx = 0;
-
-  function switchZone(idx) {
-    if (idx < 0 || idx >= zoneData.length) return;
-    currentZoneIdx = idx;
-
-    // Update active state in selector cards
-    const cards = document.querySelectorAll(".zone-select-card");
-    cards.forEach((c, i) => {
-      if (i === idx) c.classList.add("active");
-      else c.classList.remove("active");
-    });
-
-    const item = zoneData[idx];
-    const box = document.getElementById("zone3dBox");
-    const imgEl = document.getElementById("z3dImg");
-
-    // Play 3D flip animation
-    if (box) {
-      box.style.transform = "rotateY(85deg) scale(0.9)";
-      box.style.opacity = "0.3";
-      setTimeout(() => {
-        if (imgEl) {
-          imgEl.src = item.img;
-          imgEl.onerror = function() { this.src = item.fallback; };
-        }
-        document.getElementById("z3dNum").textContent = item.num;
-        document.getElementById("z3dTitle").textContent = item.title;
-        document.getElementById("z3dDesc").textContent = item.desc + " (클릭시 3D 크게보기)";
-
-        box.style.transform = "rotateY(-8deg) rotateX(4deg) scale(1)";
-        box.style.opacity = "1";
-      }, 300);
-    }
-  }
-
-  function openZoneModal() {
-    const item = zoneData[currentZoneIdx];
-    document.getElementById("mZoneNum").textContent = item.num;
-    document.getElementById("mZoneTitle").textContent = item.title;
-    document.getElementById("mZoneDesc").textContent = item.desc;
-    const mImg = document.getElementById("mZoneImg");
-    mImg.src = item.img;
-    mImg.onerror = function() { this.src = item.fallback; };
-
-    const modal = document.getElementById("zone3DModal");
-    if (modal) modal.style.display = "flex";
-  }
-
-  function closeZoneModal() {
-    const modal = document.getElementById("zone3DModal");
-    if (modal) modal.style.display = "none";
-  }
-</script>
-
-<footer style="background:var(--dark2); padding:24px 16px 40px; text-align:center; border-top:1px solid rgba(255,255,255,0.05);">
-  <div style="font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:0.1em; margin-bottom:8px;">KRACKER HOUSE &#215; SNUGGLE</div>
-  <div style="font-size:10px; color:rgba(255,255,255,0.3); margin-bottom:12px;">스타필드 하남 1F 중앙 광장<br>2026.09.11 - 09.23</div>
-  <div style="font-family:var(--ff-mono); font-size:9px; color:rgba(255,255,255,0.2);">&#169; 2026 All rights reserved.</div>
-</footer>
-
-<script src="js/api.js"></script>
-<script src="js/main.js"></script>
-
-<script>
-  async function loadLaundryPreview() {
-    var data = await ApiService.getLaundryPins();
-    var gallery = document.getElementById('laundryGallery');
-    if (!gallery) return;
-
-    if (!data || !data.total || !data.items || !data.items.length) {
-      var emptyMsg = '<div class="ls-empty">📌 아직 달린 사진이 없습니다. 첫 번째로 사진을 달아보세요!</div>';
-      if (gallery.dataset.htmlCache !== emptyMsg) {
-        gallery.dataset.htmlCache = emptyMsg;
-        gallery.innerHTML = emptyMsg;
-      }
-      return;
-    }
-
-    var newHtml = data.items.map(function(pin) {
-      var imgSrc = pin.image_url || 'images/snuggle_photo_sample.jpg';
-      if (!imgSrc.startsWith('data:') && !imgSrc.startsWith('http')) {
-        imgSrc = imgSrc.startsWith('/images') ? '.' + imgSrc : (imgSrc.startsWith('images/') ? imgSrc : 'http://localhost:8000' + imgSrc);
-      }
-      var msgHtml = pin.message
-        ? '<div class="ls-msg">' + pin.message + '</div>'
-        : '';
-      return [
-        '<div class="ls-pin">',
-          '<div class="ls-clothespin"></div>',
-          '<div class="ls-card">',
-            '<img class="ls-photo" src="' + imgSrc + '" alt="' + pin.nickname + '" onerror="this.onerror=null;this.src=\'images/snuggle_photo_sample.jpg\';">',
-            '<div class="ls-nick">' + pin.nickname + '</div>',
-            msgHtml,
-          '</div>',
-        '</div>'
-      ].join('');
-    }).join('');
-
-    if (gallery.dataset.htmlCache !== newHtml) {
-      gallery.dataset.htmlCache = newHtml;
-      gallery.innerHTML = newHtml;
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", function() {
-    loadLaundryPreview();
-    setInterval(loadLaundryPreview, 3000);
-
-    if (window.location.hash) {
-      setTimeout(function() {
-        var targetEl = document.querySelector(window.location.hash);
-        if (targetEl) {
-          targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }, 300);
-    }
-
-    var tabBtns = document.querySelectorAll(".brand-tabs .tab-btn");
-    var productsGrid = document.getElementById("productsGrid");
-    if (tabBtns && productsGrid) {
-      tabBtns.forEach(function(btn) {
-        btn.addEventListener("click", function() {
-          tabBtns.forEach(function(b) { b.classList.remove("active"); });
-          btn.classList.add("active");
-          var filter = btn.getAttribute("data-filter");
-          var cards = productsGrid.querySelectorAll(".product-card");
-          cards.forEach(function(card) {
-            var brand = card.getAttribute("data-brand") || "";
-            if (filter === "all") {
-              card.style.display = "flex";
-            } else if (filter.indexOf("KRACKER") !== -1 || filter.indexOf("CRACKER") !== -1) {
-              if (brand.indexOf("KRACKER") !== -1 || brand.indexOf("CRACKER") !== -1) {
-                card.style.display = "flex";
-              } else {
-                card.style.display = "none";
-              }
-            } else if (filter === "SNUGGLE") {
-              if (brand === "SNUGGLE") {
-                card.style.display = "flex";
-              } else {
-                card.style.display = "none";
-              }
-            }
-          });
-        });
-      });
-    }
-  });
-</script>
-<script>
-  function updateCountdown() {
-    const targetDate = new Date("2026-09-11T10:30:00").getTime();
-    const now = new Date().getTime();
-    const distance = targetDate - now;
-
-    if (distance < 0) {
-      const cd = document.getElementById("countdown");
-      if (cd) cd.innerHTML = "<div style='font-size:24px; font-weight:900; color:var(--orange);'>OPEN!</div>";
-      return;
-    }
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    const dEl = document.getElementById("cd-days");
-    if (dEl) dEl.textContent = days.toString().padStart(2, '0');
-    const hEl = document.getElementById("cd-hours");
-    if (hEl) hEl.textContent = hours.toString().padStart(2, '0');
-    const mEl = document.getElementById("cd-minutes");
-    if (mEl) mEl.textContent = minutes.toString().padStart(2, '0');
-    const sEl = document.getElementById("cd-seconds");
-    if (sEl) sEl.textContent = seconds.toString().padStart(2, '0');
-  }
-  setInterval(updateCountdown, 1000);
-  document.addEventListener("DOMContentLoaded", updateCountdown);
-</script>
-
-  <a href="../reservation.html" class="sticky-bottom-btn">🎟️ 지금 바로 사전예약하기</a>
-
-  <div class="bottom-tab-bar">
-    <a href="#popup-section" class="active"><span class="tab-icon">🏠</span><span>홈</span></a>
-    <a href="#prereg-section"><span class="tab-icon">🎟️</span><span>사전예약</span></a>
-    <a href="#product-section"><span class="tab-icon">🛍️</span><span>굿즈</span></a>
-    <a href="#laundry-section"><span class="tab-icon">📸</span><span>사진빨랫줄</span></a>
-    <a href="#popup-section"><span class="tab-icon">🗺️</span><span>공간존</span></a>
-    <a href="#popup-section"><span class="tab-icon">👃</span><span>향테스트</span></a>
-  </div>
-
-  <div class="qr-fab" onclick="document.getElementById('qrModal').style.display='flex'">🎫</div>
-  
-  <div id="qrModal" class="qr-modal" onclick="if(event.target===this) this.style.display='none'">
-    <div class="qr-modal-content">
-      <button class="qr-modal-close" onclick="document.getElementById('qrModal').style.display='none'">×</button>
-      <div class="qr-title">스마트 입장권</div>
-      <div class="qr-code-img">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=KrackerHouseSnugglePass" alt="QR Code" style="width:100%; height:100%;">
-      </div>
-      <div class="qr-desc">입구에서 위 QR 코드를 스캔하여<br>대기 없이 바로 입장하세요!</div>
-    </div>
-  </div>
-</div>
 </body>
-
 </html>
