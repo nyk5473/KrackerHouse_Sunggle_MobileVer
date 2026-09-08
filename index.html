@@ -112,11 +112,16 @@
       position: absolute; bottom: 0; width: 100%; height: 60px;
       background: rgba(30,30,30,0.95); backdrop-filter: blur(10px);
       border-top: 1px solid var(--border); display: flex; justify-content: space-around;
-      align-items: center; z-index: 100;
+      align-items: center; z-index: 100; overflow-x: auto;
     }
-    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--muted); text-decoration: none; font-size: 10px; font-weight: 700; }
+    .bottom-nav::-webkit-scrollbar { display: none; }
+    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--muted); text-decoration: none; font-size: 10px; font-weight: 700; flex: 0 0 60px; cursor: pointer; }
     .nav-item.active { color: var(--primary); }
     .nav-icon { font-size: 20px; }
+    
+    /* PAGE VIEWS */
+    .page-view { display: none; }
+    .page-view.active { display: block; }
   </style>
 </head>
 <body>
@@ -130,8 +135,11 @@
     </header>
 
     <!-- MAIN SCROLLABLE AREA -->
-    <main class="app-body">
+    <main class="app-body" id="app-body-scroll">
       
+      <!-- HOME PAGE -->
+      <div id="page-home" class="page-view active">
+
       <!-- HERO BANNER -->
       <div class="hero-banner">
         <img src="../images/kracker_laundry_storefront.jpg" onerror="this.src='../images/kracker_basic_t_shirts_yellow.jpg';" alt="Hero Banner">
@@ -142,8 +150,8 @@
       </div>
 
       <!-- TICKETING SECTION -->
-      <div class="app-section">
-        <h2 class="section-title">Ticket & Event</h2>
+      <div class="app-section" id="section-prereg">
+        <h2 class="section-title">Ticket &amp; Event</h2>
         <div class="ticket-card">
           <span class="ticket-badge">CHECK-IN</span>
           <div style="font-size: 14px; font-weight: 700; margin-bottom: 8px;">현장 체크인 및 사전예약 안내</div>
@@ -161,7 +169,7 @@
       </div>
 
       <!-- ZONES (HORIZONTAL SCROLL) -->
-      <div class="app-section">
+      <div class="app-section" id="section-zones">
         <h2 class="section-title">Experience Zones</h2>
         <div class="h-scroll">
           <div class="zone-card">
@@ -189,7 +197,7 @@
       </div>
 
       <!-- GOODS (GRID) -->
-      <div class="app-section" style="border-bottom: none;">
+      <div class="app-section" id="section-goods" style="border-bottom: none;">
         <h2 class="section-title">Exclusive Goods</h2>
         <div class="goods-grid">
           <div class="goods-card">
@@ -222,23 +230,60 @@
           </div>
         </div>
       </div>
-
+    </div>
     </main>
 
     <!-- STICKY BOTTOM BUTTON -->
     <div class="sticky-btn-wrap">
-      <a href="#" class="sticky-btn">지금 바로 사전예약하기</a>
+      <a href="#" onclick="navigate('prereg'); return false;" class="sticky-btn">지금 바로 사전예약하기</a>
     </div>
 
     <!-- BOTTOM NAVIGATION -->
     <nav class="bottom-nav">
-      <a href="#" class="nav-item active"><span class="nav-icon">🏠</span><span>홈</span></a>
-      <a href="#" class="nav-item"><span class="nav-icon">🎟️</span><span>사전등록</span></a>
-      <a href="#" class="nav-item"><span class="nav-icon">🛍️</span><span>굿즈</span></a>
-      <a href="#" class="nav-item"><span class="nav-icon">📷</span><span>사진방</span></a>
-      <a href="#" class="nav-item"><span class="nav-icon">📍</span><span>존 안내</span></a>
+      <a onclick="navigate('home')" class="nav-item active" id="tab-home"><span class="nav-icon">🏠</span><span>홈</span></a>
+      <a onclick="navigate('prereg')" class="nav-item" id="tab-prereg"><span class="nav-icon">🎟️</span><span>사전등록</span></a>
+      <a onclick="navigate('goods')" class="nav-item" id="tab-goods"><span class="nav-icon">🛍️</span><span>굿즈</span></a>
+      <a onclick="navigate('laundry')" class="nav-item" id="tab-laundry"><span class="nav-icon">📷</span><span>사진방</span></a>
+      <a onclick="navigate('zones')" class="nav-item" id="tab-zones"><span class="nav-icon">📍</span><span>존 안내</span></a>
+      <a href="https://nyk5473.github.io/snuggle-scent-quiz/" target="_blank" class="nav-item" id="tab-scent"><span class="nav-icon">🪥</span><span>향테스트</span></a>
     </nav>
     
   </div>
+
+  <script>
+    const pages = { home: document.getElementById('page-home') };
+    const tabs = {
+      home: document.getElementById('tab-home'),
+      prereg: document.getElementById('tab-prereg'),
+      goods: document.getElementById('tab-goods'),
+      laundry: document.getElementById('tab-laundry'),
+      zones: document.getElementById('tab-zones'),
+    };
+    
+    function navigate(target) {
+      // Clear all active tabs
+      document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
+      
+      if (target === 'home') {
+        document.getElementById('app-body-scroll').scrollTo({ top: 0, behavior: 'smooth' });
+        tabs.home.classList.add('active');
+      } else if (target === 'prereg') {
+        const el = document.getElementById('section-prereg');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        tabs.prereg.classList.add('active');
+      } else if (target === 'goods') {
+        const el = document.getElementById('section-goods');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        tabs.goods.classList.add('active');
+      } else if (target === 'laundry') {
+        tabs.laundry.classList.add('active');
+        window.location.href = '../sns_event.html';
+      } else if (target === 'zones') {
+        const el = document.getElementById('section-zones');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        tabs.zones.classList.add('active');
+      }
+    }
+  </script>
 </body>
 </html>
