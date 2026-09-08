@@ -718,144 +718,79 @@ h1, h2, h3, .hero-title, .products-big-title, .prereg-headline, .brand-headline,
 <body>
 <div id="app-container">
 
-<nav id="top-nav" style="position:fixed; top:0; left:50%; transform:translateX(-50%); width:100%; max-width:480px; height:56px; background:#BC453C; display:flex; align-items:center; justify-content:center; z-index:9999; box-shadow:0 3px 24px rgba(0,0,0,0.35);">
-  <div style="position:absolute; left:16px; font-size:24px; color:#fff; cursor:pointer;">☰</div>
-  <div style="font-family:'LeeOkSun', serif; font-size:18px; font-weight:700; color:#fff; letter-spacing:0.05em;">KRACKER X SNUGGLE</div>
-  <div style="position:absolute; right:16px;">
-    <audio id="bgm-player" src="bgm.mp3" controls autoplay loop style="height:24px; width:70px; outline:none; border-radius:15px; background-color:#F25C05; opacity:0.85;"></audio>
-  </div>
+<nav id="top-nav" style="position:fixed; top:0; left:50%; transform:translateX(-50%); width:100%; max-width:480px; height:56px; background:var(--dark); display:flex; align-items:center; justify-content:center; z-index:9999; border-bottom:1px solid rgba(255,255,255,0.05);">
+  <div style="position:absolute; left:16px; font-size:24px; color:#fff; cursor:pointer;">&#8592;</div>
+  <a href="index.html" class="nav-logo" style="font-size:16px; font-weight:900; color:var(--white); background:none; padding:0; letter-spacing:0; font-family:'LeeOkSun', serif;">KRACKER &#215; SNUGGLE</a>
+  <div style="position:absolute; right:16px; font-size:24px; color:#fff; cursor:pointer;">&#9776;</div>
 </nav>
 
-<section id="popup-section" style="position:relative; width:100%; height:100vh; min-height:650px; overflow:hidden; background:#1A1208;">
-  <div id="main-page" style="position:relative; width:100%; height:100%; overflow:hidden;">
-    <!-- Direct Hero Background <img> Element -->
-    <img src="images/hero_laundry_store.jpg?v=1788167545" alt="KRACKER LAUNDRY Store" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center center; display:block; z-index:1;" onerror="this.src='hero_laundry_store.jpg?v=1788167545'; this.onerror=null;" />
-    
-    <!-- Light Overlay Gradient for Text Contrast -->
-    <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.6) 100%); z-index:2; pointer-events:none;"></div>
-    <div class="hero-grain" style="pointer-events:none; opacity:0.06; z-index:3;"></div>
-
-    <div class="hero-text-layer" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding:60px 20px 20px; pointer-events:none; z-index:10; text-shadow:0 6px 30px rgba(0,0,0,0.92);">
-      <div class="hero-center-box" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:auto; z-index:12;">
-        
-        <div class="countdown-box" id="countdown">
-          <div class="cd-item"><div class="cd-num" id="cd-days">00</div><div class="cd-label">DAYS</div></div>
-          <div class="cd-item"><div class="cd-num" id="cd-hours">00</div><div class="cd-label">HOURS</div></div>
-          <div class="cd-item"><div class="cd-num" id="cd-minutes">00</div><div class="cd-label">MINS</div></div>
-          <div class="cd-item"><div class="cd-num" id="cd-seconds">00</div><div class="cd-label">SECS</div></div>
-        </div>
-
-        <a href="#prereg-section" class="hero-center-pill" style="background:#F25C05; color:#FFFFFF; padding:16px 32px; font-size:16px; font-weight:700; border-radius:30px; text-decoration:none; box-shadow:0 6px 28px rgba(242,92,5,0.4);">팝업스토어 안내보기 ↓</a>
-      </div>
-    </div>
-    
-    <div class="hero-bottom" style="position:absolute; bottom:0; left:0; right:0; padding:0 48px 32px; display:flex; justify-content:space-between; align-items:flex-end; z-index:10;">
-      <span class="hero-credit" style="color:rgba(255,255,255,0.9); font-weight:700;">Kracker House &#215; Snuggle 2026</span>
       <span class="hero-scroll" style="color:rgba(255,255,255,0.9); font-weight:700;">scroll</span>
     </div>
   </div>
 </section>
 
-<section id="prereg-section" style="padding: 100px 48px; background: var(--dark2);">
-  <div class="prereg-inner" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;">
-    <div>
-      <div class="prereg-label" style="font-family: var(--ff-mono); font-size: 11px; color: var(--orange); letter-spacing: 0.2em; margin-bottom: 12px; font-weight: 700;">// PRE REGISTRATION &amp; CHECK-IN</div>
-      <h2 class="prereg-headline" style="font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important; font-size: clamp(38px, 5vw, 64px); color: var(--white); font-weight: 900; line-height: 1.1; margin: 0;">have<br/><em style="color: var(--orange); font-style: italic;">a good</em> time.</h2>
+<section id="prereg-section" style="padding: 24px 16px; background: var(--dark);">
+  <div style="background: var(--dark2); border-radius: 16px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 16px;">
+    
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h2 style="font-family:'LeeOkSun', serif; font-size:24px; color:var(--white); margin:0;">have a good time.</h2>
+      <span style="background:var(--orange); color:var(--white); font-size:10px; font-weight:900; padding:4px 8px; border-radius:4px;">EVENT</span>
     </div>
-    <div>
-      <p class="prereg-desc" style="font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 32px;">
-        스타필드 빌리지에서 진행되는 크래커하우스 &#215; 스너글 콜라보 팝업스토어의 특별한 순간을 경험하세요. 사전 예약 및 현장 체크인(CHECK IN) 등록 시 선착순 한정 굿즈 증정 및 체험존 우선 입장 혜택이 주어집니다.
-      </p>
+    
+    <p style="font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0;">
+      팝업스토어 특별한 순간을 경험하세요. 체크인 시 한정 굿즈 증정!
+    </p>
 
-      <!-- CHECK IN & PRE-REGISTRATION BUTTONS -->
-      <div class="prereg-btns" style="display: flex; flex-direction: column; gap: 16px;">
-        <!-- CHECK IN PAGE BUTTON -->
-        <a id="btn-check-in" href="info.html" target="_blank" style="display: flex; align-items: center; justify-content: space-between; padding: 20px 32px; font-size: 22px; font-weight: 900; background: var(--orange); color: var(--white); text-decoration: none; border-radius: 8px; cursor: pointer; font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important; font-style: italic; letter-spacing: 0.08em; transition: var(--tr); box-shadow: 0 8px 30px rgba(242, 92, 5, 0.35);" onmouseover="this.style.background='var(--red)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='var(--orange)'; this.style.transform=''">
-          <span>🎟️ &nbsp; CHECK IN (체크인 팝업 안내)</span>
-          <span>&#8594;</span>
-        </a>
+    <!-- CHECK IN & PRE-REGISTRATION BUTTONS -->
+    <div style="display: flex; flex-direction: column; gap: 12px; margin-top:8px;">
+      <a href="info.html" style="display: flex; align-items: center; justify-content: space-between; padding: 16px; font-size: 16px; font-weight: 900; background: var(--orange); color: var(--white); text-decoration: none; border-radius: 12px;">
+        <span>🎟️ 체크인 팝업 안내</span>
+        <span>&#8594;</span>
+      </a>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
-          <a href="reservation.html" class="reg-btn reg-btn--web" id="btn-web-reservation" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; font-size: 14px; font-weight: 700; background: var(--dark); border: 1px solid rgba(255,255,255,0.15); color: var(--white); text-decoration: none; border-radius: 6px; transition: var(--tr);" onmouseover="this.style.borderColor='var(--orange)';" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';">
-            <span>🌐 &nbsp; 웹 사전예약 신청하기</span>
-            <span>&#8594;</span>
-          </a>
-          <a href="kiosk.html" class="reg-btn reg-btn--kiosk" id="btn-kiosk" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; font-size: 14px; font-weight: 700; background: var(--dark); border: 1px solid rgba(255,255,255,0.15); color: var(--white); text-decoration: none; border-radius: 6px; transition: var(--tr);" onmouseover="this.style.borderColor='var(--orange)';" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';">
-            <span>📱 &nbsp; 현장 대기 등록 (키오스크)</span>
-            <span>&#8599;</span>
-          </a>
-        </div>
-      </div>
+      <a href="reservation.html" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; font-size: 14px; font-weight: 700; background: var(--dark); border: 1px solid rgba(255,255,255,0.15); color: var(--white); text-decoration: none; border-radius: 12px;">
+        <span>🌐 웹 사전예약 신청</span>
+        <span>&#8594;</span>
+      </a>
+      
+      <a href="kiosk.html" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; font-size: 14px; font-weight: 700; background: var(--dark); border: 1px solid rgba(255,255,255,0.15); color: var(--white); text-decoration: none; border-radius: 12px;">
+        <span>📱 현장 대기 등록 (키오스크)</span>
+        <span>&#8599;</span>
+      </a>
     </div>
   </div>
 </section>
 
-<section id="brand-section">
-  <div class="brand-editorial-row">
-    <div class="brand-photo-side">
-      <span class="brand-part-badge">Part 1.</span>
-      <img src="images/brand_new.jpg?v=1788167545" alt="Kracker House x Snuggle Brand Editorial" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.src='brand_new.jpg?v=1788167545'; this.onerror=null;" />
-    </div>
-    <div class="brand-copy-side">
-      <div class="brand-eyebrow">// KRACKER HOUSE &#215; SNUGGLE COLLAB</div>
-      <h2 class="brand-headline">The <em>season full of</em><br/><span>KRACKER</span>HOUSE</h2>
-      <p class="brand-body">
-        <strong>크래커하우스(Kracker House)</strong>는 1980&#8211;90년대 미국 빈티지 워크웨어에서 영감을 받은 패션 브랜드입니다. 투박하지만 진심 어린 일상복의 무게감을 현대적으로 재해석합니다.<br/><br/>
-        <strong>스너글(Snuggle)</strong>은 의류 섬유에 포근함을 더하는 프리미엄 세탁 세제 브랜드입니다. 감촉에서 오는 진짜 휴식을 추구합니다.<br/><br/>
-        두 브랜드가 만나 만든 이번 팝업은 &#8220;옷과 세탁의 경험을 하나의 라이프스타일로&#8221; 라는 메시지를 전달합니다.
+<section id="brand-section" style="padding: 24px 16px;">
+  <div style="background: var(--dark2); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
+    <img src="../images/brand_new.jpg" alt="Brand" style="width: 100%; height: auto; display: block;" onerror="this.src='../images/brand_new.jpg'; this.onerror=null;">
+    <div style="padding: 24px;">
+      <div style="font-size: 11px; color: var(--orange); font-weight: 700; margin-bottom: 8px;">// KRACKER HOUSE &#215; SNUGGLE</div>
+      <h2 style="font-family: 'LeeOkSun', serif; font-size: 24px; color: var(--white); margin: 0 0 12px 0;">The season full of<br>KRACKERHOUSE</h2>
+      <p style="font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0;">
+        크래커하우스와 스너글이 만나 "옷과 세탁의 경험을 라이프스타일로" 라는 메시지를 전달합니다.
       </p>
     </div>
   </div>
-  <div class="brand-divider">
-    <div class="brand-badge-circle">KRACKER<br/>&#215;<br/>SNUGGLE</div>
-    <p class="brand-quote">&#8220;The new season approaches us like the feeling of a journey alone. Excitement before the departure, the warmth of clean fabric on skin &#8212; we are fortunate to discover precious moments like this with every wash.&#8221;</p>
-  </div>
 </section>
 
-<section id="product-section">
-  <div class="products-headline-block">
-    <div class="products-eyebrow">// COLLABORATION COLLECTION</div>
-    <h2 class="products-big-title">have<br/><em>a good</em> time.</h2>
+<section id="product-section" style="padding: 24px 16px;">
+  <div style="margin-bottom: 20px;">
+    <div style="font-size: 11px; color: var(--orange); font-weight: 700;">// COLLABORATION COLLECTION</div>
+    <h2 style="font-family: 'LeeOkSun', serif; font-size: 24px; color: var(--white); margin: 8px 0 0 0;">Exclusive Goods</h2>
   </div>
 
-      <div class="products-asym" style="display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:1300px; margin:40px auto; padding:0 48px;">
-    <!-- 좌측 대형 박스 (빨간색 옷): 빈 공간 없이 꽉 차도록 확장 (높이 560px) -->
-    <div class="pa-big" style="height:560px; position:relative; overflow:hidden; border-radius:10px; background:var(--dark2); box-shadow:0 8px 30px rgba(0,0,0,0.4);">
-      <img src="images/mock_product_2.png?v=1788167545" alt="빈티지 피그먼트 티셔츠" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;transform:scale(1.02);" onerror="this.src='mock_product_2.png'; this.onerror=null;" />
-      <div class="pa-overlay" style="position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 60%); padding:28px; display:flex; flex-direction:column; justify-content:flex-end;">
-        <div class="pa-tag" style="font-family:var(--ff-mono); font-size:11px; color:var(--orange); letter-spacing:0.15em; margin-bottom:4px;">KRACKER HOUSE</div>
-        <div class="pa-name" style="font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important; font-size:22px; color:var(--white); font-weight:700;">빈티지 피그먼트 티셔츠</div>
-        <div class="pa-price" style="font-family:var(--ff-mono); font-size:16px; color:var(--orange); font-weight:700; margin-top:4px;">&#8361;45,000</div>
-      </div>
-    </div>
-
-    <!-- 우측 2단 결합 영역: 높이 560px 에 맞춰 확대 -->
-    <div style="display:flex; flex-direction:column; gap:24px; height:560px;">
-      <!-- 우측 상단 박스 (전체 컬렉션 보기) -->
-      <div class="pa-info" style="flex:1; position:relative; overflow:hidden; padding:0; background:none; border-radius:10px; box-shadow:0 8px 30px rgba(0,0,0,0.4);">
-        <img src="images/collab_collection.jpg?v=1788167545" alt="전체 컬렉션 보기" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;position:absolute;inset:0;" onerror="this.src='collab_collection.jpg'; this.onerror=null;" />
-        <div style="position:relative; z-index:2; height:100%; display:flex; flex-direction:column; justify-content:space-between; padding:28px; background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(242,92,5,0.35) 100%);">
-          <div>
-            <h3 style="font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;font-size:24px;color:var(--white);line-height:1.3;margin-bottom:8px;">COLLABORATION<br/>COLLECTION</h3>
-            <p style="font-size:13px;color:rgba(255,255,255,0.88);line-height:1.5;">크래커하우스 x 스너글 한정 콜라보레이션 굿즈 컬렉션</p>
-          </div>
-          <a href="products.html" class="pa-info-link" style="color:var(--orange); text-decoration:none; font-family:var(--ff-mono); font-size:13px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;">전체 컬렉션 보기 &#8594;</a>
-        </div>
-      </div>
-
-      <!-- 우측 하단 박스 (노란색 옷) -->
-      <div class="pa-small" style="flex:1; position:relative; overflow:hidden; border-radius:10px; background:var(--dark2); box-shadow:0 8px 30px rgba(0,0,0,0.4);">
-        <img src="images/mock_product_1.png?v=1788167545" alt="백로고 옐로우 티셔츠" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;transform:scale(1.02);" onerror="this.src='mock_product_1.png'; this.onerror=null;" />
-        <div class="pa-overlay" style="position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 60%); padding:28px; display:flex; flex-direction:column; justify-content:flex-end;">
-          <div class="pa-tag" style="font-family:var(--ff-mono); font-size:11px; color:var(--orange); letter-spacing:0.15em; margin-bottom:4px;">KRACKER HOUSE</div>
-          <div class="pa-name" style="font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important; font-size:22px; color:var(--white); font-weight:700;">백로고 옐로우 티셔츠</div>
-          <div class="pa-price" style="font-family:var(--ff-mono); font-size:16px; color:var(--orange); font-weight:700; margin-top:4px;">&#8361;42,000</div>
-        </div>
+  <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;">
+    <div style="position: relative; border-radius: 16px; overflow: hidden; height: 200px;">
+      <img src="../images/mock_product_2.png" alt="티셔츠" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='../images/mock_product_2.png'; this.onerror=null;">
+      <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 16px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);">
+        <div style="color: var(--white); font-weight: 700; font-size: 18px;">빈티지 피그먼트 티셔츠</div>
+        <div style="color: var(--orange); font-weight: 700; font-size: 14px;">&#8361;45,000</div>
       </div>
     </div>
   </div>
 
-  <div class="brand-tabs" style="justify-content: space-between; align-items: center; margin: 30px 24px 24px; display: flex; gap: 12px; flex-wrap: wrap;">
+  <div class="brand-tabs" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
     <div style="display: flex; gap: 12px; flex-wrap: wrap;">
       <button class="tab-btn active" data-filter="all">전체 상품</button>
       <button class="tab-btn" data-filter="KRACKER_HOUSE">크래커하우스 (패션)</button>
@@ -940,381 +875,42 @@ h1, h2, h3, .hero-title, .products-big-title, .prereg-headline, .brand-headline,
 </section>
 
 <section id="laundry-section" style="background:var(--dark2);">
-  <style>
-    #laundry-section .ls-header {
-      max-width:1100px; margin:0 auto; padding:56px 48px 0;
-      display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;
-    }
-    #laundry-section .ls-title {
-      font-family:'LeeOkSun', 'SheLeeOkSun', serif !important; font-size:clamp(22px,3vw,32px); font-weight:900; color:var(--white);
-    }
-    #laundry-section .ls-title span { color:var(--orange); }
-    #laundry-section .ls-btn-upload {
-      display:inline-flex; align-items:center; gap:8px;
-      padding:13px 24px; background:var(--orange); color:var(--white);
-      border-radius:4px; font-size:13px; font-weight:700;
-      text-decoration:none; transition:background .2s;
-    }
-    #laundry-section .ls-btn-upload:hover { background:var(--red); }
-    #laundry-section .ls-rope-wrap {
-      position:relative; max-width:1100px; margin:0 auto;
-      padding:0 48px 16px;
-    }
-    #laundry-section .ls-rope {
-      height:3px;
-      background:linear-gradient(to right,transparent,rgba(255,255,255,0.18) 5%,rgba(255,255,255,0.18) 95%,transparent);
-      border-radius:2px; margin:32px 0 0;
-    }
-    #laundry-section .ls-grid {
-      max-width:1100px; margin:0 auto;
-      display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-      gap:32px 20px; padding:20px 48px 64px;
-    }
-    #laundry-section .ls-pin {
-      position:relative; text-align:center; padding-top:28px;
-      transition:transform .25s ease;
-    }
-    #laundry-section .ls-pin:hover { transform:translateY(-6px) rotate(-1deg); }
-    #laundry-section .ls-clothespin {
-      position:absolute; top:0; left:50%; transform:translateX(-50%);
-      width:20px; height:30px;
-      background:linear-gradient(135deg,#D7CCC8 60%,#A1887F 100%);
-      border:2.5px solid #5D4037; border-radius:4px;
-      box-shadow:0 3px 6px rgba(0,0,0,0.3); z-index:10;
-    }
-    #laundry-section .ls-clothespin::after {
-      content:''; position:absolute; top:50%; left:0; right:0;
-      height:2px; background:#5D4037;
-    }
-    #laundry-section .ls-card {
-      background:#FFFFFF; border-radius:8px;
-      border:2px solid #231609;
-      box-shadow:0 8px 20px rgba(0,0,0,0.18);
-      padding:12px 12px 16px;
-    }
-    #laundry-section .ls-photo {
-      width:100%; height:165px; object-fit:cover;
-      border-radius:5px; border:1px solid #EEE;
-      display:block; background:#F5F5F5;
-    }
-    #laundry-section .ls-nick {
-      font-family:'LeeOkSun', 'SheLeeOkSun', serif !important;
-      font-weight:900; font-size:0.95rem;
-      color:#231609; margin-top:10px;
-    }
-    #laundry-section .ls-msg {
-      font-family:'LeeOkSun', 'SheLeeOkSun', serif !important;
-      font-size:0.82rem; color:#444; margin-top:6px;
-      line-height:1.4; background:#FFFDE7;
-      padding:6px 8px; border-radius:6px;
-      border:1px dashed #FFE082;
-    }
-    #laundry-section .ls-empty {
-      font-family:'LeeOkSun', 'SheLeeOkSun', serif !important;
-      font-size:13px; color:var(--muted);
-      padding:60px 0; text-align:center; grid-column:1/-1;
-    }
-    #laundry-section .ls-footer {
-      text-align:center; padding:0 48px 72px;
-    }
-    #laundry-section .ls-footer a {
-      font-family:var(--ff-mono);
-      font-size:12px; color:var(--clay);
-      letter-spacing:.12em; text-decoration:underline;
-    }
-    #laundry-section .ls-footer a:hover { color:var(--orange); }
-  </style>
-
-  <div class="ls-header">
+<section id="laundry-section" style="padding: 24px 16px; background: var(--dark2);">
+  <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:16px;">
     <div>
-      <div style="font-family:var(--ff-mono);font-size:11px;letter-spacing:0.2em;color:var(--clay);margin-bottom:10px;">// LAUNDRY LINE GALLERY</div>
-      <h2 style="font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;font-size:clamp(34px,4.5vw,58px);font-style:italic;line-height:1.05;color:var(--white);">사진 <strong style="font-style:normal;color:var(--orange);">빨랫줄</strong></h2>
+      <div style="font-family:var(--ff-mono);font-size:11px;color:var(--clay);margin-bottom:4px;">// LAUNDRY LINE GALLERY</div>
+      <h2 style="font-family: 'LeeOkSun', serif; font-size: 24px; color: var(--white); margin: 0;">사진 <strong style="color:var(--orange);">빨랫줄</strong></h2>
     </div>
-    <a href="sns_event.html?mode=customer" class="ls-btn-upload">&#128204; 내 사진 달기 &#8594;</a>
+    <a href="sns_event.html?mode=customer" style="background:var(--orange); color:var(--white); padding:8px 12px; border-radius:8px; font-size:12px; font-weight:700;">+ 사진 달기</a>
   </div>
 
-  <div class="ls-rope-wrap">
-    <div class="ls-rope"></div>
+  <div style="background:var(--dark); border-radius:12px; padding:24px; text-align:center;">
+    <div style="font-size:13px; color:var(--muted);">🧺 빨랫줄 사진을 불러오는 중...</div>
   </div>
-
-  <div class="ls-grid" id="laundryGallery">
-    <div class="ls-empty">🧺 빨랫줄 사진을 불러오는 중...</div>
-  </div>
-
-  <div class="ls-footer">
-    <a href="laundry.html">전체 갤러리 보기 →</a>
+  
+  <div style="text-align:center; margin-top:16px;">
+    <a href="laundry.html" style="font-size:12px; color:var(--clay); text-decoration:underline;">전체 갤러리 보기 →</a>
   </div>
 </section>
 
-<section id="zones-section" style="padding: 90px 48px; background: var(--dark); overflow:hidden;">
-  <style>
-    .zones-header { max-width: 1200px; margin: 0 auto 36px; text-align: center; }
-    .zones-headline {
-      font-family: 'LeeOkSun', 'SheLeeOkSun', 'Playfair Display', serif !important;
-      font-size: clamp(38px, 5.5vw, 68px);
-      font-weight: 900;
-      line-height: 1.05;
-      color: var(--white);
-      margin-bottom: 14px;
-    }
-    .zones-headline em { font-style: italic; color: var(--orange); }
-
-    /* 3D EFFECT BOX STYLES */
-    .main-3d-map-stage { perspective: 1500px; max-width: 1200px; margin: 0 auto 56px; width: 100%; }
-    .main-3d-map-card {
-      position: relative;
-      background: var(--dark2);
-      border: 2.5px solid var(--orange);
-      border-radius: 16px;
-      overflow: hidden;
-      transform-style: preserve-3d;
-      transform: rotateY(-6deg) rotateX(3deg);
-      box-shadow: 0 30px 80px rgba(0,0,0,0.85), 0 0 50px rgba(242,92,5,0.35);
-      transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
-      cursor: pointer;
-      aspect-ratio: 16 / 9;
-      width: 100%;
-    }
-    .main-3d-map-card:hover {
-      transform: rotateY(0deg) rotateX(0deg) scale(1.02);
-      box-shadow: 0 35px 90px rgba(0,0,0,0.92), 0 0 65px rgba(242,92,5,0.5);
-    }
-    .main-3d-map-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .main-3d-map-bar {
-      background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0) 100%);
-      padding: 18px 28px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 12;
-      pointer-events: none;
-    }
-    .main-3d-map-bar * { pointer-events: auto; }
-
-    /* INTERACTIVE HOTSPOTS ON 3D MAP */
-    .map-hotspot-pin {
-      position: absolute;
-      width: 34px;
-      height: 34px;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      background: var(--orange);
-      color: var(--white);
-      font-family: var(--ff-sans);
-      font-weight: 900;
-      font-size: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 0 22px rgba(242, 92, 5, 0.95), 0 4px 12px rgba(0, 0, 0, 0.6);
-      border: 2px solid #FFFFFF;
-      transition: all 0.3s ease;
-      z-index: 15;
-    }
-    .map-hotspot-pin:hover {
-      transform: translate(-50%, -50%) scale(1.35);
-      background: #FF2A00;
-      box-shadow: 0 0 35px rgba(255, 42, 0, 1), 0 6px 20px rgba(0, 0, 0, 0.8);
-      z-index: 25;
-    }
-    .hotspot-pulse {
-      position: absolute;
-      inset: -6px;
-      border-radius: 50%;
-      border: 2.5px solid var(--orange);
-      animation: hotspotPulse 1.8s infinite ease-out;
-      pointer-events: none;
-    }
-    @keyframes hotspotPulse {
-      0% { transform: scale(1); opacity: 0.9; }
-      100% { transform: scale(2.2); opacity: 0; }
-    }
-    .hotspot-tooltip {
-      position: absolute;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%) translateY(6px);
-      background: rgba(18, 12, 6, 0.95);
-      color: var(--white);
-      border: 1.5px solid var(--orange);
-      font-size: 12px;
-      font-weight: 700;
-      padding: 6px 14px;
-      border-radius: 6px;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.25s ease;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
-    }
-    .map-hotspot-pin:hover .hotspot-tooltip {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    /* 6 Zone Cards Grid */
-    .six-zones-grid {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-    }
-    @media (max-width: 992px) { .six-zones-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 600px) { .six-zones-grid { grid-template-columns: 1fr; } }
-
-    .six-zone-card {
-      background: var(--dark2);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 12px 32px rgba(0,0,0,0.5);
-      transition: all 0.35s ease;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-    }
-    .six-zone-card:hover {
-      transform: translateY(-8px) scale(1.02);
-      border-color: var(--orange);
-      box-shadow: 0 20px 48px rgba(0,0,0,0.7), 0 0 30px rgba(242,92,5,0.35);
-    }
-    .six-zone-img-wrap {
-      aspect-ratio: 16/10;
-      position: relative;
-      overflow: hidden;
-      background: #110B04;
-    }
-    .six-zone-img-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.5s ease;
-    }
-    .six-zone-card:hover .six-zone-img-wrap img { transform: scale(1.06); }
-    .six-zone-badge {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      background: var(--orange);
-      color: var(--white);
-      font-family: var(--ff-mono);
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 4px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    }
-    .six-zone-body {
-      padding: 22px;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .six-zone-title {
-      font-family: 'LeeOkSun', 'SheLeeOkSun', serif !important;
-      font-size: 22px;
-      color: var(--white);
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .six-zone-desc {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 14px;
-    }
-    .six-zone-sqm {
-      font-family: var(--ff-mono);
-      font-size: 11px;
-      color: var(--clay);
-      letter-spacing: 0.1em;
-    }
-  </style>
-
-  <!-- 1. Header Description Section -->
-  <div class="zones-header">
-    <div style="font-family:var(--ff-mono);font-size:11px;letter-spacing:0.2em;color:var(--clay);margin-bottom:14px;">// 3D SPATIAL MAP &amp; 6 EXPERIENCE ZONES</div>
-    <h2 class="zones-headline">SIX ZONES,<br/><em>ONE DRUM</em></h2>
-    <p style="font-size:15px;color:rgba(255,255,255,0.88);line-height:1.9;">크래커하우스 x 스너글 팝업스토어 3D 전체 공간 조감도와 6개 전용 체험 존을 만나보세요.<br/><span style="color:var(--orange); font-size:13px; font-weight:700;">💡 조감도 상의 번호 동그라미(1~6)를 클릭하면 각 존의 상세 설명과 사진이 열립니다!</span></p>
+<section id="zones-section" style="padding: 24px 16px; background: var(--dark);">
+  <div style="margin-bottom: 24px;">
+    <div style="font-size:11px; color:var(--clay); margin-bottom:8px;">// 3D SPATIAL MAP &amp; 6 ZONES</div>
+    <h2 style="font-family: 'LeeOkSun', serif; font-size:24px; color:var(--white); margin:0;">SIX ZONES,<br><em style="color:var(--orange);">ONE DRUM</em></h2>
   </div>
 
-  <!-- 2. 3D EFFECT BOX CONTAINER RIGHT BELOW DESCRIPTION WITH CLICKABLE HOTSPOTS 1~6 -->
-  <div class="main-3d-map-stage">
-    <div class="main-3d-map-card" id="main3dCard" onclick="openMain3DMapModal()" onmousemove="tilt3dCard(event)" onmouseleave="reset3dCard()">
-      <img src="laundry_3d_floorplan_main_final_v999.jpg?v=20260831_supernew_1788169165" alt="팝업스토어 전체 공간 3D 조감도" class="main-3d-map-img" onerror="this.src='images/laundry_3d_floorplan_main_final_v999.jpg?v=20260831_supernew_1788169165'; this.onerror=null;" />
-      
-      <!-- INTERACTIVE CLICKABLE HOTSPOTS OVERLAY (1 ~ 6) -->
-      <div style="position:absolute; inset:0; z-index:10; pointer-events:none;">
-        <!-- Hotspot 1: 취향 테스트존 -->
-        <div class="map-hotspot-pin" style="top:9%; left:24%; pointer-events:auto;" onclick="event.stopPropagation(); openSixZoneModal(0); scrollToZoneCard(0);" title="01. 취향 테스트존">
-          <span class="hotspot-pulse"></span>
-          <span>1</span>
-          <span class="hotspot-tooltip">01. 취향 테스트존 상세보기</span>
-        </div>
-
-        <!-- Hotspot 2: 세탁기 포토부스존 -->
-        <div class="map-hotspot-pin" style="top:9%; left:74%; pointer-events:auto;" onclick="event.stopPropagation(); openSixZoneModal(1); scrollToZoneCard(1);" title="02. 세탁기 포토부스존">
-          <span class="hotspot-pulse"></span>
-          <span>2</span>
-          <span class="hotspot-tooltip">02. 세탁기 포토부스존 상세보기</span>
-        </div>
-
-        <!-- Hotspot 3: 굿즈존 -->
-        <div class="map-hotspot-pin" style="top:19%; left:47%; pointer-events:auto;" onclick="event.stopPropagation(); openSixZoneModal(2); scrollToZoneCard(2);" title="03. 굿즈존">
-          <span class="hotspot-pulse"></span>
-          <span>3</span>
-          <span class="hotspot-tooltip">03. 굿즈존 상세보기</span>
-        </div>
-
-        <!-- Hotspot 4: DIY 존 -->
-        <div class="map-hotspot-pin" style="top:44%; left:81%; pointer-events:auto;" onclick="event.stopPropagation(); openSixZoneModal(3); scrollToZoneCard(3);" title="04. DIY 존">
-          <span class="hotspot-pulse"></span>
-          <span>4</span>
-          <span class="hotspot-tooltip">04. DIY 존 상세보기</span>
-        </div>
-
-        <!-- Hotspot 5: 커피 & 미니어존 -->
-        <div class="map-hotspot-pin" style="top:76%; left:47%; pointer-events:auto;" onclick="event.stopPropagation(); openSixZoneModal(4); scrollToZoneCard(4);" title="05. 커피 &amp; 미니어존">
-          <span class="hotspot-pulse"></span>
-          <span>5</span>
-          <span class="hotspot-tooltip">05. 커피 &amp; 미니어존 상세보기</span>
-        </div>
-
-        <!-- Hotspot 6: 방명록 존 -->
-        <div class="map-hotspot-pin" style="top:68%; left:74%; pointer-events:auto;" onclick="event.stopPropagation(); openSixZoneModal(5); scrollToZoneCard(5);" title="06. 방명록 존">
-          <span class="hotspot-pulse"></span>
-          <span>6</span>
-          <span class="hotspot-tooltip">06. 방명록 존 상세보기</span>
-        </div>
-      </div>
-
-      <div class="main-3d-map-bar">
-        <div>
-          <span style="font-family:var(--ff-mono); font-size:11px; color:var(--orange); letter-spacing:0.2em; font-weight:700;">✨ 3D ISOMETRIC MAP SHOWCASE</span>
-          <h3 style="font-family:'LeeOkSun', 'SheLeeOkSun', serif !important; font-size:24px; color:var(--white); margin-top:2px;">팝업스토어 전체 공간 3D 조감도</h3>
-        </div>
-        <div style="display:flex; align-items:center; gap:12px;">
-          <span style="font-family:var(--ff-mono); font-size:11px; color:var(--white); background:rgba(242,92,5,0.25); border:1px solid var(--orange); padding:6px 14px; border-radius:20px; font-weight:700;">🔍 핀 클릭시 존 설명보기 / 빈공간 클릭시 확대</span>
-        </div>
-      </div>
+  <!-- 3D Map Mobile Banner -->
+  <div style="border-radius:16px; overflow:hidden; background:var(--dark2); margin-bottom:24px; box-shadow:0 4px 12px rgba(0,0,0,0.5);">
+    <img src="../images/laundry_3d_floorplan_main_final_v999.jpg" alt="3D Map" style="width:100%; height:auto; display:block;" onerror="this.src='images/laundry_3d_floorplan_main_final_v999.jpg?v=20260831_supernew_1788169165'; this.onerror=null;">
+    <div style="padding:16px; background:var(--dark2);">
+      <h3 style="font-family: 'LeeOkSun', serif; font-size:18px; color:var(--white); margin:0;">팝업스토어 3D 조감도</h3>
+      <p style="font-size:13px; color:var(--muted); margin:4px 0 0 0;">전체 팝업스토어의 구조를 한눈에 확인하세요.</p>
     </div>
   </div>
 
-  <!-- 3. 6 Zone Cards Grid Below 3D Map -->
-  <div class="six-zones-grid">
+  <!-- Mobile Stacked Zones Grid -->
+  <div style="display: flex; flex-direction: column; gap: 16px;">
+
     <!-- Zone 01 (첫번째 사진 - WHAT'S YOUR TASTE) -->
     <div class="six-zone-card" id="zoneCard0" onclick="openSixZoneModal(0)">
       <div class="six-zone-img-wrap">
