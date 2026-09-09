@@ -45,8 +45,8 @@
     }
     .app-bar__btn { width: 36px; height: 36px; display:flex; align-items:center; justify-content:center; color: var(--text); font-size: 22px; cursor: pointer; border-radius: 8px; }
     .app-bar__btn:active { background: rgba(255,255,255,0.08); }
-    .app-bar__logo { font-size: 13px; font-weight: 900; letter-spacing: 0.12em; color: var(--text); }
-    .app-bar__logo span { color: var(--primary); }
+    .app-bar__logo { display: flex; align-items: center; justify-content: center; height: 34px; }
+    .app-bar__logo img { height: 32px; max-width: 190px; object-fit: contain; display: block; }
 
     /* ===== SCROLLABLE MAIN CONTENT ===== */
     .main-scroll {
@@ -532,7 +532,9 @@
   <!-- TOP APP BAR -->
   <header class="app-bar">
     <div class="app-bar__btn" onclick="history.back()">&#8592;</div>
-    <div class="app-bar__logo">KRACKER <span>×</span> SNUGGLE</div>
+    <div class="app-bar__logo">
+      <img src="kracker_logo_new.png?v=2" alt="Kracker Laundry Pop-up Store" onerror="this.src='images/kracker_logo_new.png'; this.onerror=null;" />
+    </div>
     <div class="app-bar__btn" id="btn-qr" onclick="document.querySelector('.qr-modal').classList.add('open')">&#9783;</div>
   </header>
 
@@ -571,7 +573,7 @@
     <div class="info-grid">
       <div class="info-chip"><div class="info-chip__ico">📅</div><div class="info-chip__lbl">DATE</div><div class="info-chip__val">9.10(목) — 9.23(수)</div></div>
       <div class="info-chip"><div class="info-chip__ico">📍</div><div class="info-chip__lbl">LOCATION</div><div class="info-chip__val">스타필드 빌리지 1F</div></div>
-      <div class="info-chip"><div class="info-chip__ico">🕙</div><div class="info-chip__lbl">TIME</div><div class="info-chip__val">10:00 — 22:00</div></div>
+      <div class="info-chip"><div class="info-chip__ico">🕙</div><div class="info-chip__lbl">TIME</div><div class="info-chip__val">10:00 — 21:00</div></div>
       <div class="info-chip"><div class="info-chip__ico">🎁</div><div class="info-chip__lbl">BENEFIT</div><div class="info-chip__val">우선입장 &amp; 굿즈 증정</div></div>
     </div>
     <div class="btn-group">
