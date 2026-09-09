@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>KRACKER × SNUGGLE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ===== PURE APP RESET ===== */
+    :root {
+      --bg: #0E0A06;
+      --surface: #1C1208;
+      --card: #241509;
+      --primary: #F25C05;
+      --red: #BC453C;
+      --text: #FFFFFF;
+      --muted: #A89A8E;
+      --border: #2E1D0F;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    html, body { height: 100%; overflow: hidden; background: #000; font-family: 'Noto Sans KR', sans-serif; color: var(--text); }
+    
+    /* ===== APP SHELL ===== */
+    #app {
+      position: fixed; inset: 0;
+      max-width: 480px; margin: 0 auto;
+      background: var(--bg);
+      display: flex; flex-direction: column;
+      box-shadow: 0 0 60px rgba(0,0,0,0.8);
+    }
+
+    /* ===== STATUS BAR SPACER (safe area) ===== */
+    .status-bar { height: env(safe-area-inset-top, 0px); background: var(--bg); flex-shrink: 0; }
+
+    /* ===== TOP APP BAR ===== */
+    .app-bar {
+      height: 52px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px;
+      background: rgba(14, 10, 6, 0.92); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      z-index: 50;
+    }
+    .app-bar__btn { width: 36px; height: 36px; display:flex; align-items:center; justify-content:center; color: var(--text); font-size: 22px; cursor: pointer; border-radius: 8px; }
+    .app-bar__btn:active { background: rgba(255,255,255,0.08); }
+    .app-bar__logo { font-size: 13px; font-weight: 900; letter-spacing: 0.12em; color: var(--text); }
+    .app-bar__logo span { color: var(--primary); }
+
+    /* ===== SCROLLABLE MAIN CONTENT ===== */
+    .main-scroll {
+      flex: 1; overflow-y: auto; overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: none;
+      padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+    }
+    .main-scroll::-webkit-scrollbar { display: none; }
+
+    /* ===== HERO BANNER ===== */
+    .hero {
+      position: relative; width: 100%;
+      aspect-ratio: 4/3;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    .hero img { width:100%; height:100%; object-fit:cover; display:block; }
+    .hero__overlay {
+      position:absolute; inset:0;
+      background: linear-gradient(to top, rgba(14,10,6,1) 0%, rgba(14,10,6,0.3) 50%, transparent 100%);
+      display:flex; flex-direction:column; justify-content:flex-end;
+      padding: 20px 16px;
+    }
+    .hero__tag { font-size: 10px; color: var(--primary); font-weight: 700; letter-spacing: 0.15em; margin-bottom: 6px; }
+    .hero__title { font-size: 26px; font-weight: 900; line-height: 1.2; margin-bottom: 6px; }
+    .hero__sub { font-size: 12px; color: var(--muted); }
+
+    /* ===== COUNTDOWN BANNER ===== */
+    .countdown-bar {
+      background: var(--primary); padding: 12px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .countdown-bar__label { font-size: 12px; font-weight: 700; }
+    .countdown-bar__nums { display: flex; gap: 8px; }
+    .cd-unit { background: rgba(0,0,0,0.25); border-radius: 6px; padding: 4px 8px; text-align: center; min-width: 44px; }
+    .cd-unit__num { font-size: 18px; font-weight: 900; line-height: 1; }
+    .cd-unit__lbl { font-size: 9px; color: rgba(255,255,255,0.75); margin-top: 2px; }
+
+    /* ===== SECTION HEADER ===== */
+    .sec { padding: 20px 16px 0; }
+    .sec__eyebrow { font-size: 10px; color: var(--primary); letter-spacing: 0.12em; font-weight: 700; margin-bottom: 4px; }
+    .sec__title { font-size: 20px; font-weight: 900; margin-bottom: 16px; }
+    .sec__title em { color: var(--primary); font-style: normal; }
+
+    /* ===== DIVIDER ===== */
+    .divider { height: 8px; background: #000; }
+
+    /* ===== INFO CARDS (체크인) ===== */
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 16px 20px; }
+    .info-chip { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+    .info-chip__ico { font-size: 22px; margin-bottom: 6px; }
+    .info-chip__lbl { font-size: 9px; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 3px; }
+    .info-chip__val { font-size: 13px; font-weight: 700; line-height: 1.4; }
+
+    /* ===== ACTION BUTTONS ===== */
+    .btn-group { padding: 0 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+    
+    /* Rich Action Card Buttons */
+    .action-card {
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px; border-radius: 16px;
+      text-decoration: none; color: var(--text); cursor: pointer;
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+      position: relative; overflow: hidden;
+    }
+    .action-card:active { transform: scale(0.97); opacity: 0.9; }
+    .action-card--primary {
+      background: linear-gradient(135deg, var(--primary) 0%, #D94E04 100%);
+      border-color: var(--primary);
+      box-shadow: 0 4px 20px rgba(242,92,5,0.35);
+    }
+    .action-card--secondary {
+      background: var(--surface);
+      border-color: var(--border);
+    }
+    .action-card--tertiary {
+      background: linear-gradient(135deg, #1C2A3A 0%, #0E1C2A 100%);
+      border-color: #2A3F55;
+    }
+    .action-card__icon-box {
+      width: 48px; height: 48px; flex-shrink: 0;
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+    .action-card--primary .action-card__icon-box { background: rgba(255,255,255,0.2); }
+    .action-card--secondary .action-card__icon-box { background: rgba(242,92,5,0.15); }
+    .action-card--tertiary .action-card__icon-box { background: rgba(81,126,166,0.25); }
+    .action-card__body { flex: 1; min-width: 0; }
+    .action-card__label { font-size: 15px; font-weight: 900; margin-bottom: 3px; }
+    .action-card__desc { font-size: 11px; opacity: 0.75; line-height: 1.4; }
+    .action-card__badge {
+      position: absolute; top: 10px; right: 36px;
+      font-size: 9px; font-weight: 700; letter-spacing: 0.08em;
+      padding: 3px 8px; border-radius: 20px;
+    }
+    .action-card--primary .action-card__badge { background: rgba(255,255,255,0.25); color: #fff; }
+    .action-card--secondary .action-card__badge { background: rgba(242,92,5,0.2); color: var(--primary); }
+    .action-card--tertiary .action-card__badge { background: rgba(81,126,166,0.25); color: #89B4D6; }
+    .action-card__arrow { font-size: 16px; flex-shrink: 0; opacity: 0.8; }
+
+    /* Legacy btn kept for compatibility */
+    .btn { display: flex; align-items: center; justify-content: space-between; padding: 16px; border-radius: 12px; font-size: 15px; font-weight: 700; text-decoration: none; color: var(--text); cursor: pointer; }
+    .btn:active { opacity: 0.8; transform: scale(0.98); }
+    .btn--primary { background: var(--primary); }
+    .btn--dark { background: var(--surface); border: 1px solid var(--border); }
+    .btn__arrow { font-size: 18px; }
+
+    /* ===== PRE-REGISTRATION CTA BANNER ===== */
+    .prereg-banner {
+      margin: 0 16px 20px;
+      background: linear-gradient(135deg, #1A0E05 0%, #2E1507 50%, #1A0E05 100%);
+      border: 1px solid var(--primary);
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+    .prereg-banner::before {
+      content: '';
+      position: absolute;
+      top: -30px; right: -30px;
+      width: 120px; height: 120px;
+      background: radial-gradient(circle, rgba(242,92,5,0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .prereg-banner__inner {
+      display: flex; gap: 12px;
+      padding: 18px 16px 14px;
+      align-items: flex-start;
+    }
+    .prereg-banner__left { flex: 1; min-width: 0; }
+    .prereg-banner__tag {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.15em;
+      color: var(--primary); margin-bottom: 6px;
+    }
+    .prereg-banner__title {
+      font-size: 17px; font-weight: 900; line-height: 1.3;
+      color: var(--text); margin-bottom: 6px;
+    }
+    .prereg-banner__desc {
+      font-size: 11px; color: var(--muted); line-height: 1.5;
+    }
+    .prereg-banner__right { flex-shrink: 0; }
+    .prereg-banner__perks { display: flex; flex-direction: column; gap: 5px; }
+    .prereg-perk {
+      font-size: 11px; font-weight: 700;
+      color: var(--primary);
+      background: rgba(242,92,5,0.12);
+      border: 1px solid rgba(242,92,5,0.25);
+      padding: 4px 10px; border-radius: 20px;
+      white-space: nowrap;
+    }
+    .prereg-banner__btn {
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 16px 16px;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--primary) 0%, #D94E04 100%);
+      color: var(--text); font-size: 15px; font-weight: 900;
+      border-radius: 10px; text-decoration: none;
+      box-shadow: 0 4px 16px rgba(242,92,5,0.4);
+      transition: all 0.2s ease;
+    }
+    .prereg-banner__btn:active { transform: scale(0.97); opacity: 0.9; }
+
+    /* ===== STICKY CTA (upgraded) ===== */
+    .cta-btn {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 8px;
+    }
+    .cta-btn__icon { font-size: 18px; }
+    .cta-btn__text { flex: 1; text-align: center; }
+    .cta-btn__arrow { font-size: 18px; opacity: 0.85; }
+
+    /* ===== HORIZONTAL SCROLL (Zones / Goods) ===== */
+    .h-list { display: flex; gap: 12px; overflow-x: auto; padding: 0 16px 20px; scroll-snap-type: x mandatory; }
+    .h-list::-webkit-scrollbar { display: none; }
+
+    .zone-card { flex: 0 0 200px; scroll-snap-align: start; background: var(--surface); border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+    .zone-card img { width:100%; aspect-ratio: 16/9; object-fit:cover; display:block; background:#1a1208; }
+    .zone-card__body { padding: 12px; }
+    .zone-card__num { font-size: 10px; color: var(--primary); font-weight: 700; margin-bottom: 3px; }
+    .zone-card__name { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+    .zone-card__desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+    /* ===== GOODS GRID ===== */
+    .goods-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 16px 20px; }
+    .goods-card { background: var(--surface); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+    .goods-card img { width:100%; aspect-ratio: 1; object-fit:cover; display:block; background:#1a1208; }
+    .goods-card__body { padding: 10px; }
+    .goods-card__brand { font-size: 9px; color: var(--primary); font-weight: 700; letter-spacing: 0.1em; margin-bottom: 3px; }
+    .goods-card__name { font-size: 13px; font-weight: 700; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .goods-card__price { font-size: 13px; color: var(--primary); font-weight: 900; }
+
+    /* ===== BRAND INFO CARD ===== */
+    .brand-card { margin: 0 16px 20px; background: var(--surface); border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+    .brand-card img { width:100%; aspect-ratio: 16/9; object-fit:cover; display:block; background:#1a1208; }
+    .brand-card__body { padding: 16px; }
+    .brand-card__name { font-size: 16px; font-weight: 900; margin-bottom: 8px; }
+    .brand-card__desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+    /* ===== GALLERY (LAUNDRY) ===== */
+    .gallery-row { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 20px; }
+    .gallery-row::-webkit-scrollbar { display: none; }
+    .gallery-item { flex: 0 0 140px; border-radius: 10px; aspect-ratio: 3/4; background: var(--surface); overflow: hidden; border: 1px solid var(--border); }
+    .gallery-item img { width:100%; height:100%; object-fit:cover; display:block; }
+    .gallery-add { flex: 0 0 140px; border-radius: 10px; aspect-ratio: 3/4; background: var(--surface); border: 2px dashed var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--muted); font-size: 12px; cursor: pointer; text-decoration: none; }
+    .gallery-add:active { background: var(--card); }
+    .gallery-add__icon { font-size: 28px; }
+
+    /* ===== STICKY BOTTOM CTA ===== */
+    .cta-bar {
+      position: absolute; bottom: 60px; left: 0; width: 100%;
+      padding: 10px 16px;
+      background: linear-gradient(to top, var(--bg) 55%, transparent);
+      z-index: 40;
+    }
+    .cta-btn {
+      display: block; width: 100%;
+      background: var(--primary); color: var(--text);
+      text-align: center; padding: 15px;
+      border-radius: 14px; font-size: 16px; font-weight: 900;
+      text-decoration: none;
+    }
+    .cta-btn:active { opacity: 0.85; transform: scale(0.98); }
+
+    /* ===== BOTTOM NAV ===== */
+    .bottom-nav {
+      height: calc(60px + env(safe-area-inset-bottom, 0px));
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      flex-shrink: 0;
+      background: rgba(28,18,8,0.97); backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-around;
+      z-index: 50;
+    }
+    .tab { display:flex; flex-direction:column; align-items:center; gap:3px; color: var(--muted); font-size: 10px; font-weight: 700; cursor: pointer; padding: 4px 8px; border-radius: 8px; text-decoration: none; }
+    .tab:active { background: rgba(255,255,255,0.06); }
+    .tab.active { color: var(--primary); }
+    .tab__icon { font-size: 21px; }
+
+    /* ===== QR FLOAT BUTTON ===== */
+    .qr-fab {
+      position: absolute; bottom: 120px; right: 16px;
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; color: var(--text);
+      box-shadow: 0 4px 20px rgba(242,92,5,0.5);
+      cursor: pointer; z-index: 45;
+    }
+    .qr-fab:active { transform: scale(0.9); }
+
+    /* ===== QR MODAL ===== */
+    .qr-modal {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.88); backdrop-filter: blur(12px);
+      z-index: 1000; align-items: center; justify-content: center;
+    }
+    .qr-modal.open { display: flex; }
+    .qr-modal__box {
+      background: var(--surface); border: 2px solid var(--primary);
+      border-radius: 20px; padding: 28px 24px; width: 300px; text-align: center;
+      position: relative;
+    }
+    .qr-modal__close { position:absolute; top:12px; right:16px; font-size:24px; cursor:pointer; color:var(--muted); }
+    .qr-modal__qr { width:160px; height:160px; background:#fff; margin:0 auto 16px; border-radius:10px; padding:10px; }
+    .qr-modal__title { font-size:20px; font-weight:900; margin-bottom:6px; }
+    .qr-modal__desc { font-size:12px; color:var(--muted); line-height:1.6; }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- STATUS BAR SPACER -->
+  <div class="status-bar"></div>
+
+  <!-- TOP APP BAR -->
+  <header class="app-bar">
+    <div class="app-bar__btn" onclick="history.back()">&#8592;</div>
+    <div class="app-bar__logo">KRACKER <span>×</span> SNUGGLE</div>
+    <div class="app-bar__btn" id="btn-qr" onclick="document.querySelector('.qr-modal').classList.add('open')">&#9783;</div>
+  </header>
+
+  <!-- MAIN SCROLLABLE CONTENT -->
+  <main class="main-scroll" id="scroll-area">
+
+    <!-- HERO BANNER -->
+    <section class="hero">
+      <img src="hero_laundry_store.jpg" alt="KRACKER LAUNDRY Store"
+           onerror="this.src='kracker_laundry_storefront.jpg'; this.onerror=null;">
+      <div class="hero__overlay">
+        <div class="hero__tag">// KRACKER HOUSE × SNUGGLE 팝업스토어</div>
+        <h1 class="hero__title">Never grow out of my jam<br>Pop-up Store</h1>
+        <div class="hero__sub">스타필드 빌리지 1F &nbsp;|&nbsp; 9.11(목) — 9.23(화)</div>
+      </div>
+    </section>
+
+    <!-- COUNTDOWN TIMER -->
+    <div class="countdown-bar">
+      <div class="countdown-bar__label">🎉 팝업 오픈까지</div>
+      <div class="countdown-bar__nums">
+        <div class="cd-unit"><div class="cd-unit__num" id="cd-d">00</div><div class="cd-unit__lbl">일</div></div>
+        <div class="cd-unit"><div class="cd-unit__num" id="cd-h">00</div><div class="cd-unit__lbl">시간</div></div>
+        <div class="cd-unit"><div class="cd-unit__num" id="cd-m">00</div><div class="cd-unit__lbl">분</div></div>
+        <div class="cd-unit"><div class="cd-unit__num" id="cd-s">00</div><div class="cd-unit__lbl">초</div></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- TICKET / CHECK-IN SECTION -->
+    <section id="sec-ticket" class="sec">
+      <div class="sec__eyebrow">// PRE-REGISTRATION & CHECK-IN</div>
+      <div class="sec__title">사전등록 &amp; <em>체크인</em></div>
+    </section>
+    <div class="info-grid">
+      <div class="info-chip"><div class="info-chip__ico">📅</div><div class="info-chip__lbl">DATE</div><div class="info-chip__val">9.11(목) — 9.23(화)</div></div>
+      <div class="info-chip"><div class="info-chip__ico">📍</div><div class="info-chip__lbl">LOCATION</div><div class="info-chip__val">스타필드 빌리지 1F</div></div>
+      <div class="info-chip"><div class="info-chip__ico">🕙</div><div class="info-chip__lbl">TIME</div><div class="info-chip__val">10:00 — 21:00</div></div>
+      <div class="info-chip"><div class="info-chip__ico">🎁</div><div class="info-chip__lbl">BENEFIT</div><div class="info-chip__val">우선입장 &amp; 굿즈 증정</div></div>
+    </div>
+    <div class="btn-group">
+      <!-- 현장 체크인 안내 -->
+      <a href="../info.html" class="action-card action-card--primary" id="btn-checkin-info">
+        <div class="action-card__icon-box">🎟️</div>
+        <div class="action-card__body">
+          <div class="action-card__label">현장 체크인 안내</div>
+          <div class="action-card__desc">팝업스토어 위치·약도·운영시간 확인</div>
+        </div>
+        <span class="action-card__badge">우선입장</span>
+        <span class="action-card__arrow">→</span>
+      </a>
+
+      <!-- 웹 사전예약 신청 -->
+      <a href="../reservation.html" class="action-card action-card--secondary" id="btn-reservation">
+        <div class="action-card__icon-box">🌐</div>
+        <div class="action-card__body">
+          <div class="action-card__label">웹 사전예약 신청</div>
+          <div class="action-card__desc">원하는 날짜·시간 미리 예약하기</div>
+        </div>
+        <span class="action-card__badge">온라인</span>
+        <span class="action-card__arrow">→</span>
+      </a>
+
+      <!-- 현장 키오스크 등록 -->
+      <a href="../kiosk.html" class="action-card action-card--tertiary" id="btn-kiosk">
+        <div class="action-card__icon-box">📱</div>
+        <div class="action-card__body">
+          <div class="action-card__label">현장 키오스크 등록</div>
+          <div class="action-card__desc">현장 대기 번호 발급 및 순번 조회</div>
+        </div>
+        <span class="action-card__badge">현장</span>
+        <span class="action-card__arrow">→</span>
+      </a>
+    </div>
+
+    <!-- PRE-REGISTRATION CTA BANNER -->
+    <div class="prereg-banner" id="prereg-cta">
+      <div class="prereg-banner__inner">
+        <div class="prereg-banner__left">
+          <div class="prereg-banner__tag">// PRE-REGISTRATION BENEFIT</div>
+          <div class="prereg-banner__title">사전등록 신청하고<br>팝업 즐기기</div>
+          <div class="prereg-banner__desc">미리 예약하시면 대기 없이<br>빠르게 입장하실 수 있습니다.</div>
+        </div>
+        <div class="prereg-banner__right">
+          <div class="prereg-banner__perks">
+            <div class="prereg-perk">✓ 우선 입장</div>
+            <div class="prereg-perk">✓ 굿즈 증정</div>
+            <div class="prereg-perk">✓ 대기 0분</div>
+          </div>
+        </div>
+      </div>
+      <a href="../reservation.html" class="prereg-banner__btn" id="btn-prereg-cta">
+        🎟️ &nbsp; 사전등록 하러가기 →
+      </a>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- BRAND SECTION -->
+    <section id="sec-brand" class="sec">
+      <div class="sec__eyebrow">// BRAND STORY</div>
+      <div class="sec__title">브랜드 <em>소개</em></div>
+    </section>
+    <div class="brand-card">
+      <img src="brand_new.jpg" alt="Brand" onerror="this.style.background='#1a1208';">
+      <div class="brand-card__body">
+        <div class="brand-card__name">KRACKER HOUSE × SNUGGLE</div>
+        <div class="brand-card__desc">크래커하우스는 1980–90년대 미국 빈티지 워크웨어에서 영감을 받은 패션 브랜드입니다. 스너글은 의류에 포근함을 더하는 프리미엄 세탁 브랜드입니다.<br><br>두 브랜드가 만나 <strong>"옷과 세탁의 경험을 하나의 라이프스타일로"</strong> 라는 메시지를 전달합니다.</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- GOODS SECTION -->
+    <section id="sec-goods" class="sec">
+      <div class="sec__eyebrow">// EXCLUSIVE COLLECTION</div>
+      <div class="sec__title">한정판 <em>굿즈</em></div>
+    </section>
+    <div class="goods-grid">
+      <div class="goods-card">
+        <img src="mock_product_2.png" alt="피그먼트 티셔츠" onerror="this.style.background='#241509';">
+        <div class="goods-card__body">
+          <div class="goods-card__brand">KRACKER HOUSE</div>
+          <div class="goods-card__name">빈티지 피그먼트 티셔츠</div>
+          <div class="goods-card__price">₩45,000</div>
+        </div>
+      </div>
+      <div class="goods-card">
+        <img src="kracker_basic_t_shirts_yellow.jpg" alt="옐로우 티셔츠" onerror="this.style.background='#241509';">
+        <div class="goods-card__body">
+          <div class="goods-card__brand">KRACKER HOUSE</div>
+          <div class="goods-card__name">Basic 옐로우 티셔츠</div>
+          <div class="goods-card__price">₩42,000</div>
+        </div>
+      </div>
+      <div class="goods-card">
+        <img src="snuggle_vintage_vanilla.jpg" alt="스너글" onerror="this.style.background='#0e1e35';">
+        <div class="goods-card__body">
+          <div class="goods-card__brand">SNUGGLE</div>
+          <div class="goods-card__name">빈티지 바닐라 유연제</div>
+          <div class="goods-card__price">₩16,500</div>
+        </div>
+      </div>
+      <div class="goods-card">
+        <img src="kracker_tote_bag.jpg" alt="토트백" onerror="this.style.background='#241509';">
+        <div class="goods-card__body">
+          <div class="goods-card__brand">KRACKER HOUSE</div>
+          <div class="goods-card__name">캔버스 토트백</div>
+          <div class="goods-card__price">₩38,000</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ZONES SECTION -->
+    <section id="sec-zones" class="sec">
+      <div class="sec__eyebrow">// EXPERIENCE ZONES</div>
+      <div class="sec__title">6개 체험 <em>존</em></div>
+    </section>
+    <div class="h-list">
+      <div class="zone-card">
+        <img src="zone_card_01.jpg" alt="취향 테스트존" onerror="this.style.background='#1a1208';">
+        <div class="zone-card__body"><div class="zone-card__num">ZONE 01</div><div class="zone-card__name">취향 테스트존</div><div class="zone-card__desc">나만의 스너글 향기 취향 찾기</div></div>
+      </div>
+      <div class="zone-card">
+        <img src="zone_001.png" alt="포토부스존" onerror="this.style.background='#1a1208';">
+        <div class="zone-card__body"><div class="zone-card__num">ZONE 02</div><div class="zone-card__name">세탁기 포토부스</div><div class="zone-card__desc">레트로 드럼 인테리어 폴라로이드</div></div>
+      </div>
+      <div class="zone-card">
+        <img src="zone_card_03.jpg" alt="굿즈존" onerror="this.style.background='#1a1208';">
+        <div class="zone-card__body"><div class="zone-card__num">ZONE 03</div><div class="zone-card__name">굿즈 쇼룸</div><div class="zone-card__desc">한정판 스페셜 굿즈 쇼룸</div></div>
+      </div>
+      <div class="zone-card">
+        <img src="zone_card_04.jpg" alt="DIY존" onerror="this.style.background='#1a1208';">
+        <div class="zone-card__body"><div class="zone-card__num">ZONE 04</div><div class="zone-card__name">DIY 존</div><div class="zone-card__desc">나만의 커스텀 굿즈 제작</div></div>
+      </div>
+      <div class="zone-card">
+        <img src="zone_card_05.jpg" alt="커피존" onerror="this.style.background='#1a1208';">
+        <div class="zone-card__body"><div class="zone-card__num">ZONE 05</div><div class="zone-card__name">커피 &amp; 미니어존</div><div class="zone-card__desc">음료와 함께하는 휴식 공간</div></div>
+      </div>
+      <div class="zone-card">
+        <img src="zone_card_06.jpg" alt="방명록존" onerror="this.style.background='#1a1208';">
+        <div class="zone-card__body"><div class="zone-card__num">ZONE 06</div><div class="zone-card__name">방명록 존</div><div class="zone-card__desc">당신의 방문 기록을 남겨보세요</div></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- LAUNDRY GALLERY SECTION -->
+    <section id="sec-laundry" class="sec">
+      <div class="sec__eyebrow">// LAUNDRY LINE GALLERY</div>
+      <div class="sec__title">사진 <em>빨랫줄</em></div>
+    </section>
+    <div class="gallery-row" id="laundry-gallery">
+      <a href="sns_event.html?mode=customer" class="gallery-add">
+        <div class="gallery-add__icon">📌</div>
+        <span>내 사진 달기</span>
+      </a>
+    </div>
+
+    <div style="height: 80px;"></div>
+
+  </main>
+
+  <!-- STICKY CTA -->
+  <div class="cta-bar">
+    <a href="../reservation.html" class="cta-btn" id="sticky-cta-btn">
+      <span class="cta-btn__icon">🎟️</span>
+      <span class="cta-btn__text">지금 바로 사전예약하기</span>
+      <span class="cta-btn__arrow">→</span>
+    </a>
+  </div>
+
+  <!-- QR FLOAT BUTTON -->
+  <div class="qr-fab" onclick="document.querySelector('.qr-modal').classList.add('open')">&#9783;</div>
+
+  <!-- BOTTOM NAVIGATION -->
+  <nav class="bottom-nav">
+    <a class="tab active" id="tab-home" onclick="scrollSec('scroll-area', 0)">
+      <span class="tab__icon">🏠</span><span>홈</span>
+    </a>
+    <a class="tab" id="tab-ticket" onclick="scrollSec('sec-ticket')">
+      <span class="tab__icon">🎟️</span><span>사전등록</span>
+    </a>
+    <a class="tab" id="tab-goods" onclick="scrollSec('sec-goods')">
+      <span class="tab__icon">🛍️</span><span>굿즈</span>
+    </a>
+    <a class="tab" id="tab-laundry" onclick="scrollSec('sec-laundry')">
+      <span class="tab__icon">📷</span><span>사진방</span>
+    </a>
+    <a class="tab" id="tab-zones" onclick="scrollSec('sec-zones')">
+      <span class="tab__icon">📍</span><span>존 안내</span>
+    </a>
+    <a class="tab" href="https://nyk5473.github.io/snuggle-scent-quiz/" target="_blank">
+      <span class="tab__icon">🌸</span><span>향테스트</span>
+    </a>
+  </nav>
+
+</div>
+
+<!-- QR MODAL -->
+<div class="qr-modal" id="qr-modal">
+  <div class="qr-modal__box">
+    <button class="qr-modal__close" onclick="document.querySelector('.qr-modal').classList.remove('open')">✕</button>
+    <div class="qr-modal__qr">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=https://nyk5473.github.io/KrackerHouse_Sunggle_MobileVer/" 
+           style="width:100%; height:100%;" alt="QR Code">
+    </div>
+    <div class="qr-modal__title">📱 QR 입장 코드</div>
+    <div class="qr-modal__desc">QR을 스캔하시면 팝업스토어<br>사전예약 페이지로 이동합니다.</div>
+  </div>
+</div>
+
+<script>
+  // ===== COUNTDOWN TIMER =====
+  const TARGET = new Date('2026-09-11T10:00:00+09:00');
+  function tick() {
+    const diff = TARGET - Date.now();
+    if (diff <= 0) {
+      ['cd-d','cd-h','cd-m','cd-s'].forEach(id => document.getElementById(id).textContent = '00');
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-d').textContent = String(d).padStart(2,'0');
+    document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+    document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 1000);
+
+  // ===== TAB NAVIGATION =====
+  function scrollSec(id, top) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    const scrollEl = document.getElementById('scroll-area');
+    if (top === 0) {
+      scrollEl.scrollTo({ top: 0, behavior: 'smooth' });
+      document.getElementById('tab-home').classList.add('active');
+      return;
+    }
+    const el = document.getElementById(id);
+    if (el) {
+      const offset = el.offsetTop - 56;
+      scrollEl.scrollTo({ top: offset, behavior: 'smooth' });
+    }
+    const tabMap = { 'sec-ticket': 'tab-ticket', 'sec-goods': 'tab-goods', 'sec-laundry': 'tab-laundry', 'sec-zones': 'tab-zones' };
+    if (tabMap[id]) document.getElementById(tabMap[id]).classList.add('active');
+  }
+
+  // ===== LAUNDRY GALLERY (Firebase placeholder) =====
+  // TODO: Load real photos from Firebase Firestore
+  const samplePhotos = [];
+  const gallery = document.getElementById('laundry-gallery');
+  samplePhotos.forEach(src => {
+    const item = document.createElement('div');
+    item.className = 'gallery-item';
+    item.innerHTML = `<img src="${src}" alt="사진">`;
+    gallery.insertBefore(item, gallery.firstChild);
+  });
+</script>
+</body>
+</html>
