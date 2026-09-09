@@ -580,37 +580,8 @@
     </section>
 
     <div class="rope-line-container">
-      <div class="gallery-row">
-        <div class="polaroid-card">
-          <div class="clothespin"></div>
-          <div class="polaroid-img-box">
-            <img src="snuggle_photo_sample.jpg" alt="포근한 순간" onerror="this.style.background='#1a1208';">
-          </div>
-          <div class="polaroid-caption">포근한 순간 📸</div>
-        </div>
-
-        <div class="polaroid-card">
-          <div class="clothespin"></div>
-          <div class="polaroid-img-box">
-            <img src="brand_photo.jpg" alt="스너글 세탁소" onerror="this.style.background='#1a1208';">
-          </div>
-          <div class="polaroid-caption">스너글 세탁소 🧺</div>
-        </div>
-
-        <div class="polaroid-card">
-          <div class="clothespin"></div>
-          <div class="polaroid-img-box">
-            <img src="brand_editorial.jpg" alt="빈티지 라운지" onerror="this.style.background='#1a1208';">
-          </div>
-          <div class="polaroid-caption">빈티지 라운지 ✨</div>
-        </div>
-
-        <!-- MORE CARD -->
-        <a href="sns_event.html" class="polaroid-more-card">
-          <span class="polaroid-more-card__icon">📷</span>
-          <span class="polaroid-more-card__text">+ MORE</span>
-          <span class="polaroid-more-card__sub">전체 사진 & 걸기</span>
-        </a>
+      <div class="gallery-row" id="mainGalleryRow">
+        <!-- Dynamic polaroids rendered by JS -->
       </div>
     </div>
 
@@ -732,16 +703,53 @@
     if (tabMap[id]) document.getElementById(tabMap[id]).classList.add('active');
   }
 
-  // ===== LAUNDRY GALLERY (Firebase placeholder) =====
-  // TODO: Load real photos from Firebase Firestore
-  const samplePhotos = [];
-  const gallery = document.getElementById('laundry-gallery');
-  samplePhotos.forEach(src => {
-    const item = document.createElement('div');
-    item.className = 'gallery-item';
-    item.innerHTML = `<img src="${src}" alt="사진">`;
-    gallery.insertBefore(item, gallery.firstChild);
-  });
+</script>
+<script src="js/api.js"></script>
+<script>
+  // ===== LAUNDRY GALLERY DYNAMIC RENDER =====
+  async function renderMainLaundryPins() {
+    const row = document.getElementById('mainGalleryRow');
+    if (!row) return;
+
+    let pins = [];
+    try {
+      if (typeof ApiService !== 'undefined') {
+        const data = await ApiService.getLaundryPins();
+        pins = data.items || [];
+      }
+    } catch (e) {}
+
+    if (!pins || pins.length === 0) {
+      pins = [
+        { nickname: "포근한 순간 📸", image_url: "snuggle_photo_sample.jpg" },
+        { nickname: "스너글 세탁소 🧺", image_url: "brand_photo.jpg" },
+        { nickname: "빈티지 라운지 ✨", image_url: "brand_editorial.jpg" }
+      ];
+    }
+
+    const itemsHtml = pins.map((item, idx) => `
+      <div class="polaroid-card" onclick="location.href='sns_event.html'">
+        <div class="clothespin"></div>
+        <div class="polaroid-img-box">
+          <img src="${item.image_url}" alt="${item.nickname || '사진'}" onerror="this.src='snuggle_photo_sample.jpg';" />
+        </div>
+        <div class="polaroid-caption">${item.nickname || '추억 사진'}</div>
+      </div>
+    `).join('');
+
+    const moreCardHtml = `
+      <a href="sns_event.html" class="polaroid-more-card">
+        <span class="polaroid-more-card__icon">📷</span>
+        <span class="polaroid-more-card__text">+ MORE</span>
+        <span class="polaroid-more-card__sub">사진 등록 & 더보기</span>
+      </a>
+    `;
+
+    row.innerHTML = itemsHtml + moreCardHtml;
+  }
+
+  document.addEventListener('DOMContentLoaded', renderMainLaundryPins);
+  renderMainLaundryPins();
 </script>
 </body>
 </html>
