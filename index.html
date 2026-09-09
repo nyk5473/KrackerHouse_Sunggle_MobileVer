@@ -360,7 +360,7 @@
 
     <!-- TICKET / CHECK-IN SECTION -->
     <section id="sec-ticket" class="sec">
-      <div class="sec__eyebrow">// PRE-REGISTRATION & CHECK-IN</div>
+      <div class="sec__eyebrow">// PRE-REGISTRATION &amp; CHECK-IN</div>
       <div class="sec__title">사전등록 &amp; <em>체크인</em></div>
     </section>
     <div class="info-grid">
@@ -381,16 +381,26 @@
         <span class="action-card__arrow">→</span>
       </a>
 
-      <!-- 웹 사전예약 신청 -->
-      <a href="../reservation.html" class="action-card action-card--secondary" id="btn-reservation">
-        <div class="action-card__icon-box">🌐</div>
-        <div class="action-card__body">
-          <div class="action-card__label">웹 사전예약 신청</div>
-          <div class="action-card__desc">원하는 날짜·시간 미리 예약하기</div>
+      <!-- 사전등록 CTA 배너 (현장 체크인 안내 바로 아래) -->
+      <div class="prereg-banner" id="prereg-cta">
+        <div class="prereg-banner__inner">
+          <div class="prereg-banner__left">
+            <div class="prereg-banner__tag">// PRE-REGISTRATION BENEFIT</div>
+            <div class="prereg-banner__title">사전등록 신청하고<br>팝업 즐기기</div>
+            <div class="prereg-banner__desc">미리 예약하시면 대기 없이<br>빠르게 입장하실 수 있습니다.</div>
+          </div>
+          <div class="prereg-banner__right">
+            <div class="prereg-banner__perks">
+              <div class="prereg-perk">✓ 우선 입장</div>
+              <div class="prereg-perk">✓ 굿즈 증정</div>
+              <div class="prereg-perk">✓ 대기 0분</div>
+            </div>
+          </div>
         </div>
-        <span class="action-card__badge">온라인</span>
-        <span class="action-card__arrow">→</span>
-      </a>
+        <a href="../reservation.html" class="prereg-banner__btn" id="btn-prereg-cta">
+          🎟️ &nbsp; 사전등록 하러가기 →
+        </a>
+      </div>
 
       <!-- 현장 키오스크 등록 -->
       <a href="../kiosk.html" class="action-card action-card--tertiary" id="btn-kiosk">
@@ -401,27 +411,6 @@
         </div>
         <span class="action-card__badge">현장</span>
         <span class="action-card__arrow">→</span>
-      </a>
-    </div>
-
-    <!-- PRE-REGISTRATION CTA BANNER -->
-    <div class="prereg-banner" id="prereg-cta">
-      <div class="prereg-banner__inner">
-        <div class="prereg-banner__left">
-          <div class="prereg-banner__tag">// PRE-REGISTRATION BENEFIT</div>
-          <div class="prereg-banner__title">사전등록 신청하고<br>팝업 즐기기</div>
-          <div class="prereg-banner__desc">미리 예약하시면 대기 없이<br>빠르게 입장하실 수 있습니다.</div>
-        </div>
-        <div class="prereg-banner__right">
-          <div class="prereg-banner__perks">
-            <div class="prereg-perk">✓ 우선 입장</div>
-            <div class="prereg-perk">✓ 굿즈 증정</div>
-            <div class="prereg-perk">✓ 대기 0분</div>
-          </div>
-        </div>
-      </div>
-      <a href="../reservation.html" class="prereg-banner__btn" id="btn-prereg-cta">
-        🎟️ &nbsp; 사전등록 하러가기 →
       </a>
     </div>
 
@@ -484,10 +473,24 @@
 
     <div class="divider"></div>
 
-    <!-- ZONES SECTION -->
+    <!-- LAUNDRY GALLERY SECTION (존 위로 이동) -->
+    <section id="sec-laundry" class="sec">
+      <div class="sec__eyebrow">// LAUNDRY LINE GALLERY</div>
+      <div class="sec__title">사진 <em>빨랫줄</em></div>
+    </section>
+    <div class="gallery-row" id="laundry-gallery">
+      <a href="sns_event.html?mode=customer" class="gallery-add">
+        <div class="gallery-add__icon">📌</div>
+        <span>내 사진 달기</span>
+      </a>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ZONES SECTION (사진 빨랫줄 아래로 이동, 3개로 축소) -->
     <section id="sec-zones" class="sec">
       <div class="sec__eyebrow">// EXPERIENCE ZONES</div>
-      <div class="sec__title">6개 체험 <em>존</em></div>
+      <div class="sec__title">3개 체험 <em>존</em></div>
     </section>
     <div class="h-list">
       <div class="zone-card">
@@ -502,19 +505,9 @@
         <img src="zone_card_03.jpg" alt="굿즈존" onerror="this.style.background='#1a1208';">
         <div class="zone-card__body"><div class="zone-card__num">ZONE 03</div><div class="zone-card__name">굿즈 쇼룸</div><div class="zone-card__desc">한정판 스페셜 굿즈 쇼룸</div></div>
       </div>
-      <div class="zone-card">
-        <img src="zone_card_04.jpg" alt="DIY존" onerror="this.style.background='#1a1208';">
-        <div class="zone-card__body"><div class="zone-card__num">ZONE 04</div><div class="zone-card__name">DIY 존</div><div class="zone-card__desc">나만의 커스텀 굿즈 제작</div></div>
-      </div>
-      <div class="zone-card">
-        <img src="zone_card_05.jpg" alt="커피존" onerror="this.style.background='#1a1208';">
-        <div class="zone-card__body"><div class="zone-card__num">ZONE 05</div><div class="zone-card__name">커피 &amp; 미니어존</div><div class="zone-card__desc">음료와 함께하는 휴식 공간</div></div>
-      </div>
-      <div class="zone-card">
-        <img src="zone_card_06.jpg" alt="방명록존" onerror="this.style.background='#1a1208';">
-        <div class="zone-card__body"><div class="zone-card__num">ZONE 06</div><div class="zone-card__name">방명록 존</div><div class="zone-card__desc">당신의 방문 기록을 남겨보세요</div></div>
-      </div>
     </div>
+
+    <div style="height: 80px;"></div>
 
     <div class="divider"></div>
 
