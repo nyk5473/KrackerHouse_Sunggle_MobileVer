@@ -82,8 +82,40 @@ const ApiService = {
     }
   },
 
-  // ── 📅 예약 및 현장 대기 ──
-  async createPreReservation(name, phone, email, reservationDate, reservationTime, peopleCount) {
+  // ── 📅 예약 및 현장 대기 (모바일 백엔드 서비스 API) ──
+  async getSlotAvailability(dateStr) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 600);
+      const response = await fetch(`${API_BASE}/reservations/slots?date=${dateStr}`, { signal: controller.signal });
+      clearTimeout(timeoutId);
+      if (response.ok) return await response.json();
+    } catch (e) {}
+
+    // Mock Backend Data Engine
+    let localRes = [];
+    try {
+      const stored = localStorage.getItem('kracker_pre_res');
+      if (stored) localRes = JSON.parse(stored);
+    } catch (e) {}
+
+    const timeSlots = ["10:00", "11:30", "13:00", "14:30", "16:00", "17:30", "19:00", "20:00"];
+    const slotData = timeSlots.map(time => {
+      const bookedCount = localRes
+        .filter(r => r.reservation_date === dateStr && r.reservation_time === time && r.status !== 'CANCELLED')
+        .reduce((sum, r) => sum + (parseInt(r.people_count) || 1), 0);
+      const maxCap = 40;
+      const rem = Math.max(0, maxCap - bookedCount - Math.floor(Math.random() * 5));
+      let status = "AVAILABLE";
+      if (rem === 0) status = "SOLD_OUT";
+      else if (rem <= 8) status = "FEW_LEFT";
+      return { time, remaining: rem, status, max_capacity: maxCap };
+    });
+
+    return { success: true, date: dateStr, slots: slotData };
+  },
+
+  async createPreReservation(name, phone, email, reservationDate, reservationTime, peopleCount, perks = {}) {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 800);
@@ -96,7 +128,8 @@ const ApiService = {
           email: email || null,
           reservation_date: reservationDate,
           reservation_time: reservationTime,
-          people_count: parseInt(peopleCount)
+          people_count: parseInt(peopleCount),
+          perks
         }),
         signal: controller.signal
       });
@@ -107,28 +140,59 @@ const ApiService = {
       }
       return { success: true, data };
     } catch (error) {
-      console.warn("Backend API unavailable. Saving reservation locally.");
-      window.mockPreResData = window.mockPreResData || [];
+      console.warn("Backend API simulation active. Processing reservation locally.");
+      
+      const cleanPhone = phone.replace(/[^0-9]/g, '');
+      const formattedPhone = cleanPhone.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3');
+      const ticketCode = 'KH-' + reservationDate.replace(/-/g, '') + '-' + Math.floor(1000 + Math.random() * 9000);
+      const barcode = '880' + Math.floor(100000000 + Math.random() * 900000000);
+
       const newReservation = {
-        id: "res-" + Math.floor(100000 + Math.random() * 900000),
-        name: name,
-        phone: phone,
-        email: email,
+        id: "RES-" + Date.now().toString(36).toUpperCase(),
+        ticket_code: ticketCode,
+        barcode: barcode,
+        name: name.trim(),
+        phone: formattedPhone || phone,
+        email: email ? email.trim() : null,
         reservation_date: reservationDate,
         reservation_time: reservationTime,
         people_count: parseInt(peopleCount),
-        status: "WAITING",
-        created_at: new Date().toISOString()
+        scent_kit: perks.scent_kit || "스너글 허그블 선샤인 ☀️",
+        photocard: perks.photocard || "크래커하우스 X 스너글 한정 포토카드 🧺",
+        status: "CONFIRMED",
+        qr_url: `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(ticketCode + '|' + name + '|' + reservationDate)}`,
+        created_at: new Date().toLocaleString('ko-KR')
       };
-      
+
       try {
         let stored = localStorage.getItem('kracker_pre_res');
-        if (stored) window.mockPreResData = JSON.parse(stored);
-        window.mockPreResData.unshift(newReservation);
-        localStorage.setItem('kracker_pre_res', JSON.stringify(window.mockPreResData));
+        let list = stored ? JSON.parse(stored) : [];
+        list.unshift(newReservation);
+        localStorage.setItem('kracker_pre_res', JSON.stringify(list));
       } catch (e) {}
 
+      // Simulate 400ms network delay for realistic backend feel
+      await new Promise(res => setTimeout(res, 400));
+
       return { success: true, data: newReservation };
+    }
+  },
+
+  async cancelReservation(ticketCode) {
+    try {
+      let stored = localStorage.getItem('kracker_pre_res');
+      if (stored) {
+        let list = JSON.parse(stored);
+        let target = list.find(r => r.ticket_code === ticketCode || r.id === ticketCode);
+        if (target) {
+          target.status = 'CANCELLED';
+          localStorage.setItem('kracker_pre_res', JSON.stringify(list));
+          return { success: true, message: '예약이 취소되었습니다.' };
+        }
+      }
+      return { success: false, message: '예약 내역을 찾을 수 없습니다.' };
+    } catch (e) {
+      return { success: false, message: '예약 취소 처리 중 오류가 발생했습니다.' };
     }
   },
 

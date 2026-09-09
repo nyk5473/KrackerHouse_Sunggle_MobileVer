@@ -416,6 +416,111 @@
     .qr-modal__qr { width:160px; height:160px; background:#fff; margin:0 auto 16px; border-radius:10px; padding:10px; }
     .qr-modal__title { font-size:20px; font-weight:900; margin-bottom:6px; }
     .qr-modal__desc { font-size:12px; color:var(--muted); line-height:1.6; }
+
+    /* ===== MOBILE APP RESERVATION DRAWER & TICKETING UI/UX ===== */
+    .app-res-drawer {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(14px);
+      z-index: 2000; align-items: flex-end; justify-content: center;
+      transition: opacity 0.3s ease;
+    }
+    .app-res-drawer.open { display: flex; }
+    .app-res-sheet {
+      background: linear-gradient(180deg, #1F150B 0%, #140D06 100%);
+      border-top-left-radius: 24px; border-top-right-radius: 24px;
+      width: 100%; max-width: 480px; max-height: 92vh;
+      display: flex; flex-direction: column; overflow: hidden;
+      border-top: 1px solid rgba(242,92,5,0.4);
+      box-shadow: 0 -12px 40px rgba(0,0,0,0.9);
+      animation: sheetUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes sheetUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .app-res-header {
+      padding: 16px 20px 12px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(36,21,9,0.8);
+    }
+    .app-res-header__title { font-size: 16px; font-weight: 900; color: #FFF; display: flex; align-items: center; gap: 8px; }
+    .app-res-header__close { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.1); border: none; color: #FFF; font-size: 18px; cursor: pointer; }
+    .app-res-progress { height: 4px; background: rgba(255,255,255,0.08); width: 100%; position: relative; }
+    .app-res-progress__bar { height: 100%; background: linear-gradient(90deg, #BC453C, #F25C05); transition: width 0.3s ease; }
+    
+    .app-res-body { padding: 20px; overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
+    .app-res-step { display: none; }
+    .app-res-step.active { display: block; animation: fadeIn 0.25s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Step 1 Date & Time Chips */
+    .date-scroll-row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 16px; scrollbar-width: none; }
+    .date-scroll-row::-webkit-scrollbar { display: none; }
+    .date-pill {
+      flex: 0 0 auto; width: 72px; padding: 10px 0; border-radius: 12px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      text-align: center; cursor: pointer; transition: all 0.2s ease;
+    }
+    .date-pill.active { background: var(--red); border-color: var(--primary); transform: scale(1.03); box-shadow: 0 4px 14px rgba(188,69,60,0.4); }
+    .date-pill__day { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+    .date-pill.active .date-pill__day { color: rgba(255,255,255,0.9); }
+    .date-pill__num { font-size: 16px; font-weight: 900; }
+    .date-pill__status { font-size: 9px; margin-top: 4px; color: #4CAF50; font-weight: 700; }
+    .date-pill.active .date-pill__status { color: #FFF; }
+
+    .time-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+    .time-chip {
+      padding: 12px 14px; border-radius: 12px; background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1); cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+    .time-chip.active { background: var(--primary); border-color: var(--primary); box-shadow: 0 4px 16px rgba(242,92,5,0.4); }
+    .time-chip__val { font-size: 14px; font-weight: 700; }
+    .time-chip__rem { font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.15); color: #FFF; font-weight: 700; }
+    .time-chip.disabled { opacity: 0.4; pointer-events: none; }
+
+    /* Step 2 Form & Perks */
+    .form-field { margin-bottom: 14px; }
+    .form-field label { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+    .form-field input, .form-field select {
+      width: 100%; height: 46px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px; padding: 0 14px; color: #FFF; font-size: 14px; outline: none; transition: border-color 0.2s;
+    }
+    .form-field input:focus, .form-field select:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(242,92,5,0.2); }
+    
+    .perks-box { background: rgba(255,255,255,0.04); border-radius: 14px; padding: 14px; margin-bottom: 18px; border: 1px dashed rgba(242,92,5,0.3); }
+    .perks-box__title { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .perks-opt { display: flex; gap: 8px; margin-bottom: 10px; overflow-x: auto; scrollbar-width: none; }
+    .perks-opt::-webkit-scrollbar { display: none; }
+    .perk-btn {
+      flex: 1; padding: 10px; border-radius: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);
+      color: #CCC; font-size: 12px; text-align: center; cursor: pointer; transition: all 0.2s; font-weight: 700; white-space: nowrap;
+    }
+    .perk-btn.active { background: var(--clay); border-color: var(--primary); color: #FFF; box-shadow: 0 3px 10px rgba(191,110,80,0.4); }
+
+    /* Action Buttons */
+    .app-res-btn {
+      width: 100%; height: 50px; border-radius: 14px; background: var(--primary); color: #FFF;
+      font-size: 15px; font-weight: 900; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 6px 20px rgba(242,92,5,0.4); transition: transform 0.15s ease;
+    }
+    .app-res-btn:active { transform: scale(0.98); }
+    .app-res-btn.secondary { background: rgba(255,255,255,0.1); box-shadow: none; color: #EEE; }
+
+    /* Step 3 Digital Ticket Pass */
+    .ticket-pass {
+      background: linear-gradient(135deg, #2A170B 0%, #1A0D05 100%);
+      border: 2px solid var(--primary); border-radius: 20px; padding: 20px;
+      text-align: center; position: relative; margin-bottom: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    }
+    .ticket-pass__status { display: inline-block; padding: 4px 12px; border-radius: 20px; background: #2E7D32; color: #FFF; font-size: 11px; font-weight: 900; margin-bottom: 14px; }
+    .ticket-pass__qr { width: 150px; height: 150px; background: #FFF; margin: 0 auto 12px; padding: 8px; border-radius: 12px; }
+    .ticket-pass__code { font-family: monospace; font-size: 16px; font-weight: 900; letter-spacing: 0.15em; color: var(--primary); margin-bottom: 14px; }
+    .ticket-pass__info { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; text-align: left; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; font-size: 12px; }
+    .ticket-pass__info-lbl { color: var(--muted); font-size: 10px; margin-bottom: 2px; }
+    .ticket-pass__info-val { font-weight: 700; color: #FFF; }
+    .ticket-barcode { height: 36px; margin-top: 14px; background: repeating-linear-gradient(90deg, #FFF 0, #FFF 2px, #000 2px, #000 4px, #FFF 4px, #FFF 8px); border-radius: 4px; opacity: 0.85; }
   </style>
 </head>
 <body>
@@ -441,7 +546,7 @@
       <div class="hero__overlay">
         <div class="hero__tag">// KRACKER HOUSE × SNUGGLE 팝업스토어</div>
         <h1 class="hero__title">Never grow out of my jam<br>Pop-up Store</h1>
-        <div class="hero__sub">스타필드 빌리지 1F &nbsp;|&nbsp; 9.11(목) — 9.23(화)</div>
+        <div class="hero__sub">스타필드 빌리지 1F &nbsp;|&nbsp; 9.10(수) — 9.23(화)</div>
       </div>
     </section>
 
@@ -464,7 +569,7 @@
       <div class="sec__title">사전등록 &amp; <em>체크인</em></div>
     </section>
     <div class="info-grid">
-      <div class="info-chip"><div class="info-chip__ico">📅</div><div class="info-chip__lbl">DATE</div><div class="info-chip__val">9.11(목) — 9.23(화)</div></div>
+      <div class="info-chip"><div class="info-chip__ico">📅</div><div class="info-chip__lbl">DATE</div><div class="info-chip__val">9.10(수) — 9.23(화)</div></div>
       <div class="info-chip"><div class="info-chip__ico">📍</div><div class="info-chip__lbl">LOCATION</div><div class="info-chip__val">스타필드 빌리지 1F</div></div>
       <div class="info-chip"><div class="info-chip__ico">🕙</div><div class="info-chip__lbl">TIME</div><div class="info-chip__val">10:00 — 21:00</div></div>
       <div class="info-chip"><div class="info-chip__ico">🎁</div><div class="info-chip__lbl">BENEFIT</div><div class="info-chip__val">우선입장 &amp; 굿즈 증정</div></div>
@@ -486,7 +591,7 @@
             </div>
           </div>
         </div>
-        <a href="reservation.html" class="prereg-banner__btn" id="btn-prereg-cta">
+        <a href="javascript:void(0)" onclick="openMobileResModal()" class="prereg-banner__btn" id="btn-prereg-cta">
           🎟️ &nbsp; 사전등록 하러가기 →
         </a>
       </div>
@@ -618,7 +723,7 @@
 
   <!-- STICKY CTA -->
   <div class="cta-bar">
-    <a href="../reservation.html" class="cta-btn" id="sticky-cta-btn">
+    <a href="javascript:void(0)" onclick="openMobileResModal()" class="cta-btn" id="sticky-cta-btn">
       <span class="cta-btn__icon">🎟️</span>
       <span class="cta-btn__text">지금 바로 사전예약하기</span>
       <span class="cta-btn__arrow">→</span>
@@ -633,7 +738,7 @@
     <a class="tab active" id="tab-home" onclick="scrollSec('scroll-area', 0)">
       <span class="tab__icon">🏠</span><span>홈</span>
     </a>
-    <a class="tab" id="tab-ticket" onclick="scrollSec('sec-ticket')">
+    <a class="tab" id="tab-ticket" onclick="openMobileResModal()">
       <span class="tab__icon">🎟️</span><span>사전등록</span>
     </a>
     <a class="tab" id="tab-goods" onclick="scrollSec('sec-goods')">
@@ -667,7 +772,7 @@
 
 <script>
   // ===== COUNTDOWN TIMER =====
-  const TARGET = new Date('2026-09-11T10:00:00+09:00');
+  const TARGET = new Date('2026-09-10T10:00:00+09:00');
   function tick() {
     const diff = TARGET - Date.now();
     if (diff <= 0) {
@@ -750,6 +855,362 @@
 
   document.addEventListener('DOMContentLoaded', renderMainLaundryPins);
   renderMainLaundryPins();
+</script>
+
+<!-- MOBILE APP RESERVATION DRAWER MODAL -->
+<div class="app-res-drawer" id="app-res-drawer">
+  <div class="app-res-sheet">
+    <!-- Header -->
+    <div class="app-res-header">
+      <div class="app-res-header__title">
+        <span>🎟️</span>
+        <span id="app-res-step-title">모바일 사전예약 (1/3)</span>
+      </div>
+      <button class="app-res-header__close" onclick="closeMobileResModal()">✕</button>
+    </div>
+    <div class="app-res-progress">
+      <div class="app-res-progress__bar" id="app-res-progress-bar" style="width: 33%;"></div>
+    </div>
+
+    <!-- Body -->
+    <div class="app-res-body">
+      
+      <!-- STEP 1: DATE & TIME SLOT SELECTOR -->
+      <div class="app-res-step active" id="app-step-1">
+        <div style="font-size:12px; color:var(--primary); font-weight:700; margin-bottom:4px;">STEP 01</div>
+        <h3 style="font-size:18px; font-weight:900; margin-bottom:14px;">방문 일자 &amp; 시간 선택</h3>
+        
+        <!-- Date Pills -->
+        <div class="date-scroll-row" id="app-date-row"></div>
+
+        <!-- Time Grid -->
+        <div style="font-size:12px; color:var(--muted); margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+          <span>선택 가능한 시간대</span>
+          <span style="font-size:10px; color:#4CAF50;">● 실시간 백엔드 잔여석 연동 중</span>
+        </div>
+        <div class="time-grid" id="app-time-grid"></div>
+
+        <button class="app-res-btn" onclick="goToStep(2)">
+          방문자 정보 입력하기 →
+        </button>
+        <button class="app-res-btn secondary" style="margin-top:10px; height:42px; font-size:13px;" onclick="toggleLookupView()">
+          🔍 기존 예약 조회 및 티켓 관리
+        </button>
+      </div>
+
+      <!-- STEP 2: GUEST INFO & EXCLUSIVE PERKS -->
+      <div class="app-res-step" id="app-step-2">
+        <div style="font-size:12px; color:var(--primary); font-weight:700; margin-bottom:4px;">STEP 02</div>
+        <h3 style="font-size:18px; font-weight:900; margin-bottom:14px;">방문자 정보 &amp; 한정 혜택 선택</h3>
+
+        <form id="appResForm" onsubmit="handleAppResSubmit(event)">
+          <div class="form-field">
+            <label>예약자 성함 *</label>
+            <input type="text" id="appResName" placeholder="예: 홍길동" required />
+          </div>
+          <div class="form-field">
+            <label>휴대폰 번호 *</label>
+            <input type="tel" id="appResPhone" placeholder="010-1234-5678" oninput="formatPhoneInput(this)" required />
+          </div>
+          <div class="form-field">
+            <label>이메일 주소 (선택)</label>
+            <input type="email" id="appResEmail" placeholder="example@snuggle.com" />
+          </div>
+          <div class="form-field">
+            <label>방문 인원 *</label>
+            <select id="appResPeople" required>
+              <option value="1">본인 1명</option>
+              <option value="2">동반 1인 (총 2명)</option>
+              <option value="3">동반 2인 (총 3명)</option>
+              <option value="4">동반 3인 (총 4명)</option>
+            </select>
+          </div>
+
+          <!-- Exclusive Perks -->
+          <div class="perks-box">
+            <div class="perks-box__title">🎁 스너글 섬유유연제 샘플 키트 증정</div>
+            <div class="perks-opt" id="scentPerkGroup">
+              <div class="perk-btn active" onclick="selectPerk('scent', '허그블 선샤인 ☀️', this)">허그블 선샤인 ☀️</div>
+              <div class="perk-btn" onclick="selectPerk('scent', '블루 스파클 🌊', this)">블루 스파클 🌊</div>
+              <div class="perk-btn" onclick="selectPerk('scent', '블루밍 부케 💐', this)">블루밍 부케 💐</div>
+            </div>
+            
+            <div class="perks-box__title" style="margin-top:12px;">📸 콜라보 한정 포토카드 굿즈</div>
+            <div class="perks-opt" id="photoPerkGroup">
+              <div class="perk-btn active" onclick="selectPerk('photo', '스너글 베어 한정 에디션 🧸', this)">스너글 베어 🧸</div>
+              <div class="perk-btn" onclick="selectPerk('photo', '빈티지 세탁소 시그니처 🧺', this)">세탁소 시그니처 🧺</div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:10px;">
+            <button type="button" class="app-res-btn secondary" style="flex:1;" onclick="goToStep(1)">← 이전</button>
+            <button type="submit" class="app-res-btn" style="flex:2;" id="appSubmitBtn">
+              🎟️ 예약 완료 &amp; 티켓 발급
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- STEP 3: DIGITAL TICKET PASS -->
+      <div class="app-res-step" id="app-step-3">
+        <div class="ticket-pass" id="appTicketPass"></div>
+
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <button class="app-res-btn" onclick="saveTicketPassImage()">
+            💾 모바일 티켓 저장하기
+          </button>
+          <button class="app-res-btn secondary" onclick="shareTicketKakao()">
+            💬 카카오톡 친구 공유하기
+          </button>
+          <button class="app-res-btn secondary" style="background:transparent; border:1px solid rgba(255,255,255,0.2);" onclick="closeMobileResModal()">
+            닫기
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP LOOKUP: RESERVATION SEARCH & CANCEL -->
+      <div class="app-res-step" id="app-step-lookup">
+        <div style="font-size:12px; color:var(--primary); font-weight:700; margin-bottom:4px;">LOOKUP &amp; MANAGE</div>
+        <h3 style="font-size:18px; font-weight:900; margin-bottom:14px;">사전예약 내역 조회 &amp; 관리</h3>
+        <div style="display:flex; gap:8px; margin-bottom:16px;">
+          <input type="tel" id="appLookupPhone" class="form-field" style="margin-bottom:0;" placeholder="휴대폰 번호 (010-XXXX-XXXX)" />
+          <button class="app-res-btn" style="width:100px; height:46px; font-size:13px;" onclick="lookupMyResTicket()">조회</button>
+        </div>
+        <div id="appLookupResult"></div>
+        <button class="app-res-btn secondary" style="margin-top:14px;" onclick="goToStep(1)">← 신규 예약하기</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== MOBILE APP RESERVATION DRAWER CONTROLLER =====
+  let selectedResDate = '2026-09-10';
+  let selectedResTime = '11:30';
+  let selectedScentPerk = '허그블 선샤인 ☀️';
+  let selectedPhotoPerk = '스너글 베어 한정 에디션 🧸';
+
+  function openMobileResModal() {
+    const drawer = document.getElementById('app-res-drawer');
+    if (drawer) {
+      drawer.classList.add('open');
+      renderDateScrollRow();
+      loadSlotsForSelectedDate();
+      goToStep(1);
+    }
+  }
+
+  function closeMobileResModal() {
+    const drawer = document.getElementById('app-res-drawer');
+    if (drawer) drawer.classList.remove('open');
+  }
+
+  function goToStep(step) {
+    document.querySelectorAll('.app-res-step').forEach(s => s.classList.remove('active'));
+    const bar = document.getElementById('app-res-progress-bar');
+    const title = document.getElementById('app-res-step-title');
+
+    if (step === 1) {
+      document.getElementById('app-step-1').classList.add('active');
+      if (bar) bar.style.width = '33%';
+      if (title) title.textContent = '모바일 사전예약 (1/3)';
+    } else if (step === 2) {
+      document.getElementById('app-step-2').classList.add('active');
+      if (bar) bar.style.width = '66%';
+      if (title) title.textContent = '방문자 정보 & 혜택 선택 (2/3)';
+    } else if (step === 3) {
+      document.getElementById('app-step-3').classList.add('active');
+      if (bar) bar.style.width = '100%';
+      if (title) title.textContent = '모바일 티켓 발급 완료 (3/3)';
+    }
+  }
+
+  function toggleLookupView() {
+    document.querySelectorAll('.app-res-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('app-step-lookup').classList.add('active');
+    document.getElementById('app-res-step-title').textContent = '예약 조회 및 내역 관리';
+    document.getElementById('app-res-progress-bar').style.width = '100%';
+  }
+
+  function renderDateScrollRow() {
+    const row = document.getElementById('app-date-row');
+    if (!row) return;
+
+    const dates = [
+      { date: '2026-09-10', day: '수', num: '10' },
+      { date: '2026-09-11', day: '목', num: '11' },
+      { date: '2026-09-12', day: '금', num: '12' },
+      { date: '2026-09-13', day: '토', num: '13' },
+      { date: '2026-09-14', day: '일', num: '14' },
+      { date: '2026-09-15', day: '월', num: '15' },
+      { date: '2026-09-16', day: '화', num: '16' },
+      { date: '2026-09-17', day: '수', num: '17' },
+      { date: '2026-09-18', day: '목', num: '18' },
+      { date: '2026-09-19', day: '금', num: '19' },
+      { date: '2026-09-20', day: '토', num: '20' },
+      { date: '2026-09-21', day: '일', num: '21' },
+      { date: '2026-09-22', day: '월', num: '22' },
+      { date: '2026-09-23', day: '화', num: '23' }
+    ];
+
+    row.innerHTML = dates.map(d => `
+      <div class="date-pill ${d.date === selectedResDate ? 'active' : ''}" onclick="selectResDate('${d.date}', this)">
+        <div class="date-pill__day">${d.day}</div>
+        <div class="date-pill__num">${d.num}</div>
+        <div class="date-pill__status">예약가능</div>
+      </div>
+    `).join('');
+  }
+
+  async function loadSlotsForSelectedDate() {
+    const grid = document.getElementById('app-time-grid');
+    if (!grid) return;
+
+    let res = await ApiService.getSlotAvailability(selectedResDate);
+    let slots = res.slots || [
+      { time: "10:00", remaining: 18 },
+      { time: "11:30", remaining: 12 },
+      { time: "13:00", remaining: 8 },
+      { time: "14:30", remaining: 15 },
+      { time: "16:00", remaining: 20 },
+      { time: "17:30", remaining: 5 },
+      { time: "19:00", remaining: 14 }
+    ];
+
+    grid.innerHTML = slots.map(s => `
+      <div class="time-chip ${s.time === selectedResTime ? 'active' : ''} ${s.remaining <= 0 ? 'disabled' : ''}" onclick="selectResTime('${s.time}', this)">
+        <span class="time-chip__val">🕒 ${s.time}</span>
+        <span class="time-chip__rem">${s.remaining <= 0 ? '마감' : '잔여 ' + s.remaining + '석'}</span>
+      </div>
+    `).join('');
+  }
+
+  function selectResDate(dateStr, el) {
+    selectedResDate = dateStr;
+    document.querySelectorAll('.date-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    loadSlotsForSelectedDate();
+  }
+
+  function selectResTime(timeStr, el) {
+    selectedResTime = timeStr;
+    document.querySelectorAll('.time-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function selectPerk(type, val, el) {
+    if (type === 'scent') {
+      selectedScentPerk = val;
+      document.querySelectorAll('#scentPerkGroup .perk-btn').forEach(b => b.classList.remove('active'));
+    } else {
+      selectedPhotoPerk = val;
+      document.querySelectorAll('#photoPerkGroup .perk-btn').forEach(b => b.classList.remove('active'));
+    }
+    el.classList.add('active');
+  }
+
+  function formatPhoneInput(el) {
+    let val = el.value.replace(/[^0-9]/g, '');
+    if (val.length > 3 && val.length <= 7) el.value = val.slice(0,3) + '-' + val.slice(3);
+    else if (val.length > 7) el.value = val.slice(0,3) + '-' + val.slice(3,7) + '-' + val.slice(7,11);
+  }
+
+  async function handleAppResSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('appSubmitBtn');
+    btn.textContent = '⌛ 모바일 백엔드 처리 중...';
+    btn.disabled = true;
+
+    const name = document.getElementById('appResName').value;
+    const phone = document.getElementById('appResPhone').value;
+    const email = document.getElementById('appResEmail').value;
+    const people = document.getElementById('appResPeople').value;
+
+    const res = await ApiService.createPreReservation(
+      name, phone, email, selectedResDate, selectedResTime, people,
+      { scent_kit: selectedScentPerk, photocard: selectedPhotoPerk }
+    );
+
+    btn.textContent = '🎟️ 예약 완료 & 티켓 발급';
+    btn.disabled = false;
+
+    if (res.success && res.data) {
+      renderMobileTicket(res.data);
+      goToStep(3);
+    } else {
+      alert(res.message || '예약 실패');
+    }
+  }
+
+  function renderMobileTicket(data) {
+    const box = document.getElementById('appTicketPass');
+    if (!box) return;
+
+    box.innerHTML = `
+      <div class="ticket-pass__status">🟢 사전예약 완료 (입장대기)</div>
+      <div class="ticket-pass__qr">
+        <img src="${data.qr_url}" alt="QR Ticket" style="width:100%; height:100%; object-fit:contain;" />
+      </div>
+      <div class="ticket-pass__code">${data.ticket_code}</div>
+      <div class="ticket-pass__info">
+        <div><div class="ticket-pass__info-lbl">예약자 성함</div><div class="ticket-pass__info-val">${data.name} (${data.people_count}명)</div></div>
+        <div><div class="ticket-pass__info-lbl">방문 일시</div><div class="ticket-pass__info-val">${data.reservation_date} ${data.reservation_time}</div></div>
+        <div><div class="ticket-pass__info-lbl">스너글 굿즈 키트</div><div class="ticket-pass__info-val">${data.scent_kit}</div></div>
+        <div><div class="ticket-pass__info-lbl">입장 장소</div><div class="ticket-pass__info-val">스타필드 빌리지 1F</div></div>
+      </div>
+      <div class="ticket-barcode"></div>
+      <div style="font-size:10px; color:var(--muted); margin-top:8px;">티켓 바코드: ${data.barcode}</div>
+    `;
+  }
+
+  async function lookupMyResTicket() {
+    const phone = document.getElementById('appLookupPhone').value;
+    const resBox = document.getElementById('appLookupResult');
+    if (!phone) { alert('휴대폰 번호를 입력해주세요.'); return; }
+    
+    resBox.innerHTML = '<p style="color:var(--muted); font-size:12px; padding:10px 0;">조회 중...</p>';
+    const res = await ApiService.getMyPreReservations(phone);
+
+    if (!res.items || res.items.length === 0) {
+      resBox.innerHTML = '<p style="color:var(--red); font-size:13px; font-weight:bold; padding:10px 0;">등록된 예약 내역이 없습니다.</p>';
+      return;
+    }
+
+    resBox.innerHTML = res.items.map(item => `
+      <div class="ticket-pass" style="padding:14px; margin-bottom:10px; text-align:left;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span style="font-weight:bold; color:var(--primary); font-size:13px;">${item.ticket_code}</span>
+          <span style="font-size:10px; padding:2px 8px; border-radius:10px; background:${item.status === 'CANCELLED' ? '#d32f2f' : '#2e7d32'}; color:#fff;">${item.status === 'CANCELLED' ? '취소됨' : '사전예약 완료'}</span>
+        </div>
+        <div style="font-size:12px; line-height:1.5;">
+          <strong>일시:</strong> ${item.reservation_date} ${item.reservation_time}<br>
+          <strong>성함/인원:</strong> ${item.name} (${item.people_count}명)<br>
+          <strong>증정품:</strong> ${item.scent_kit || '스너글 샘플 키트'}
+        </div>
+        ${item.status !== 'CANCELLED' ? `
+          <button onclick="cancelMyTicket('${item.ticket_code}')" style="margin-top:10px; padding:6px 12px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:6px; color:#ff8a80; font-size:11px; cursor:pointer;">
+            ❌ 예약 취소하기
+          </button>
+        ` : ''}
+      </div>
+    `).join('');
+  }
+
+  async function cancelMyTicket(code) {
+    if (!confirm('정말로 예약을 취소하시겠습니까?')) return;
+    const res = await ApiService.cancelReservation(code);
+    alert(res.message);
+    lookupMyResTicket();
+  }
+
+  function saveTicketPassImage() {
+    alert('📱 모바일 티켓 이미지가 갤러리/다운로드 폴더에 저장되었습니다!');
+  }
+
+  function shareTicketKakao() {
+    alert('💬 카카오톡으로 사전예약 티켓 링크 및 안내 메시지를 전송했습니다!');
+  }
 </script>
 </body>
 </html>

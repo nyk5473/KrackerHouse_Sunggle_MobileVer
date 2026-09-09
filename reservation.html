@@ -458,7 +458,7 @@
           <div class="grid-2">
             <div class="form-group">
               <label for="resDate">방문 일자 *</label>
-              <input type="date" id="resDate" class="form-input" min="2026-09-01" max="2026-09-14" value="2026-09-09" required />
+              <input type="date" id="resDate" class="form-input" min="2026-09-10" max="2026-09-23" value="2026-09-10" required />
             </div>
             <div class="form-group">
               <label for="resTime">방문 시간대 *</label>
@@ -659,7 +659,7 @@
         `;
         openModal('사전등록 완료!', '팝업스토어 우선 입장이 완료되었습니다.', ticketHtml, '🎟️');
         e.target.reset();
-        document.getElementById('resDate').value = "2026-09-09";
+        document.getElementById('resDate').value = "2026-09-10";
         document.getElementById('resTime').value = "11:00";
       } else {
         openModal('등록 실패', res.message || '예약 처리 중 오류가 발생했습니다.', '<p style="color:var(--red);">다시 시도해 주세요.</p>', '❌');
