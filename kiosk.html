@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>현장 키오스크 대기등록 — KRACKER HOUSE × SNUGGLE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    @font-face {
+      font-family: 'LeeOkSun';
+      src: url('그녀_이옥선.ttf') format('truetype'),
+           url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_ten@1.0/Her-Leeoksun.woff') format('woff');
+      font-weight: normal; font-style: normal;
+    }
+    @font-face {
+      font-family: 'SheLeeOkSun';
+      src: url('그녀_이옥선.ttf') format('truetype'),
+           url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_ten@1.0/Her-Leeoksun.woff') format('woff');
+      font-weight: normal; font-style: normal;
+    }
+
+    :root {
+      --red:      #BC453C;
+      --clay:     #BF6E50;
+      --orange:   #F25C05;
+      --espresso: #594335;
+      --blue:     #517EA6;
+      --beige:    #EBE4D8;
+      --dark:     #1A1208;
+      --dark2:    #231609;
+      --card:     #2E1D0F;
+      --white:    #FFFFFF;
+      --muted:    #C4B9AE;
+      --ff-serif: 'LeeOkSun', 'SheLeeOkSun', 'Playfair Display', serif;
+      --ff-sans:  'Noto Sans KR', -apple-system, sans-serif;
+      --tr:       all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--ff-sans); }
+    html { scroll-behavior: smooth; background: #0d0904; }
+    body {
+      background: var(--dark);
+      color: var(--white);
+      max-width: 540px;
+      margin: 0 auto;
+      min-height: 100vh;
+      box-shadow: 0 0 40px rgba(0,0,0,0.8);
+      position: relative;
+      padding-bottom: 70px;
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    .app-header {
+      position: sticky; top: 0; left: 0; right: 0;
+      height: 56px; background: var(--red);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; z-index: 999;
+      box-shadow: 0 3px 20px rgba(0,0,0,0.4);
+    }
+    .app-header__back {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.15); border-radius: 50%;
+      color: var(--white); font-size: 18px; font-weight: bold;
+    }
+    .app-header__logo img { height: 30px; object-fit: contain; display: block; }
+
+    .hero-banner {
+      background: linear-gradient(180deg, var(--espresso) 0%, var(--dark2) 100%);
+      padding: 24px 20px; text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .hero-eyebrow {
+      display: inline-block; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.18em; color: var(--orange);
+      background: rgba(242,92,5,0.15); padding: 4px 12px; border-radius: 20px;
+      margin-bottom: 8px; text-transform: uppercase;
+    }
+    .hero-title {
+      font-family: var(--ff-serif) !important;
+      font-size: 26px; font-weight: 900; color: var(--white); margin-bottom: 6px;
+    }
+    .hero-title em { font-style: italic; color: var(--orange); font-family: var(--ff-serif) !important; }
+
+    .content-area { padding: 16px; }
+
+    .card-box {
+      background: var(--dark2); border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px; padding: 24px 20px; margin-bottom: 16px;
+    }
+    .card-title {
+      font-family: var(--ff-serif) !important;
+      font-size: 20px; font-weight: 900; color: var(--white);
+      margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--clay); margin-bottom: 6px; }
+    .form-input, .form-select {
+      width: 100%; padding: 14px 16px; background: rgba(255, 255, 255, 0.06);
+      border: 1.5px solid rgba(255, 255, 255, 0.12); border-radius: 8px;
+      color: var(--white); font-size: 14px; outline: none; transition: var(--tr);
+    }
+    .form-input:focus, .form-select:focus { border-color: var(--orange); }
+
+    .btn-submit {
+      width: 100%; padding: 16px; background: var(--orange); color: var(--white);
+      border: none; border-radius: 10px; font-size: 16px; font-weight: 900;
+      cursor: pointer; transition: var(--tr); box-shadow: 0 6px 20px rgba(242,92,5,0.35);
+    }
+
+    /* Ticket Box */
+    .waiting-ticket {
+      background: linear-gradient(135deg, #2E1D0F 0%, #1A1208 100%);
+      border: 2px solid var(--orange); border-radius: 12px; padding: 20px;
+      text-align: center; margin-top: 16px;
+    }
+    .waiting-num { font-size: 42px; font-weight: 900; color: var(--orange); font-family: monospace; }
+    .waiting-desc { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 100%; max-width: 540px; height: 60px;
+      background: var(--dark2); border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: space-around; z-index: 998;
+    }
+    .tab {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 3px; color: var(--muted); font-size: 10px; text-decoration: none;
+    }
+    .tab.active { color: var(--orange); font-weight: bold; }
+    .tab__icon { font-size: 18px; }
+  </style>
+</head>
+<body>
+
+  <header class="app-header">
+    <a href="index.html" class="app-header__back">←</a>
+    <div class="app-header__logo">
+      <img src="kracker_logo_new.png" alt="KRACKER HOUSE × SNUGGLE" />
+    </div>
+    <div style="width:36px;"></div>
+  </header>
+
+  <div class="hero-banner">
+    <span class="hero-eyebrow">// ONSITE KIOSK QUEUE</span>
+    <h1 class="hero-title">현장 대기 <em>등록 & 조회</em></h1>
+  </div>
+
+  <div class="content-area">
+    <div class="card-box">
+      <h2 class="card-title">📱 현장 대기번호 발급</h2>
+      <form id="kioskForm">
+        <div class="form-group">
+          <label for="kName">성함 *</label>
+          <input type="text" id="kName" class="form-input" placeholder="홍길동" required />
+        </div>
+        <div class="form-group">
+          <label for="kPhone">휴대폰 번호 *</label>
+          <input type="tel" id="kPhone" class="form-input" placeholder="010-1234-5678" required />
+        </div>
+        <div class="form-group">
+          <label for="kPeople">입장 인원 *</label>
+          <select id="kPeople" class="form-select" required>
+            <option value="1">1명</option>
+            <option value="2">2명</option>
+            <option value="3">3명</option>
+            <option value="4">4명 이상</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-submit" id="kSubmit">📱 현장 대기 접수하기 →</button>
+      </form>
+
+      <div id="kioskResult"></div>
+    </div>
+
+    <div class="card-box">
+      <h2 class="card-title">🔍 내 대기 순번 조회</h2>
+      <form id="kLookupForm" style="display:flex; flex-direction:column; gap:10px;">
+        <input type="tel" id="kLookupPhone" class="form-input" placeholder="휴대폰 번호 입력" required />
+        <button type="submit" class="btn-submit" style="background:var(--blue); box-shadow:none;">조회하기</button>
+      </form>
+      <div id="kLookupResult"></div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a class="tab" href="index.html"><span class="tab__icon">🏠</span><span>홈</span></a>
+    <a class="tab" href="reservation.html"><span class="tab__icon">🎟️</span><span>사전등록</span></a>
+    <a class="tab" href="info.html"><span class="tab__icon">📍</span><span>안내/약도</span></a>
+    <a class="tab active" href="kiosk.html"><span class="tab__icon">📱</span><span>키오스크</span></a>
+    <a class="tab" href="https://nyk5473.github.io/snuggle-scent-quiz/" target="_blank"><span class="tab__icon">🌸</span><span>향테스트</span></a>
+  </nav>
+
+  <script src="js/api.js"></script>
+  <script>
+    document.getElementById('kioskForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('kName').value.trim();
+      const phone = document.getElementById('kPhone').value.trim();
+      const people = document.getElementById('kPeople').value;
+
+      const res = await ApiService.createOnsiteReservation(name, phone, people);
+      const resBox = document.getElementById('kioskResult');
+
+      if (res.success) {
+        const d = res.data;
+        resBox.innerHTML = `
+          <div class="waiting-ticket">
+            <div style="font-size:12px; color:var(--clay); font-weight:bold;">발급된 웨이팅 번호</div>
+            <div class="waiting-num">NO. ${d.waiting_number}</div>
+            <div class="waiting-desc">내 앞 대기팀: <strong style="color:#fff;">${d.ahead_count}팀</strong></div>
+            <div style="font-size:11px; color:var(--muted); margin-top:8px;">입장 차례가 되면 등록하신 번호로 안내해 드립니다.</div>
+          </div>
+        `;
+        e.target.reset();
+      } else {
+        resBox.innerHTML = `<p style="color:var(--red); font-size:13px; margin-top:10px;">${res.message}</p>`;
+      }
+    });
+
+    document.getElementById('kLookupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const phone = document.getElementById('kLookupPhone').value.trim();
+      const res = await ApiService.getWaitingStatus(phone);
+      const resBox = document.getElementById('kLookupResult');
+
+      if (res.success) {
+        const d = res.data;
+        resBox.innerHTML = `
+          <div class="waiting-ticket" style="border-color:var(--blue);">
+            <div style="font-size:12px; color:var(--blue); font-weight:bold;">현재 웨이팅 상태</div>
+            <div class="waiting-num" style="color:var(--blue);">NO. ${d.waiting_number}</div>
+            <div class="waiting-desc">내 앞 대기팀: <strong style="color:#fff;">${d.ahead_count}팀</strong></div>
+          </div>
+        `;
+      } else {
+        resBox.innerHTML = `<p style="color:var(--red); font-size:13px; margin-top:10px;">${res.message}</p>`;
+      }
+    });
+  </script>
+
+</body>
+</html>

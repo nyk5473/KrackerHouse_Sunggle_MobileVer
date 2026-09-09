@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>팝업 상세정보 & 약도 — KRACKER HOUSE × SNUGGLE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    @font-face {
+      font-family: 'LeeOkSun';
+      src: url('그녀_이옥선.ttf') format('truetype'),
+           url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_ten@1.0/Her-Leeoksun.woff') format('woff');
+      font-weight: normal; font-style: normal;
+    }
+    @font-face {
+      font-family: 'SheLeeOkSun';
+      src: url('그녀_이옥선.ttf') format('truetype'),
+           url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_ten@1.0/Her-Leeoksun.woff') format('woff');
+      font-weight: normal; font-style: normal;
+    }
+
+    :root {
+      --red:      #BC453C;
+      --clay:     #BF6E50;
+      --orange:   #F25C05;
+      --espresso: #594335;
+      --blue:     #517EA6;
+      --beige:    #EBE4D8;
+      --dark:     #1A1208;
+      --dark2:    #231609;
+      --card:     #2E1D0F;
+      --white:    #FFFFFF;
+      --muted:    #C4B9AE;
+      --ff-serif: 'LeeOkSun', 'SheLeeOkSun', 'Playfair Display', serif;
+      --ff-sans:  'Noto Sans KR', -apple-system, sans-serif;
+      --tr:       all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--ff-sans); }
+    html { scroll-behavior: smooth; background: #0d0904; }
+    body {
+      background: var(--dark);
+      color: var(--white);
+      max-width: 540px;
+      margin: 0 auto;
+      min-height: 100vh;
+      box-shadow: 0 0 40px rgba(0,0,0,0.8);
+      position: relative;
+      padding-bottom: 70px;
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* HEADER */
+    .app-header {
+      position: sticky; top: 0; left: 0; right: 0;
+      height: 56px;
+      background: var(--red);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; z-index: 999;
+      box-shadow: 0 3px 20px rgba(0,0,0,0.4);
+    }
+    .app-header__back {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.15); border-radius: 50%;
+      color: var(--white); font-size: 18px; font-weight: bold;
+    }
+    .app-header__logo img { height: 30px; object-fit: contain; display: block; }
+
+    /* HERO */
+    .hero-banner {
+      background: linear-gradient(180deg, var(--espresso) 0%, var(--dark2) 100%);
+      padding: 24px 20px; text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .hero-eyebrow {
+      display: inline-block; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.18em; color: var(--orange);
+      background: rgba(242,92,5,0.15); padding: 4px 12px; border-radius: 20px;
+      margin-bottom: 8px; text-transform: uppercase;
+    }
+    .hero-title {
+      font-family: var(--ff-serif) !important;
+      font-size: 26px; font-weight: 900; color: var(--white); margin-bottom: 6px;
+    }
+    .hero-title em { font-style: italic; color: var(--orange); font-family: var(--ff-serif) !important; }
+
+    /* CONTENT */
+    .content-area { padding: 16px; }
+
+    .info-card {
+      background: var(--dark2); border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px; padding: 18px; margin-bottom: 14px;
+    }
+    .info-card__title {
+      font-size: 14px; font-weight: bold; color: var(--clay); margin-bottom: 8px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .info-card__value {
+      font-size: 16px; font-weight: 900; color: var(--white); line-height: 1.4;
+    }
+    .info-card__sub {
+      font-size: 13px; color: var(--muted); margin-top: 4px; line-height: 1.5;
+    }
+
+    .map-box {
+      border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 16px; position: relative;
+    }
+    .map-box img { width: 100%; height: auto; display: block; }
+
+    .nav-btn-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .map-btn {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px; border-radius: 8px; font-size: 14px; font-weight: bold;
+      color: #fff; text-decoration: none; transition: var(--tr);
+    }
+    .map-btn--naver { background: #03CF5D; }
+    .map-btn--kakao { background: #FEE500; color: #191919; }
+
+    /* BOTTOM NAV */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 100%; max-width: 540px; height: 60px;
+      background: var(--dark2); border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: space-around; z-index: 998;
+    }
+    .tab {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 3px; color: var(--muted); font-size: 10px; text-decoration: none;
+    }
+    .tab.active { color: var(--orange); font-weight: bold; }
+    .tab__icon { font-size: 18px; }
+  </style>
+</head>
+<body>
+
+  <header class="app-header">
+    <a href="index.html" class="app-header__back">←</a>
+    <div class="app-header__logo">
+      <img src="kracker_logo_new.png" alt="KRACKER HOUSE × SNUGGLE" />
+    </div>
+    <div style="width:36px;"></div>
+  </header>
+
+  <div class="hero-banner">
+    <span class="hero-eyebrow">// POP-UP INFORMATION</span>
+    <h1 class="hero-title">팝업스토어 <em>체크인 & 약도</em></h1>
+  </div>
+
+  <div class="content-area">
+    <div class="info-card">
+      <div class="info-card__title">📍 위치 안내</div>
+      <div class="info-card__value">스타필드 빌리지 1F 중앙 광장</div>
+      <div class="info-card__sub">서울특별시 강남구 영동대로 513 (삼성동)</div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-card__title">📅 운영 기간 & 시간</div>
+      <div class="info-card__value">2026.09.01(화) – 09.14(월)</div>
+      <div class="info-card__sub">매일 10:30 – 22:00 (입장 마감 21:30)</div>
+    </div>
+
+    <div class="map-box">
+      <img src="zone_main_3d_map.jpg" alt="3D Map" onerror="this.src='3d_map.png';" />
+    </div>
+
+    <div class="nav-btn-group">
+      <a href="https://map.naver.com" target="_blank" class="map-btn map-btn--naver">
+        <span>네이버 지도 길찾기</span> <span>→</span>
+      </a>
+      <a href="https://map.kakao.com" target="_blank" class="map-btn map-btn--kakao">
+        <span>카카오 맵 길찾기</span> <span>→</span>
+      </a>
+    </div>
+
+    <a href="reservation.html" style="display:block; text-align:center; padding:16px; background:var(--orange); color:#fff; font-weight:bold; border-radius:10px; box-shadow:0 4px 16px rgba(242,92,5,0.4);">
+      🎟️ 사전등록 신청하러 가기 →
+    </a>
+  </div>
+
+  <nav class="bottom-nav">
+    <a class="tab" href="index.html"><span class="tab__icon">🏠</span><span>홈</span></a>
+    <a class="tab" href="reservation.html"><span class="tab__icon">🎟️</span><span>사전등록</span></a>
+    <a class="tab active" href="info.html"><span class="tab__icon">📍</span><span>안내/약도</span></a>
+    <a class="tab" href="kiosk.html"><span class="tab__icon">📱</span><span>키오스크</span></a>
+    <a class="tab" href="https://nyk5473.github.io/snuggle-scent-quiz/" target="_blank"><span class="tab__icon">🌸</span><span>향테스트</span></a>
+  </nav>
+
+</body>
+</html>
