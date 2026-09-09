@@ -248,14 +248,114 @@
     .brand-card__name { font-size: 16px; font-weight: 900; margin-bottom: 8px; }
     .brand-card__desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
 
-    /* ===== GALLERY (LAUNDRY) ===== */
-    .gallery-row { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 20px; }
+    /* ===== GALLERY (PHOTO LAUNDRY ROPE & POLAROID FILM) ===== */
+    .rope-line-container {
+      position: relative;
+      padding-top: 14px;
+    }
+    .rope-line-container::before {
+      content: '';
+      position: absolute;
+      top: 6px; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.05), #8B5A2B 15%, #A06B3B 50%, #8B5A2B 85%, rgba(255,255,255,0.05));
+      box-shadow: 0 2px 4px rgba(0,0,0,0.6);
+      z-index: 2;
+    }
+    .gallery-row { display: flex; gap: 14px; overflow-x: auto; padding: 12px 16px 20px; scroll-snap-type: x mandatory; }
     .gallery-row::-webkit-scrollbar { display: none; }
-    .gallery-item { flex: 0 0 140px; border-radius: 10px; aspect-ratio: 3/4; background: var(--surface); overflow: hidden; border: 1px solid var(--border); }
-    .gallery-item img { width:100%; height:100%; object-fit:cover; display:block; }
-    .gallery-add { flex: 0 0 140px; border-radius: 10px; aspect-ratio: 3/4; background: var(--surface); border: 2px dashed var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--muted); font-size: 12px; cursor: pointer; text-decoration: none; }
-    .gallery-add:active { background: var(--card); }
-    .gallery-add__icon { font-size: 28px; }
+
+    .polaroid-card {
+      flex: 0 0 145px;
+      scroll-snap-align: start;
+      background: #FAF6EE;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 4px;
+      padding: 8px 8px 20px 8px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.5);
+      position: relative;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      transform-origin: top center;
+    }
+    .polaroid-card:nth-child(1) { transform: rotate(-2deg); }
+    .polaroid-card:nth-child(2) { transform: rotate(1.5deg); }
+    .polaroid-card:nth-child(3) { transform: rotate(-1.5deg); }
+    .polaroid-card:nth-child(4) { transform: rotate(2deg); }
+    .polaroid-card:hover, .polaroid-card:active { transform: translateY(-4px) scale(1.03) rotate(0deg); z-index: 10; }
+
+    /* Wooden Clothespin (빨래집게) */
+    .clothespin {
+      position: absolute;
+      top: -12px; left: 50%;
+      transform: translateX(-50%);
+      width: 14px; height: 24px;
+      background: linear-gradient(180deg, #b07c4d 0%, #7c4c23 100%);
+      border-radius: 2px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+      z-index: 5;
+    }
+    .clothespin::after {
+      content: '';
+      position: absolute;
+      top: 10px; left: 1px; right: 1px;
+      height: 3px;
+      background: #444;
+      border-radius: 1px;
+    }
+
+    .polaroid-img-box {
+      width: 100%; aspect-ratio: 1;
+      overflow: hidden;
+      border-radius: 2px;
+      background: #111;
+    }
+    .polaroid-img-box img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      filter: contrast(1.05) saturate(1.1);
+    }
+
+    .polaroid-caption {
+      font-family: var(--ff-serif) !important;
+      font-size: 11px;
+      color: #3d2b1f;
+      text-align: center;
+      margin-top: 8px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    /* MORE CARD */
+    .polaroid-more-card {
+      flex: 0 0 135px;
+      scroll-snap-align: start;
+      background: linear-gradient(145deg, #2E1D0F 0%, #1A1208 100%);
+      border: 2px dashed var(--primary);
+      border-radius: 10px;
+      padding: 16px 10px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 6px;
+      color: var(--primary);
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      position: relative;
+    }
+    .polaroid-more-card:active { transform: scale(0.96); }
+    .polaroid-more-card__icon { font-size: 26px; }
+    .polaroid-more-card__text { font-size: 13px; font-weight: 900; letter-spacing: 0.05em; }
+    .polaroid-more-card__sub { font-size: 10px; color: var(--muted); }
+
+    .laundry-more-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin: 0 16px 16px; padding: 13px;
+      background: rgba(242,92,5,0.12);
+      border: 1.5px solid var(--primary);
+      color: var(--primary); font-size: 14px; font-weight: 900;
+      border-radius: 10px; text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .laundry-more-btn:active { background: var(--primary); color: #fff; transform: scale(0.98); }
 
     /* ===== STICKY BOTTOM CTA ===== */
     .cta-bar {
@@ -475,20 +575,49 @@
 
     <!-- PHOTO LAUNDRY SECTION (사진 빨랫방) -->
     <section id="sec-laundry" class="sec">
-      <div class="sec__eyebrow">// PHOTO GALLERY</div>
+      <div class="sec__eyebrow">// VINTAGE PHOTO LAUNDRY</div>
       <div class="sec__title">사진 <em>빨랫방</em></div>
     </section>
-    <div class="gallery-row">
-      <div class="gallery-item">
-        <img src="snuggle_photo_sample.jpg" alt="포근한 순간" onerror="this.style.background='#1a1208';">
-      </div>
-      <div class="gallery-item">
-        <img src="brand_photo.jpg" alt="스너글 세탁소" onerror="this.style.background='#1a1208';">
-      </div>
-      <div class="gallery-item">
-        <img src="brand_editorial.jpg" alt="빈티지 라운지" onerror="this.style.background='#1a1208';">
+
+    <div class="rope-line-container">
+      <div class="gallery-row">
+        <div class="polaroid-card">
+          <div class="clothespin"></div>
+          <div class="polaroid-img-box">
+            <img src="snuggle_photo_sample.jpg" alt="포근한 순간" onerror="this.style.background='#1a1208';">
+          </div>
+          <div class="polaroid-caption">포근한 순간 📸</div>
+        </div>
+
+        <div class="polaroid-card">
+          <div class="clothespin"></div>
+          <div class="polaroid-img-box">
+            <img src="brand_photo.jpg" alt="스너글 세탁소" onerror="this.style.background='#1a1208';">
+          </div>
+          <div class="polaroid-caption">스너글 세탁소 🧺</div>
+        </div>
+
+        <div class="polaroid-card">
+          <div class="clothespin"></div>
+          <div class="polaroid-img-box">
+            <img src="brand_editorial.jpg" alt="빈티지 라운지" onerror="this.style.background='#1a1208';">
+          </div>
+          <div class="polaroid-caption">빈티지 라운지 ✨</div>
+        </div>
+
+        <!-- MORE CARD -->
+        <a href="sns_event.html" class="polaroid-more-card">
+          <span class="polaroid-more-card__icon">📷</span>
+          <span class="polaroid-more-card__text">+ MORE</span>
+          <span class="polaroid-more-card__sub">전체 사진 & 걸기</span>
+        </a>
       </div>
     </div>
+
+    <!-- MORE BUTTON -->
+    <a href="sns_event.html" class="laundry-more-btn">
+      📸 사진 빨랫방 & 방명록 걸기 (+MORE) →
+    </a>
 
     <div class="divider"></div>
 

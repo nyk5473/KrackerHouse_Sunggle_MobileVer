@@ -30,14 +30,14 @@ const ApiService = {
   // ── 👕 상품 정보 ──
   async getProducts(brand = null, category = null) {
     const allProducts = [
-      { id: 1, name: "크래커하우스 빈티지 피그먼트 티셔츠", description: "부드러운 워싱이 돋보이는 오버핏 피그먼트 반팔 티셔츠", price: 45000, brand: "KRACKER_HOUSE", category: "Apparel", stock: 100, image_url: "mock_product_2.png" },
-      { id: 2, name: "크래커하우스 백로고 티셔츠", description: "뒷면 그래픽 로고 포인트 시그니처 옐로우 티셔츠", price: 42000, brand: "KRACKER_HOUSE", category: "Apparel", stock: 50, image_url: "mock_product_1.png" },
-      { id: 3, name: "크래커하우스 헤비웨이트 피그먼트 후디", description: "도톰한 탄력감과 투박한 워크웨어 라인의 후드 집업", price: 89000, brand: "KRACKER_HOUSE", category: "Apparel", stock: 65, image_url: "kracker_basic_t_shirts_red.jpg" },
-      { id: 4, name: "크래커하우스 워크웨어 데님 카펜터 팬츠", description: "견고한 스티치 디테일의 빈티지 스트레이트 데님", price: 98000, brand: "KRACKER_HOUSE", category: "Apparel", stock: 40, image_url: "kracker_basic_t_shirts_yellow.jpg" },
-      { id: 5, name: "크래커하우스 x 스너글 콜라보 에코백", description: "두 브랜드 감성이 담긴 리미티드 캔버스 백", price: 29000, brand: "KRACKER_HOUSE", category: "Accessories", stock: 200, image_url: "collab_collection.jpg" },
-      { id: 6, name: "스너글 빈티지 바닐라 섬유유연제", description: "갓 세탁한 맑은 향과 포근한 가을 바닐라 잔향의 조화", price: 16500, brand: "SNUGGLE", category: "Care", stock: 500, image_url: "vintage_vanilla.jpg" },
-      { id: 7, name: "스너글 블루 스파클 룸스프레이", description: "공간을 깨끗하고 시원하게 채워주는 섬유 향수", price: 18000, brand: "SNUGGLE", category: "Care", stock: 150, image_url: "collab_collection.jpg" },
-      { id: 8, name: "스너글 베어 한정판 인형", description: "콜라보레이션 기념 한정판 포근한 스너글 베어 굿즈", price: 22000, brand: "SNUGGLE", category: "Goods", stock: 30, image_url: "collab_collection.jpg" }
+      { id: 1, name: "크래커하우스 빈티지 피그먼트 티셔츠", description: "부드러운 워싱이 돋보이는 오버핏 피그먼트 반팔 티셔츠", price: 45000, brand: "KRACKER_HOUSE", category: "Apparel", stock: 100, image_url: "snuggle_photo_sample.jpg" },
+      { id: 2, name: "크래커하우스 백로고 티셔츠", description: "뒷면 그래픽 로고 포인트 시그니처 옐로우 티셔츠", price: 42000, brand: "KRACKER_HOUSE", category: "Apparel", stock: 50, image_url: "brand_photo.jpg" },
+      { id: 3, name: "크래커하우스 헤비웨이트 피그먼트 후디", description: "도톰한 탄력감과 투박한 워크웨어 라인의 후드 집업", price: 89000, brand: "KRACKER_HOUSE", category: "Apparel", stock: 65, image_url: "brand_editorial.jpg" },
+      { id: 4, name: "크래커하우스 워크웨어 데님 카펜터 팬츠", description: "견고한 스티치 디테일의 빈티지 스트레이트 데님", price: 98000, brand: "KRACKER_HOUSE", category: "Apparel", stock: 40, image_url: "snuggle_photo_sample.jpg" },
+      { id: 5, name: "크래커하우스 x 스너글 콜라보 에코백", description: "두 브랜드 감성이 담긴 리미티드 캔버스 백", price: 29000, brand: "KRACKER_HOUSE", category: "Accessories", stock: 200, image_url: "brand_photo.jpg" },
+      { id: 6, name: "스너글 빈티지 바닐라 섬유유연제", description: "갓 세탁한 맑은 향과 포근한 가을 바닐라 잔향의 조화", price: 16500, brand: "SNUGGLE", category: "Care", stock: 500, image_url: "brand_editorial.jpg" },
+      { id: 7, name: "스너글 블루 스파클 룸스프레이", description: "공간을 깨끗하고 시원하게 채워주는 섬유 향수", price: 18000, brand: "SNUGGLE", category: "Care", stock: 150, image_url: "snuggle_photo_sample.jpg" },
+      { id: 8, name: "스너글 베어 한정판 인형", description: "콜라보레이션 기념 한정판 포근한 스너글 베어 굿즈", price: 22000, brand: "SNUGGLE", category: "Goods", stock: 30, image_url: "brand_photo.jpg" }
     ];
 
     const getFilteredMock = () => {
